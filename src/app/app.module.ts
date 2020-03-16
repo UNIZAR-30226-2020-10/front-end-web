@@ -6,10 +6,13 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { PlayerComponent } from './pages/player/player.component';
+import { ListComponent } from './pages/list/list.component';
+import { PlaylistsComponent } from './pages/playlists/playlists.component';
 import { SidenavComponent } from './pages/sidenav/sidenav.component';
 import { ToolbarComponent } from './pages/toolbar/toolbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MusicControlComponent } from './pages/music-control/music-control.component';
+import { AudioService } from './services/audio.service';
+import { CloudService } from './services/cloud.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { MusicControlComponent } from './pages/music-control/music-control.compo
     PlayerComponent,
     SidenavComponent,
     ToolbarComponent,
-    MusicControlComponent
+    ListComponent,
+    PlaylistsComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +31,7 @@ import { MusicControlComponent } from './pages/music-control/music-control.compo
     MaterialModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [AudioService, CloudService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

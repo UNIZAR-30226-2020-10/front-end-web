@@ -5,32 +5,42 @@
       text-align: center;
       font-size: 24px;
       color: #3f51b5;
-      .mat-icon {
+      .listArt {
         height: 160px !important;
         width: 160px !important;
-        font-size: 160px !important;
       }
     }
   }
-
-  .media-footer {
+  .albumArt {
     position: absolute;
+    height: 48px !important;
+    width: 48px !important;
+  }
+  h4, h5 {
+    margin-left: 50px;
+  }
+  .media-footer {
+    display: block !important;
+    position: absolute !important;
     bottom: 0;
     width: 100%;
-    .time-slider {
-      width: 100% !important;
-      margin-left: 20px;
-      margin-right: 20px;
+    .line {
+      width: 600% !important;
+      .time-slider {
+        display: block;
+        margin-left: 70px;
+        margin-right: 20px;
+        text-align:center;
+      }
     }
     .media-action-bar {
       width: 100%;
-      padding: 2.5rem;
+      text-align:right;
       justify-content: center;
-      .mat-icon {
-        height: 48px !important;
-        width: 48px !important;
-        font-size: 48px !important;
-      }
+    }
+    .info .albumArt{
+      text-align:left;
+      margin-top: 9px;
     }
   }
 }

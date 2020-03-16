@@ -1,40 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
-import { CloudService } from '../../services/cloud.service';
 import { StreamState } from '../../stream-state';
-
+import { CloudService } from '../../services/cloud.service';
+import { ActivatedRoute } from '@angular/router';
+import { ListComponent } from '../list/list.component';
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss']
 })
+
 export class PlayerComponent implements OnInit {
-  files: Array<any> = [];
-  state: StreamState;
   currentFile: any = {};
+  state: StreamState;
+  currentList: Array<any> = [];
+  list: ListComponent;
+
+  constructor(
+    public audioService: AudioService,
+    private route: ActivatedRoute
+  ) {
+    this.audioService.getState().subscribe(state => {
+      this.state = state;
+    });
+  }
 
   isFirstPlaying() {
     return this.currentFile.index === 0;
   }
 
   isLastPlaying() {
-    return this.currentFile.index === this.files.length - 1;
-  }
-
-  constructor(
-    public audioService: AudioService,
-    public cloudService: CloudService
-  ) {
-    // get media files
-    cloudService.getFiles().subscribe(files => {
-      this.files = files;
-    });
-
-    // listen to stream state
-    this.audioService.getState().subscribe(state => {
-      this.state = state;
-    });
+    return this.currentFile.index === this.currentList.length - 1;
   }
 
   onSliderChangeEnd(change) {
@@ -59,13 +56,13 @@ export class PlayerComponent implements OnInit {
 
   previous() {
     const index = this.currentFile.index - 1;
-    const file = this.files[index];
+    const file = this.currentList[index];
     this.openFile(file, index);
   }
 
   next() {
     const index = this.currentFile.index + 1;
-    const file = this.files[index];
+    const file = this.currentList[index];
     this.openFile(file, index);
   }
 
@@ -77,7 +74,26 @@ export class PlayerComponent implements OnInit {
     this.audioService.play();
   }
 
+  changeList(files) {
+    this.currentList = files;
+  }
+
+  equals(files) {
+    if(this.currentList.length != files.length) {
+      return false;
+    }
+    for (let index = 0; index < this.currentList.length; index++) {
+      if(this.currentList[index] != files[index]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.list = new ListComponent(new CloudService, this.route);
+    });
   }
 
 }
