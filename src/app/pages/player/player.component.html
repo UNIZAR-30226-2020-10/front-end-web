@@ -14,7 +14,7 @@
             <!-- {{ this.audioService.checkState().readableDuration }} -->
           </div>
           <div class="media-action-bar">
-            <button mat-button [disabled]="isFirstPlaying()" (click)="previous()">
+            <button mat-button (click)="previous()">
               <mat-icon mat-list-icon>skip_previous</mat-icon>
             </button>
             <button mat-button (click)="play()" [disabled]="this.audioService.checkState().error" *ngIf="!this.audioService.checkState().playing">
@@ -23,8 +23,20 @@
             <button mat-button (click)="pause()" *ngIf="this.audioService.checkState().playing">
               <mat-icon mat-list-icon>pause</mat-icon>
             </button>
-            <button  mat-button [disabled]="isLastPlaying()" (click)="next()">
+            <button  mat-button (click)="next()">
               <mat-icon mat-list-icon>skip_next</mat-icon>
+            </button>
+            <button  mat-button (click)="next()">
+              <mat-icon mat-list-icon>favorite</mat-icon>
+            </button>
+            <!--<button  mat-button (click)="next()">
+              <mat-icon mat-list-icon>favorite_border</mat-icon>
+            </button>-->
+            <button  mat-button (click)="next()">
+              <mat-icon mat-list-icon>playlist_add</mat-icon>
+            </button>
+            <button  mat-button (click)="this.audioService.loop = !this.audioService.loop">
+              <mat-icon mat-list-icon>volume_up</mat-icon>
             </button>
           </div>
         </mat-toolbar-row>

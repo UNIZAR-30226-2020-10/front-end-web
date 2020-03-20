@@ -10,6 +10,8 @@ import * as moment from 'moment';
 export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
+  private start: Boolean = false;
+  loop: Boolean = false;
   maxIndex:  0;
   currentFile: any = {};
   audioList: Array<any> = [];
@@ -62,6 +64,12 @@ export class AudioService {
         this.resetState();
         this.state.error = true;
         break;
+      case 'ended':
+        if(this.currentFile.index + 1 >= this.maxIndex && !this.loop) {
+          this.start = true;
+        }
+        this.next();
+        break;
     }
     this.stateChange.next(this.state);
   }
@@ -91,7 +99,11 @@ export class AudioService {
       // Play audio
       this.audioObj.src = url;
       this.audioObj.load();
-      this.audioObj.play();
+      if(this.start) {
+        this.start = false;
+      } else {
+        this.audioObj.play();
+      }
 
       const handler = (event: Event) => {
         this.updateStateEvents(event);
@@ -127,9 +139,13 @@ export class AudioService {
     this.stop$.next();
   }
 
-  openFile(song, index) {
+  loadSong(song, index) {
     this.currentFile = { index, song };
     this.stop();
+  }
+
+  openFile(song, index) {
+    this.loadSong(song, index);
     this.playStream(song.url).subscribe(events => { });
   }
 
