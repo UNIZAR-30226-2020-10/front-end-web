@@ -10,6 +10,9 @@ import * as moment from 'moment';
 export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
+  maxIndex:  0;
+  currentFile: any = {};
+  audioList: Array<any> = [];
   audioEvents = [
     'ended',
     'error',
@@ -67,6 +70,10 @@ export class AudioService {
     return this.stateChange.asObservable();
   }
 
+  checkState() {
+    return this.state;
+  }
+
   private resetState() {
     this.state = {
       playing: false,
@@ -120,6 +127,28 @@ export class AudioService {
     this.stop$.next();
   }
 
+  openFile(song, index) {
+    this.currentFile = { index, song };
+    this.stop();
+    this.playStream(song.url).subscribe(events => { });
+  }
+
+  previous() {
+    var index = this.currentFile.index - 1;
+    if(index < 0) {
+      index = this.maxIndex - 1;
+    }
+    this.openFile(this.audioList[index], index);
+  }
+
+  next() {
+    var index = this.currentFile.index + 1;
+    if(index >= this.maxIndex) {
+      index = 0;
+    }
+    this.openFile(this.audioList[index], index);
+  }
+
   seekTo(seconds) {
     this.audioObj.currentTime = seconds;
   }
@@ -127,6 +156,24 @@ export class AudioService {
   formatTime(time: number, format: string = 'HH:mm:ss') {
     const momentTime = time * 1000;
     return moment.utc(momentTime).format(format);
+  }
+
+  loadList(files, song, index) {
+    this.audioList = files;
+    this.maxIndex = files.length;
+    this.openFile(song, index);
+  }
+
+  equals(files) {
+    if(this.audioList.length != files.length) {
+      return false;
+    }
+    for (let index = 0; index < this.audioList.length; index++) {
+      if(this.audioList[index] != files[index]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private addEvents(obj, events, handler) {

@@ -1,11 +1,10 @@
-.example-container {
-    position: absolute;
-    top: 64px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
+.container {
+  min-height:calc(100% - 128px);
+  float: left;
+  left: 0;
+  background: white;
+  .sidenav{
+    width: 300px;
   }
-.sidenav{
-  width: 300px;
 }
+

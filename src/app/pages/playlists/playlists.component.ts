@@ -7,7 +7,7 @@ import { ListComponent } from '../list/list.component';
   styleUrls: ['./playlists.component.scss']
 })
 export class PlaylistsComponent implements OnInit {
-  playlists: Array<ListComponent> = [];
+  lists: Array<ListComponent> = [];
 
   constructor( ) { }
 

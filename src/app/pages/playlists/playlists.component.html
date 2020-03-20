@@ -1,6 +1,5 @@
-<p>playlists works!</p>
 <div class="playlists">
-  <div *ngFor="let list of playlists">
+  <div *ngFor="let list of lists">
     <h2>prueba</h2>
     <h3>
       <a [title]="list.name + ' list'" [routerLink]="['/lists', list.name]">

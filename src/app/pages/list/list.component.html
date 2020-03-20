@@ -1,1 +1,17 @@
-<p>list works!</p>
+<div class="content">
+  <div class="logo">
+    <img class="listArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
+    <h3 mat-header>{{ this.name }}</h3>
+  </div>
+  <mat-list color="primary">
+  <h3 mat-subheader>Songs</h3>
+  <mat-list-item *ngFor="let file of files; let i = index" (click)="this.audioService.loadList(files, file, i);">
+    <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+    <h4 mat-line>{{ file.name }}</h4>
+    <h5 mat-line>{{ file.artist }}</h5>
+    <mat-icon color="primary" *ngIf="this.audioService.equals(files) && this.audioService.currentFile.index === i && !this.audioService.checkState().error">volume_up</mat-icon>
+    <h6 *ngIf="this.audioService.equals(files) && this.audioService.currentFile.index === i && this.audioService.checkState().error">ERROR</h6>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+  </mat-list>
+</div>

@@ -1,7 +1,9 @@
-.empty_spaces{
+.toolbar {
+  top: 0;
+  .empty_spaces{
     flex: 1 1 auto;
-}
-
-.opciones{
+  }
+  .opciones{
     padding: 0 28px;
+  }
 }

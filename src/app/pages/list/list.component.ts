@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CloudService } from '../../services/cloud.service';
 import { ActivatedRoute } from '@angular/router';
+import { AudioService } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'app-list',
@@ -10,10 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 
 export class ListComponent implements OnInit {
   files: Array<any> = [];
-  name: string = "example";
+  name: String = 'example';
 
   constructor(
     public cloudService: CloudService,
+    public audioService: AudioService,
     private route: ActivatedRoute
   ) {
     // get media files

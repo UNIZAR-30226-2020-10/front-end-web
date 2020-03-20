@@ -1,43 +1,26 @@
 <div class="container">
-  <div class="content" *ngIf="list != undefined">
-    <div class="logo">
-      <img class="listArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
-      <div>{{ list.name }}</div>
-    </div>
-    <mat-list color="primary">
-    <h3 mat-subheader>Songs</h3>
-    <mat-list-item *ngFor="let file of list.files; let i = index" (click)="openFile(file, i); changeList(list.files)">
-      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-      <h4 mat-line>{{ file.name }}</h4>
-      <h5 mat-line>{{ file.artist }}</h5>
-      <mat-icon color="primary" *ngIf="equals(list.files) && currentFile.index === i && !state?.error">volume_up</mat-icon>
-      <h6 *ngIf="equals(list.files) && currentFile.index === i && state?.error">ERROR</h6>
-      <mat-divider></mat-divider>
-    </mat-list-item>
-    </mat-list>
-  </div>
-
-  <div class="media-footer" *ngIf="currentFile.index != undefined">
+  <div class="media-footer" *ngIf="this.audioService.maxIndex > 0">
+    <div class="media-footer">
       <mat-toolbar color="primary">
         <mat-toolbar-row>
           <div class="info">
             <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-            <h4 mat-line>{{ currentFile.file.name }}</h4>
-            <h5 mat-line>{{ currentFile.file.artist }}</h5>
+            <h4>{{ this.audioService.currentFile.song.name }}</h4>
+            <h5>{{ this.audioService.currentFile.song.artist }}</h5>
           </div>
           <div class="line">
-            <!--{{ state?.readableCurrentTime }} -->
-            <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (input)="onSliderChangeEnd($event)" [disabled]="state?.error || currentFile.index === undefined"></mat-slider>
-            <!--{{ state?.readableDuration }} -->
+            <!-- {{ this.audioService.checkState().readableCurrentTime }} -->
+            <mat-slider class="time-slider" min="0" [max]="this.audioService.checkState().duration" step="1" [value]="this.audioService.checkState().currentTime" (input)="onSliderChangeEnd($event)" [disabled]="this.audioService.checkState().error || this.audioService.currentFile.index === undefined"></mat-slider>
+            <!-- {{ this.audioService.checkState().readableDuration }} -->
           </div>
           <div class="media-action-bar">
             <button mat-button [disabled]="isFirstPlaying()" (click)="previous()">
               <mat-icon mat-list-icon>skip_previous</mat-icon>
             </button>
-            <button mat-button (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing">
+            <button mat-button (click)="play()" [disabled]="this.audioService.checkState().error" *ngIf="!this.audioService.checkState().playing">
               <mat-icon mat-list-icon>play_circle_filled</mat-icon>
             </button>
-            <button mat-button (click)="pause()" *ngIf="state?.playing">
+            <button mat-button (click)="pause()" *ngIf="this.audioService.checkState().playing">
               <mat-icon mat-list-icon>pause</mat-icon>
             </button>
             <button  mat-button [disabled]="isLastPlaying()" (click)="next()">

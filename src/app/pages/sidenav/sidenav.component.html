@@ -1,4 +1,12 @@
-<mat-sidenav-container class="example-container">
-  <mat-sidenav opened mode="side" class="sidenav">Barrita lateral</mat-sidenav>
-  <router-outlet></router-outlet>
+<mat-sidenav-container class="container">
+  <mat-sidenav opened mode="side" class="sidenav">
+    <mat-nav-list>
+      <a mat-list-item routerLink=''>Música</a>
+      <a mat-list-item routerLink=''>Podcasts</a>
+      <a mat-list-item routerLink='/lists'>Listas de reproducción</a>
+      <a mat-list-item routerLink=''>Perfil</a>
+      <a mat-list-item routerLink=''>Amigos</a>
+      <a mat-list-item routerLink=''>Ecualizador</a>
+    </mat-nav-list>
+  </mat-sidenav>
 </mat-sidenav-container>
