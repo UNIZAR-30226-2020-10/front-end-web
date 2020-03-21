@@ -3,9 +3,9 @@
 
   <form [formGroup]="podcastsForm" (ngSubmit)="onSubmit(podcastsForm.value)" class="wrapper">
 
-    <input class="search" type="text" id="search" placeholder="Introducir titulo"/>
+    <div><input class="search" type="text" id="search" placeholder="Introducir titulo" formControlName="title"/>
 
-    <input class="submit" type="submit" value="Search" />
+    <button class="submit" type="submit">Buscar</button></div>
 
   </form>
 

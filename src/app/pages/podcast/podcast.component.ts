@@ -13,7 +13,7 @@ export class PodcastComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
   ) {
-    this.podcastsForm = this.formBuilder.group({ titulo: ''});
+    this.podcastsForm = this.formBuilder.group({ title: ''});
    }
 
   ngOnInit(): void {
@@ -22,7 +22,7 @@ export class PodcastComponent implements OnInit {
   onSubmit(title){
     this.podcastsForm.reset();
 
-    console.log('Titulo escogido: ', title);
+    console.warn('Titulo escogido: ', title);
   }
 
 }

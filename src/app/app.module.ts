@@ -14,6 +14,7 @@ import { AudioService } from './services/audio.service';
 import { CloudService } from './services/cloud.service';
 import { PodcastComponent } from './pages/podcast/podcast.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule }    from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     FlexLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [AudioService, CloudService],
   bootstrap: [AppComponent]

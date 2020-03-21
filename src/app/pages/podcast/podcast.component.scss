@@ -14,7 +14,6 @@
 }
 
 .wrapper {
-  //border:10px solid #ee3e64;
 	//text-align: center;
 	position: relative;
 	height: 80px;
@@ -23,6 +22,8 @@
 }
 
 .search {
+  //border:5px solid #4FFFA1;
+  display: inline-block;
 	padding: 0 30px;
 	font-size: 18px;
 	width: 60%;
@@ -33,15 +34,16 @@
 }
 
 .submit {
+  border:10px solid #ee3e64;
   cursor: pointer;
-  font-size: 60px;
+  font-size: 30px;
 	border: none;
 	color: #fff;
 	background-color: #1E1E20;
 	background-size: 35px 35px;
 	border-radius: 0 20px 20px 0;
 	padding: 15px 25px;
-	display: inline-block;
+	//display: inline-block;
 	width: 150px;
 	height: 80px;
 }
