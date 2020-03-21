@@ -1,0 +1,12 @@
+<div class="centro">
+  <h1 class="title">Búsqueda de podcasts</h1>
+
+  <form [formGroup]="podcastsForm" (ngSubmit)="onSubmit(podcastsForm.value)" class="wrapper">
+
+    <input class="search" type="text" id="search" placeholder="Introducir titulo"/>
+
+    <input class="submit" type="submit" value="Search" />
+
+  </form>
+
+</div>

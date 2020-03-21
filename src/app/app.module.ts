@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,6 +12,8 @@ import { ToolbarComponent } from './pages/toolbar/toolbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AudioService } from './services/audio.service';
 import { CloudService } from './services/cloud.service';
+import { PodcastComponent } from './pages/podcast/podcast.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,14 +23,17 @@ import { CloudService } from './services/cloud.service';
     ToolbarComponent,
     ListComponent,
     PlaylistsComponent,
-    ListComponent
+    ListComponent,
+    PodcastComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AudioService, CloudService],
   bootstrap: [AppComponent]
