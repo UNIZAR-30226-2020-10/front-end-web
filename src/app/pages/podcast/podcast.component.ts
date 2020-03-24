@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-podcast',
@@ -9,9 +10,11 @@ import { FormBuilder } from '@angular/forms';
 export class PodcastComponent implements OnInit {
 
   podcastsForm;
+  totalAngularPackages;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private formBuilder: FormBuilder
   ) {
     this.podcastsForm = this.formBuilder.group({ title: ''});
    }
@@ -19,10 +22,15 @@ export class PodcastComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(title){
+  async onSubmit(title){
     this.podcastsForm.reset();
 
-    console.warn('Titulo escogido: ', title);
+    console.warn('Titulo seleccionado: ', title);
+
+    const headers = { 'X-ListenAPI-Key': 'fb46ce2b5ca54885969d1445995238e1' }
+    this.http.get<any>('https://listen-api.listennotes.com/api/v2/search?q=star%20wars&type=podcast&only_in=title&language=English', { headers }).subscribe(data => {
+      this.totalAngularPackages = data.total;
+})
   }
 
 }
