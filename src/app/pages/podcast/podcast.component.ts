@@ -30,7 +30,9 @@ export class PodcastComponent implements OnInit {
     const headers = { 'X-ListenAPI-Key': 'fb46ce2b5ca54885969d1445995238e1' }
     this.http.get<any>('https://listen-api.listennotes.com/api/v2/search?q=star%20wars&type=podcast&only_in=title&language=English', { headers }).subscribe(data => {
       this.totalAngularPackages = data.total;
-})
+    })
+
+
   }
 
 }
