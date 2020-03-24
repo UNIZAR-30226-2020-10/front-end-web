@@ -1,12 +1,17 @@
-<div class="centro">
-  <h1 class="title">Búsqueda de podcasts</h1>
+<p>podcast works!</p>
+<ul class="podcasts">
+  <li *ngFor="let podcast of podcasts" (click)="onSelect(podcast)">
+    <h1>CACOTA</h1>
+    <span class="badge">{{podcast.took}}</span>
+  </li>
+</ul>
 
-  <form [formGroup]="podcastsForm" (ngSubmit)="onSubmit(podcastsForm.value)" class="wrapper">
-
-    <div><input class="search" type="text" id="search" placeholder="Introducir titulo" formControlName="title"/>
-
-    <button class="submit" type="submit">Buscar</button></div>
-
-  </form>
-
+<div *nfIf="selectedPodcast">
+  <h1>{{selectedPodcast.took}} Took</h1>
+  <div><span>count: </span>{{selectedPodcast.count}}</div>
+  <div>
+    <label>total:
+      {{selectedPodcast.total}}
+    </label>
+  </div>
 </div>

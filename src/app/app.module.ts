@@ -12,9 +12,10 @@ import { ToolbarComponent } from './pages/toolbar/toolbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AudioService } from './services/audio.service';
 import { CloudService } from './services/cloud.service';
-import { PodcastComponent } from './pages/podcast/podcast.component';
+import { podcastSearch } from './pages/podcastSearch/podcastSearch.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule }    from '@angular/common/http';
+import { PodcastComponent } from './pages/podcast/podcast.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { HttpClientModule }    from '@angular/common/http';
     ListComponent,
     PlaylistsComponent,
     ListComponent,
+    podcastSearch,
     PodcastComponent
   ],
   imports: [
