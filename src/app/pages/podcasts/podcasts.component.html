@@ -1,0 +1,24 @@
+<h2>Buscar podcasts</h2>
+
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+  <div>
+    <label for="titulo">
+      Name
+    </label>
+    <input type="text" formControlName="titulo">
+  </div>
+
+  <button class="button" type="submit">Buscar</button>
+</form>
+
+
+<div *ngIf="podcasts">
+  <!-- LISTA DE PODCASTS -->
+  <ul class="podcasts">
+    <li *ngFor="let podcast of podcasts" (click)="onSelect(podcast)">
+      <span class="badge">{{podcast.id}}</span> {{podcast.name}}
+    </li>
+  </ul>
+
+  <app-podcast-detail [podcast]="selectedPodcast"></app-podcast-detail>
+</div>

@@ -1,0 +1,9 @@
+<h3>Top Podcasts</h3>
+<div>
+  <a *ngFor="let podcast of podcasts" routerLink="/podcasts/detail/{{podcast.id}}">
+    <h4>{{podcast.name}}</h4>
+  </a>
+</div>
+
+
+<h4><a routerLink="/podcasts/podcasts">Navegar a Todos los podcasts</a></h4>

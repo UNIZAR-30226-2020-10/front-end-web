@@ -15,6 +15,9 @@ import { CloudService } from './services/cloud.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule }    from '@angular/common/http';
 import { MessagesComponent } from './pages/messages/messages.component';
+import { PodcastsComponent } from './pages/podcasts/podcasts.component';
+import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,9 @@ import { MessagesComponent } from './pages/messages/messages.component';
     PlaylistsComponent,
     ListComponent,
     MessagesComponent,
+    PodcastsComponent,
+    PodcastDetailComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
