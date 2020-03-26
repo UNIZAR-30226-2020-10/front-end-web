@@ -6,9 +6,11 @@
       Name
     </label>
     <input type="text" formControlName="titulo">
+
+    <button class="button" type="submit">Buscar</button>
   </div>
 
-  <button class="button" type="submit">Buscar</button>
+
 </form>
 
 
@@ -17,9 +19,13 @@
   <!-- LISTA DE PODCASTS -->
   <ul class="podcasts">
     <li *ngFor="let result of podcasts.results" (click)="onSelect(result)">
-      <strong>Titulo: </strong> <a> {{ result.title_original }} </a>
-      <strong>Podcast: </strong>{{ result.podcast_title_original }}
-      <br>
+        <div>
+          <img src='{{result.image}}'/>
+          <div>
+            <h3>{{result.title_original}}</h3>
+            <p>{{result.description_original}}</p>
+          </div>
+        </div>
     </li>
   </ul>
 

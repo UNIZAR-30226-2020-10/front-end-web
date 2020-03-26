@@ -12,7 +12,7 @@ export class AudioService {
   private audioObj = new Audio();
   private start: Boolean = false;
   loop: Boolean = false;
-  maxIndex:  0;
+  maxIndex:  number = 0;
   currentFile: any = {};
   audioList: Array<any> = [];
   audioEvents = [
@@ -190,6 +190,18 @@ export class AudioService {
       }
     }
     return true;
+  }
+
+  openPodcast(url, name, creator) {
+    this.maxIndex = 1;
+    var song = {
+      url: url,
+      name: name,
+      artist: creator
+    };
+    this.audioList[0] = song;
+    this.loadSong(song, 0);
+    this.playStream(song.url).subscribe(events => { });
   }
 
   private addEvents(obj, events, handler) {

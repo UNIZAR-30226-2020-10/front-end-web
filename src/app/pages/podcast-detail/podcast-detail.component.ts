@@ -18,4 +18,8 @@ export class PodcastDetailComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  onPlay(): void {
+    this.audioService.openPodcast(this.result.audio, this.result.title_original, this.result.publisher_original);
+  }
 }

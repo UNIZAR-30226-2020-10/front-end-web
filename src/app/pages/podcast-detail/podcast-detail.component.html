@@ -3,5 +3,5 @@
   <h2>{{result.title_original}}</h2>
   <h3>Autor: {{result.publisher_original}}</h3>
   {{result.audio}}
-  <p (click)="this.audioService.playStream(result.audio)">Reproducir</p>
+  <p (click)="onPlay()">Reproducir</p>
 </div>
