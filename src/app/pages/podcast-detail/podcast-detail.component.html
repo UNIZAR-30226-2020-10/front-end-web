@@ -1,11 +1,7 @@
-<!-- Podcast seleccionado
-<div *ngIf="podcast">
-  <h2>{{podcast.name}} Details</h2>
-  <div><span>id: </span>{{podcast.id}}</div>
-  <div>
-    <label>name:
-      <input [(ngModel)]="podcast.name" placeholder="name"/>
-    </label>
-  </div>
+<!-- Podcast seleccionado -->
+<div *ngIf="result">
+  <h2>{{result.title_original}}</h2>
+  <h3>Autor: {{result.publisher_original}}</h3>
+  {{result.audio}}
+  <p (click)="this.audioService.playStream(result.audio)">Reproducir</p>
 </div>
--->

@@ -15,7 +15,7 @@ export class PodcastsComponent implements OnInit {
 
   //Variables
   podcasts: Podcast;
-  selectedPodcast: Podcast;
+  selectedPodcast;
   checkoutForm;
   title_string: string;
 
@@ -29,13 +29,15 @@ export class PodcastsComponent implements OnInit {
   }
 
   // Para el podcast seleccionado
-  onSelect(podcast: Podcast): void {
+  onSelect(podcast): void {
     this.selectedPodcast = podcast;
+    this.podcasts = null;
   }
 
   onSubmit(title){
     // Tratar los datos aqui
     this.title_string = title.titulo;
+    this.selectedPodcast = null;
     this.getPodcasts();
 
     this.checkoutForm.reset();
@@ -45,6 +47,5 @@ export class PodcastsComponent implements OnInit {
   // Pone una lista de podcasts en @podcasts
   getPodcasts(): void {
     this.podcastService.getPodcasts(this.title_string).subscribe(podcasts => this.podcasts = podcasts);
-    this.checkoutForm.reset();
   }
 }

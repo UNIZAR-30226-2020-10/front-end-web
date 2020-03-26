@@ -13,13 +13,20 @@
 
 
 <div *ngIf="podcasts">
-  <!-- LISTA DE PODCASTS
+  Titulo buscado: {{ title_string }}
+  <!-- LISTA DE PODCASTS -->
   <ul class="podcasts">
-    <li *ngFor="let podcast of podcasts" (click)="onSelect(podcast)">
-      <span class="badge">{{podcast.id}}</span> {{podcast.name}}
+    <li *ngFor="let result of podcasts.results" (click)="onSelect(result)">
+      <strong>Titulo: </strong> <a> {{ result.title_original }} </a>
+      <strong>Podcast: </strong>{{ result.podcast_title_original }}
+      <br>
     </li>
-  </ul> -->
-  <span>{{podcasts.took}}</span> {{podcasts.count}}
+  </ul>
 
-  <app-podcast-detail [podcast]="selectedPodcast"></app-podcast-detail>
+  <!-- <app-podcast-detail [podcast]="selectedPodcast"></app-podcast-detail> -->
+</div>
+
+<!-- (click)="onSelect(podcast) -->
+<div *ngIf="selectedPodcast">
+  <app-podcast-detail [result]="selectedPodcast"></app-podcast-detail>
 </div>
