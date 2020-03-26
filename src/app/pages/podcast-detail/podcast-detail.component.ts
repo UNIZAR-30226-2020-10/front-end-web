@@ -27,7 +27,7 @@ export class PodcastDetailComponent implements OnInit {
   getPodcast(): void {
     // Cojemos el id del podcast con el que nos han invocado
     const id = +this.route.snapshot.paramMap.get('id');
-    this.podcastService.getPodcasts(id).subscribe(podcast => this.podcast = podcast);
+    //this.podcastService.getPodcasts(id).subscribe(podcast => this.podcast = podcast);
   }
 
 }

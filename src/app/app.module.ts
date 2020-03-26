@@ -17,7 +17,6 @@ import { HttpClientModule }    from '@angular/common/http';
 import { MessagesComponent } from './pages/messages/messages.component';
 import { PodcastsComponent } from './pages/podcasts/podcasts.component';
 import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +30,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     MessagesComponent,
     PodcastsComponent,
     PodcastDetailComponent,
-    DashboardComponent,
   ],
   imports: [
     BrowserModule,

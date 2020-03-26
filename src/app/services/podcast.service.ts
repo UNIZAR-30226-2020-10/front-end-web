@@ -19,15 +19,8 @@ export class PodcastService {
   constructor(private messageService: MessageService, private http: HttpClient) { }
 
   // Coje la lista de podcasts de MOCK-PODCASTS
-  getPodcasts(title: string): Observable<Podcast[]> {
+  getPodcasts(title: String): Observable<Podcast> {
     // Para mandar los mensajes
-    this.messageService.add('PodcastService: fetched podcasts');
-    return this.http.post<Podcast[]>(`${this.url_1}${title}`, this.httpOptions)
+    return this.http.get<Podcast>(`${this.url_1}${title}`, this.httpOptions);
   }
-
-  /*getPodcast(id: number): Observable<Podcast> {
-    //Mensaje que no sirve para nada
-    this.messageService.add(`PodcastService: fetche podcast id=${id}`);
-    return of(PODCASTS.find(podcast => podcast.id === id));
-  }*/
 }

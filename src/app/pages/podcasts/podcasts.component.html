@@ -13,12 +13,13 @@
 
 
 <div *ngIf="podcasts">
-  <!-- LISTA DE PODCASTS -->
+  <!-- LISTA DE PODCASTS
   <ul class="podcasts">
     <li *ngFor="let podcast of podcasts" (click)="onSelect(podcast)">
       <span class="badge">{{podcast.id}}</span> {{podcast.name}}
     </li>
-  </ul>
+  </ul> -->
+  <span>{{podcasts.took}}</span> {{podcasts.count}}
 
   <app-podcast-detail [podcast]="selectedPodcast"></app-podcast-detail>
 </div>

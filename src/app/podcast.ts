@@ -1,4 +1,7 @@
 export interface Podcast {
-  id: number;
-  name: string;
+  took: number
+  count: number
+  total: number
+  results: Array<any>
+  next_offset: number
 }
