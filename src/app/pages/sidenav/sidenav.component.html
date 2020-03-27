@@ -1,4 +1,4 @@
-<mat-sidenav-container class="container" *ngIf="this.show">
+<mat-sidenav-container class="container" *ngIf="this.change === 'change-right'">
   <mat-sidenav opened mode="side" class="sidenav">
     <mat-nav-list>
       <a mat-list-item routerLink=''>
@@ -28,13 +28,18 @@
     </mat-nav-list>
   </mat-sidenav>
 </mat-sidenav-container>
-<mat-sidenav-container class="change" (click)="this.show = !this.show;">
-  <mat-sidenav opened mode="side" class="changeside">
-    <mat-nav-list>
-      <a mat-list-item>
-        <mat-icon mat-list-icon *ngIf="this.show">arrow_back_ios</mat-icon>
-        <mat-icon mat-list-icon *ngIf="!this.show">arrow_forward_ios</mat-icon>
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
-</mat-sidenav-container>
+<div [ngClass]="[this.change]">
+  <mat-sidenav-container class="change" (click)="changeStyle()">
+    <mat-sidenav opened mode="side" class="changeside">
+      <mat-nav-list>
+        <a mat-list-item>
+          <mat-icon mat-list-icon *ngIf="this.change === 'change-right'">arrow_back_ios</mat-icon>
+          <mat-icon mat-list-icon *ngIf="this.change === 'change-left'">arrow_forward_ios</mat-icon>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
+  <div class="router">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 .container {
+  z-index: 1000;
   display: block !important;
-  position: absolute !important;
+  position: fixed !important;
   bottom: 0;
   width: 100% !important;
   .volume-slider {

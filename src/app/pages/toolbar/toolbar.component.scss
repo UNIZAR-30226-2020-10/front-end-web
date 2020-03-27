@@ -1,4 +1,6 @@
 .toolbar {
+  z-index: 100;
+  position: fixed;
   top: 0;
   .empty_spaces{
     flex: 1 1 auto;

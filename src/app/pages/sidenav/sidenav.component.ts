@@ -7,12 +7,20 @@ import { AudioService } from 'src/app/services/audio.service';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
-  show: Boolean;
+  change: string;
 
   constructor(
     public audioService: AudioService
   ) {
-    this.show = true;
+    this.change = 'change-right';
+  }
+
+  changeStyle() {
+    if(this.change == 'change-right') {
+      this.change = 'change-left';
+    } else {
+      this.change = 'change-right';
+    }
   }
 
   ngOnInit(): void {
