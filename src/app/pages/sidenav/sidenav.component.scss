@@ -1,7 +1,9 @@
 .container, .change {
   min-height:calc(100% - 128px);
+  //height: 100%;
   float: left;
   left: 0;
+  //position: fixed;
   .sidenav {
     width: 300px;
   }

@@ -1,35 +1,34 @@
-<h2>Buscar podcasts</h2>
+<div class="margen">
+  <h2>Buscar podcasts</h2>
 
-<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-  <div>
-    <label for="titulo">
-      Name
-    </label>
-    <input type="text" formControlName="titulo">
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+    <div>
+      <label for="titulo">
+        Name
+      </label>
+      <input type="text" formControlName="titulo">
 
-    <button class="button" type="submit">Buscar</button>
-  </div>
-
-
-</form>
+      <button class="button" type="submit">Buscar</button>
+    </div>
 
 
-<div *ngIf="podcasts">
-  Titulo buscado: {{ title_string }}
-  <!-- LISTA DE PODCASTS -->
-  <ul class="podcasts">
-    <li *ngFor="let result of podcasts.results" (click)="onSelect(result)">
-        <div>
-          <img src='{{result.image}}'/>
-          <div>
-            <h3>{{result.title_original}}</h3>
-            <p>{{result.description_original}}</p>
+  </form>
+
+  <div *ngIf="podcasts">
+    <strong>Titulo buscado: </strong>{{ title_string }}
+    <!-- LISTA DE PODCASTS -->
+    <ul class="podcasts">
+      <li *ngFor="let result of podcasts.results|slice:0:7" (click)="onSelect(result)">
+          <div class="separar">
+            <img src='{{result.image}}'/>
+            <div class="texto">
+              <h2>{{result.title_original}}</h2>
+              <h4><strong>Podcast: </strong>{{result.podcast_title_original}} || <strong>Publicado por: </strong>{{result.publisher_original}}</h4>
+            </div>
           </div>
-        </div>
-    </li>
-  </ul>
-
-  <!-- <app-podcast-detail [podcast]="selectedPodcast"></app-podcast-detail> -->
+      </li>
+    </ul>
+  </div>
 </div>
 
 <!-- (click)="onSelect(podcast) -->

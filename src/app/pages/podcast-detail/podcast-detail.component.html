@@ -1,7 +1,11 @@
 <!-- Podcast seleccionado -->
-<div *ngIf="result">
+<div class="absoluteCenter" *ngIf="result">
+  <img src='{{result.image}}'/>
   <h2>{{result.title_original}}</h2>
-  <h3>Autor: {{result.publisher_original}}</h3>
-  {{result.audio}}
-  <p (click)="onPlay()">Reproducir</p>
+  <h3><strong>Podcast: </strong>{{result.podcast_title_original}} || <strong>Publicado por: </strong>{{result.publisher_original}}</h3>
+  <p><strong>Descripción: </strong>{{result.description_original}}</p>
+  <div class="reproducir" (click)="onPlay()">
+    <mat-icon>play_arrow</mat-icon> <strong>Reproducir episodio</strong>
+  </div>
+  <!--<p (click)="onPlay()">Reproducir</p>-->
 </div>
