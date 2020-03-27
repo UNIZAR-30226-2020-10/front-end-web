@@ -13,10 +13,15 @@ import { PlaylistsComponent } from '../playlists/playlists.component';
 })
 
 export class PlayerComponent implements OnInit {
+  volumeShow: Boolean = false;
 
   constructor(
     public audioService: AudioService
   ) { }
+
+  changeVolume(change){
+    this.audioService.changeVol(change.value);
+  }
 
   isFirstPlaying() {
     return this.audioService.currentFile.index === 0;

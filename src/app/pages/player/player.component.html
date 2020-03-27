@@ -1,6 +1,9 @@
 <div class="container">
   <div class="media-footer" *ngIf="this.audioService.maxIndex > 0">
-    <div class="media-footer">
+    <div class="volume-slider" *ngIf="this.volumeShow">
+      <mat-slider vertical class="vol-slider" min="0.00" [max]="1.00" step="0.01" [value]="this.audioService.checkVol()" (input)="changeVolume($event)" [disabled]=""></mat-slider>
+    </div>
+    <div class="reprofooter">
       <mat-toolbar color="primary">
         <mat-toolbar-row>
           <div class="info">
@@ -32,11 +35,17 @@
             <!--<button  mat-button (click)="next()">
               <mat-icon mat-list-icon>favorite_border</mat-icon>
             </button>-->
-            <button  mat-button (click)="next()">
+            <button  mat-button (click)="this.audioService.loop = !this.audioService.loop">
               <mat-icon mat-list-icon>playlist_add</mat-icon>
             </button>
-            <button  mat-button (click)="this.audioService.loop = !this.audioService.loop">
+            <button  mat-button (click)="this.volumeShow = !this.volumeShow" *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">
+              <mat-icon mat-list-icon>volume_down</mat-icon>
+            </button>
+            <button  mat-button (click)="this.volumeShow = !this.volumeShow" *ngIf="this.audioService.checkVol() <= 1.00 && this.audioService.checkVol() > 0.50">
               <mat-icon mat-list-icon>volume_up</mat-icon>
+            </button>
+            <button  mat-button (click)="this.volumeShow = !this.volumeShow" *ngIf="this.audioService.checkVol() === 0.00">
+              <mat-icon mat-list-icon>volume_mute</mat-icon>
             </button>
           </div>
         </mat-toolbar-row>

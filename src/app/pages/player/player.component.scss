@@ -3,7 +3,16 @@
   position: absolute !important;
   bottom: 0;
   width: 100% !important;
-  .media-footer {
+  .volume-slider {
+    .vol-slider {
+      background-color: #3f51b5;
+      position: absolute;
+      display: block;
+      right: 25px;
+      bottom: 64px;
+    }
+  }
+  .reprofooter {
     background-color: #3f51b5;
     .albumArt {
       position: absolute !important;

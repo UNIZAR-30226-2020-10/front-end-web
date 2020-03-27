@@ -3,7 +3,8 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { StreamState } from '../stream-state';
 import * as moment from 'moment';
-
+declare const changeVolume: any;
+declare const checkVolume: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -178,6 +179,14 @@ export class AudioService {
     this.audioList = files;
     this.maxIndex = files.length;
     this.openFile(song, index);
+  }
+
+  changeVol(val) {
+    changeVolume(this.audioObj, val);
+  }
+
+  checkVol() {
+    return checkVolume(this.audioObj);
   }
 
   equals(files) {
