@@ -17,6 +17,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import { MessagesComponent } from './pages/messages/messages.component';
 import { PodcastsComponent } from './pages/podcasts/podcasts.component';
 import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.component';
+import { EqualizerComponent } from './pages/equalizer/equalizer.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.co
     MessagesComponent,
     PodcastsComponent,
     PodcastDetailComponent,
+    EqualizerComponent,
   ],
   imports: [
     BrowserModule,

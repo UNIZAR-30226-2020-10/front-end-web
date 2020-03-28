@@ -1,0 +1,4 @@
+<p>equalizer works!</p>
+<!--<p (click)="this.audioService.useEqualizer = !this.audioService.useEqualizer">Click me to use equalizer</p>-->
+<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.stateEqualizer()" (input)="changeEqualizer($event)" [disabled]=""></mat-slider>
+<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.state2Equalizer()" (input)="change2Equalizer($event)" [disabled]=""></mat-slider>

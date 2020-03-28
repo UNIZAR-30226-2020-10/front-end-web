@@ -5,6 +5,12 @@ import { StreamState } from '../stream-state';
 import * as moment from 'moment';
 declare const changeVolume: any;
 declare const checkVolume: any;
+declare const equalizerLoad: any;
+declare const equalizer: any;
+declare const valEqualizer: any;
+declare const equalizer2: any;
+declare const val2Equalizer: any;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +18,7 @@ export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
   private start: Boolean = false;
+  useEqualizer: Boolean = false;
   loop: Boolean = false;
   maxIndex:  number = 0;
   currentFile: any = {};
@@ -105,7 +112,9 @@ export class AudioService {
       } else {
         this.audioObj.play();
       }
-
+      //if(this.useEqualizer) {
+        //equalizerLoad(this.audioObj);
+      //}
       const handler = (event: Event) => {
         this.updateStateEvents(event);
         observer.next(event);
@@ -187,6 +196,26 @@ export class AudioService {
 
   checkVol() {
     return checkVolume(this.audioObj);
+  }
+
+  stateEqualizer() {
+    //return valEqualizer();
+  }
+
+  changeEqualizer(val) {
+    //if(this.useEqualizer) {
+      //equalizer(val);
+    //}
+  }
+
+  state2Equalizer() {
+    //return val2Equalizer();
+  }
+
+  change2Equalizer(val) {
+    //if(this.useEqualizer) {
+      //equalizer2(val);
+    //}
   }
 
   equals(files) {
