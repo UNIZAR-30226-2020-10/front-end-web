@@ -1,11 +1,9 @@
-var context = new (window.AudioContext || window.webkitAudioContext)();
-var source, highShelf, val1 = 0, val2 = 1;
+var context, source, highShelf, val1 = 0, val2 = 1;
 
 function equalizerLoad(mediaElement) {
+  context = new (window.AudioContext || window.webkitAudioContext)();
   highShelf = context.createBiquadFilter();
   source = context.createMediaElementSource(mediaElement);
-
-  //highShelf.Q.value = 1;
 
   source.connect(highShelf);
   highShelf.connect(context.destination);

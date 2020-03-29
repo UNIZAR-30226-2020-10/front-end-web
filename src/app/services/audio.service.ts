@@ -156,7 +156,7 @@ export class AudioService {
 
   openFile(song, index) {
     this.loadSong(song, index);
-    this.playStream(song.url).subscribe(events => { });
+    this.playStream(song.URL).subscribe(events => { });
   }
 
   previous() {
@@ -199,23 +199,23 @@ export class AudioService {
   }
 
   stateEqualizer() {
-    //return valEqualizer();
+    return valEqualizer();
   }
 
   changeEqualizer(val) {
-    //if(this.useEqualizer) {
-      //equalizer(val);
-    //}
+    if(this.useEqualizer) {
+      equalizer(val);
+    }
   }
 
   state2Equalizer() {
-    //return val2Equalizer();
+    return val2Equalizer();
   }
 
   change2Equalizer(val) {
-    //if(this.useEqualizer) {
-      //equalizer2(val);
-    //}
+    if(this.useEqualizer) {
+      equalizer2(val);
+    }
   }
 
   equals(files) {
@@ -233,13 +233,13 @@ export class AudioService {
   openPodcast(url, name, creator) {
     this.maxIndex = 1;
     var song = {
-      url: url,
-      name: name,
-      artist: creator
+      URL: url,
+      Nombre: name,
+      Artistas: [creator]
     };
     this.audioList[0] = song;
     this.loadSong(song, 0);
-    this.playStream(song.url).subscribe(events => { });
+    this.playStream(song.URL).subscribe(events => { });
   }
 
   private addEvents(obj, events, handler) {

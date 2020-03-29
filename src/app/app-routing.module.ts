@@ -8,7 +8,7 @@ import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.co
 
 const routes: Routes = [
   { path: 'lists', component: PlaylistsComponent },
-  { path: 'lists/:x', component: ListComponent },
+  { path: 'lists/:id', component: ListComponent },
   { path: 'podcasts', component: PodcastsComponent },
   { path: 'equalizer', component: EqualizerComponent },
   { path: '**', redirectTo: ''},

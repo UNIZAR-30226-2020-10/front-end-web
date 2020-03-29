@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { List, Playlists } from '../list';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CloudService {
   files: any = [
-    // tslint:disable-next-line: max-line-length
     {
       url:
         'https://ia801504.us.archive.org/3/items/EdSheeranPerfectOfficialMusicVideoListenVid.com/Ed_Sheeran_-_Perfect_Official_Music_Video%5BListenVid.com%5D.mp3',
@@ -14,7 +15,6 @@ export class CloudService {
       artist: 'Ed Sheeran'
     },
     {
-      // tslint:disable-next-line: max-line-length
       url:
         'https://ia801609.us.archive.org/16/items/nusratcollection_20170414_0953/Man%20Atkiya%20Beparwah%20De%20Naal%20Nusrat%20Fateh%20Ali%20Khan.mp3',
       name: 'Man Atkeya Beparwah',
@@ -28,7 +28,27 @@ export class CloudService {
     }
   ];
 
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  private url = "https://psoftware.herokuapp.com/";
+  private askPlaylists: string = "list_lists";
+  private askList: string = "list_data";
+
   getFiles() {
     return of(this.files);
+  }
+
+  getPlaylists(): Observable<Playlists> {
+    console.log(this.url+this.askPlaylists);
+    return this.http.get<Playlists>(this.url+this.askPlaylists);
+  }
+
+  getList(id): Observable<List> {
+    console.log(this.url+this.askList);
+    let params = new HttpParams();
+    params = params.append('list', id);
+    return this.http.get<List>(this.url+this.askList, {params: params});
   }
 }

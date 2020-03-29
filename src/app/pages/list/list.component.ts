@@ -10,23 +10,24 @@ import { AudioService } from 'src/app/services/audio.service';
 })
 
 export class ListComponent implements OnInit {
-  files: Array<any> = [];
-  name: String = 'example';
+  playlist;
 
   constructor(
     public cloudService: CloudService,
     public audioService: AudioService,
     private route: ActivatedRoute
   ) {
+
     // get media files
-    cloudService.getFiles().subscribe(files => {
+    /*cloudService.getFiles().subscribe(files => {
       this.files = files;
-    });
+    });*/
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.name = params.get('name');
+      console.log(params.get('x'));
+      this.playlist = this.cloudService.getList(params.get('id')).subscribe(playlist => this.playlist = playlist);
     });
   }
 

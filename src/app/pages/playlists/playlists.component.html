@@ -1,14 +1,12 @@
 <div class="playlists">
   <div *ngFor="let list of lists">
-    <h2>prueba</h2>
     <h3>
-      <a [title]="list.name + ' list'" [routerLink]="['/lists', list.name]">
-        {{ list.name }}
+      <a [title]="list.Nombre" [routerLink]="['/lists', list.ID]">
+        {{ list.Nombre }}
       </a>
     </h3>
+    <img class="albumArt" *ngIf="list.Imagen === null" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+    <img class="albumArt" *ngIf="list.Imagen != null" src="list.Imagen" alt="albumart">
+    <p> {{ list.Desc }} </p>
   </div>
 </div>
-
-<a [title]="'example list'" [routerLink]="['/lists', 'example']">
-  example
-</a>
