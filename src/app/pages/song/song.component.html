@@ -1,4 +1,4 @@
-<div class="song" *ngIf="this.audioService.maxIndex > 0 && this.audioService.showSong" onbeforeunload="return showSong(this.audioService.showSong)">
+<div class="song" *ngIf="this.audioService.maxIndex > 0 && this.audioService.showSong">
   <h2>{{ this.audioService.currentFile.song.Nombre }}</h2>
   <h3>{{ this.audioService.currentFile.song.Artistas }}</h3>
   <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
@@ -19,6 +19,9 @@
     </button>
     <button mat-button (click)="pause()" *ngIf="this.audioService.checkState().playing">
       <mat-icon mat-list-icon>pause</mat-icon>
+    </button>
+    <button mat-button (click)="stop()">
+      <mat-icon mat-list-icon>stop</mat-icon>
     </button>
     <button  mat-button (click)="next()">
       <mat-icon mat-list-icon>skip_next</mat-icon>

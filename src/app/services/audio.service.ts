@@ -146,6 +146,11 @@ export class AudioService {
     this.audioObj.pause();
   }
 
+  stops() {
+    this.seekTo(0);
+    this.pause();
+  }
+
   stop() {
     this.stop$.next();
   }

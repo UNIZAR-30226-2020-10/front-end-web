@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
 declare const showSong: any;
 
@@ -7,7 +7,7 @@ declare const showSong: any;
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.scss']
 })
-export class SongComponent implements OnInit {
+export class SongComponent implements OnDestroy {
 
   constructor(
     public audioService: AudioService
@@ -42,7 +42,7 @@ export class SongComponent implements OnInit {
   }
 
   stop() {
-    this.audioService.stop();
+    this.audioService.stops();
   }
 
   play() {
@@ -53,7 +53,8 @@ export class SongComponent implements OnInit {
     return this.audioService.equals(files);
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.audioService.showSong = false;
   }
 
 }

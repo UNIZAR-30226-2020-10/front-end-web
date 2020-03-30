@@ -1,6 +1,7 @@
 var context, source, highShelf, val1 = 0, val2 = 1;
 
 function equalizerLoad(mediaElement) {
+  mediaElement.crossOrigin = "anonymous";
   context = new (window.AudioContext || window.webkitAudioContext)();
   highShelf = context.createBiquadFilter();
   source = context.createMediaElementSource(mediaElement);
