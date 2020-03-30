@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AudioService } from '../../services/audio.service';
+import { AudioService } from 'src/app/services/audio.service';
+declare const showSong: any;
 
 @Component({
-  selector: 'app-player',
-  templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss']
+  selector: 'app-song',
+  templateUrl: './song.component.html',
+  styleUrls: ['./song.component.scss']
 })
-
-export class PlayerComponent implements OnInit {
-  volumeShow: Boolean = false;
+export class SongComponent implements OnInit {
 
   constructor(
     public audioService: AudioService
@@ -54,6 +53,7 @@ export class PlayerComponent implements OnInit {
     return this.audioService.equals(files);
   }
 
-  ngOnInit() { }
+  ngOnInit(): void {
+  }
 
 }

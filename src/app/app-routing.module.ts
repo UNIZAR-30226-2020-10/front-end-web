@@ -4,13 +4,14 @@ import { EqualizerComponent } from './pages/equalizer/equalizer.component';
 import { PlaylistsComponent } from './pages/playlists/playlists.component';
 import { ListComponent } from './pages/list/list.component';
 import { PodcastsComponent } from './pages/podcasts/podcasts.component';
-import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.component';
+import { SongComponent } from './pages/song/song.component';
 
 const routes: Routes = [
   { path: 'lists', component: PlaylistsComponent },
   { path: 'lists/:id', component: ListComponent },
   { path: 'podcasts', component: PodcastsComponent },
   { path: 'equalizer', component: EqualizerComponent },
+  { path: 'song', component: SongComponent },
   { path: '**', redirectTo: ''},
 ];
 

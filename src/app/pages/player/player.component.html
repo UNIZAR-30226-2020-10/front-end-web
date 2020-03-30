@@ -1,12 +1,12 @@
 <div class="container">
-  <div class="media-footer" *ngIf="this.audioService.maxIndex > 0">
+  <div class="media-footer" *ngIf="this.audioService.maxIndex > 0 && !this.audioService.showSong">
     <div class="volume-slider" (mouseleave)="this.volumeShow = !this.volumeShow" *ngIf="this.volumeShow">
-      <mat-slider vertical class="vol-slider" min="0.00" [max]="1.00" step="0.01" [value]="this.audioService.checkVol()" (input)="changeVolume($event)" [disabled]=""></mat-slider>
+      <mat-slider vertical class="vol-slider" min="0.00" [max]="1.00" step="0.01" [value]="this.audioService.checkVol()" (input)="changeVolume($event)"></mat-slider>
     </div>
     <div class="reprofooter">
       <mat-toolbar color="primary">
         <mat-toolbar-row>
-          <div class="info">
+          <div class="info" (click)="this.audioService.showSong = true" [routerLink]="['/song']">
             <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
             <h4>{{ this.audioService.currentFile.song.Nombre }}</h4>
             <h5>{{ this.audioService.currentFile.song.Artistas }}</h5>
@@ -51,4 +51,5 @@
         </mat-toolbar-row>
       </mat-toolbar>
     </div>
+  </div>
 </div>

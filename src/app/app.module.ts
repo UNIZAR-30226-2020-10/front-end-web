@@ -18,6 +18,7 @@ import { MessagesComponent } from './pages/messages/messages.component';
 import { PodcastsComponent } from './pages/podcasts/podcasts.component';
 import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.component';
 import { EqualizerComponent } from './pages/equalizer/equalizer.component';
+import { SongComponent } from './pages/song/song.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { EqualizerComponent } from './pages/equalizer/equalizer.component';
     PodcastsComponent,
     PodcastDetailComponent,
     EqualizerComponent,
+    SongComponent,
   ],
   imports: [
     BrowserModule,

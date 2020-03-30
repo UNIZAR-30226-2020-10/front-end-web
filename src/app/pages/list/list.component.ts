@@ -10,7 +10,7 @@ import { AudioService } from 'src/app/services/audio.service';
 })
 
 export class ListComponent implements OnInit {
-  playlist;
+  list;
 
   constructor(
     public cloudService: CloudService,
@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       console.log(params.get('x'));
-      this.playlist = this.cloudService.getList(params.get('id')).subscribe(playlist => this.playlist = playlist);
+      this.list = this.cloudService.getList(params.get('id')).subscribe(list => this.list = list);
     });
   }
 

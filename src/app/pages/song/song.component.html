@@ -1,0 +1,50 @@
+<div class="song" *ngIf="this.audioService.maxIndex > 0 && this.audioService.showSong" onbeforeunload="return showSong(this.audioService.showSong)">
+  <h2>{{ this.audioService.currentFile.song.Nombre }}</h2>
+  <h3>{{ this.audioService.currentFile.song.Artistas }}</h3>
+  <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+  <div class="line">
+    {{ this.audioService.checkState().readableCurrentTime }}
+    <mat-slider class="time-slider" min="0" [max]="this.audioService.checkState().duration" step="1" [value]="this.audioService.checkState().currentTime" (input)="onSliderChangeEnd($event)" [disabled]="this.audioService.checkState().error || this.audioService.currentFile.index === undefined"></mat-slider>
+    {{ this.audioService.checkState().readableDuration }}
+  </div>
+  <div class="media-action-1">
+    <button mat-button (click)="this.audioService.loop = !this.audioService.loop">
+      <mat-icon mat-list-icon>repeat</mat-icon>
+    </button>
+    <button mat-button (click)="previous()">
+      <mat-icon mat-list-icon>skip_previous</mat-icon>
+    </button>
+    <button mat-button (click)="play()" [disabled]="this.audioService.checkState().error" *ngIf="!this.audioService.checkState().playing">
+      <mat-icon mat-list-icon>play_circle_filled</mat-icon>
+    </button>
+    <button mat-button (click)="pause()" *ngIf="this.audioService.checkState().playing">
+      <mat-icon mat-list-icon>pause</mat-icon>
+    </button>
+    <button  mat-button (click)="next()">
+      <mat-icon mat-list-icon>skip_next</mat-icon>
+    </button>
+    <button  mat-button (click)="next()">
+      <mat-icon mat-list-icon>shuffle</mat-icon>
+    </button>
+  </div>
+  <div class="media-action-2">
+    <button  mat-button (click)="next()">
+      <mat-icon mat-list-icon>favorite</mat-icon>
+    </button>
+    <!--<button  mat-button (click)="next()">
+      <mat-icon mat-list-icon>favorite_border</mat-icon>
+    </button>-->
+    <button  mat-button (click)="next()">
+      <mat-icon mat-list-icon>playlist_add</mat-icon>
+    </button>
+    <button  mat-button (click)="next()">
+      <mat-icon mat-list-icon>search</mat-icon>
+    </button>
+  </div>
+  <div class="media-action-3">
+    <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">volume_down</mat-icon>
+    <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() <= 1.00 && this.audioService.checkVol() > 0.50">volume_up</mat-icon>
+    <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() === 0.00">volume_mute</mat-icon>
+    <mat-slider class="vol-slider" min="0.00" [max]="1.00" step="0.01" [value]="this.audioService.checkVol()" (input)="changeVolume($event)"></mat-slider>
+  </div>
+</div>
