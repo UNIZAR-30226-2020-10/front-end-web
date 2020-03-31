@@ -9,4 +9,13 @@
     <img class="albumArt" *ngIf="list.Imagen != null" src="list.Imagen" alt="albumart">
     <p> {{ list.Desc }} </p>
   </div>
+  <!-- EJEMPLO -->
+  <h3>
+    <a [routerLink]="['/lists', 0]">
+      Ejemplo
+    </a>
+  </h3>
+  <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+  <p> Ejemplo de lista </p>
+  <!-- EJEMPLO -->
 </div>

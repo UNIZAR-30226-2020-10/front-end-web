@@ -7,7 +7,7 @@ export interface Song {
   URL: string
 }
 
-interface ReproList {
+export interface Playlists {
   Desc: string
   ID: number
   Imagen: string
@@ -16,10 +16,8 @@ interface ReproList {
 
 export interface List {
   Canciones: Array<Song>
-  list: ReproList
-}
-
-export interface Playlists {
+  Desc: string
   ID: number
-  playlist: ReproList
+  Imagen: string
+  Nombre: string
 }

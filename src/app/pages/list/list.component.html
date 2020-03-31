@@ -9,8 +9,8 @@
     <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
     <h4 mat-line>{{ file.Nombre }}</h4>
     <h5 mat-line>{{ file.Artistas }}</h5>
-    <mat-icon color="primary" *ngIf="this.audioService.equals(list.Canciones) && this.audioService.currentFile.index === i && !this.audioService.checkState().error">volume_up</mat-icon>
-    <h6 *ngIf="this.audioService.equals(list.Canciones) && this.audioService.currentFile.index === i && this.audioService.checkState().error">ERROR</h6>
+    <mat-icon color="primary" *ngIf="this.queue && this.audioService.currentFile.index === i && !this.audioService.checkState().error">volume_up</mat-icon>
+    <h6 *ngIf="this.queue && this.audioService.currentFile.index === i && this.audioService.checkState().error">ERROR</h6>
     <mat-divider></mat-divider>
   </mat-list-item>
   </mat-list>

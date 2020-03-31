@@ -18,40 +18,8 @@ export class PlayerComponent implements OnInit {
     this.audioService.changeVol(change.value);
   }
 
-  isFirstPlaying() {
-    return this.audioService.currentFile.index === 0;
-  }
-
-  isLastPlaying() {
-    return this.audioService.currentFile.index === this.audioService.maxIndex - 1;
-  }
-
   onSliderChangeEnd(change) {
     this.audioService.seekTo(change.value);
-  }
-
-  pause() {
-    this.audioService.pause();
-  }
-
-  previous() {
-    this.audioService.previous();
-  }
-
-  next() {
-    this.audioService.next();
-  }
-
-  stop() {
-    this.audioService.stop();
-  }
-
-  play() {
-    this.audioService.play();
-  }
-
-  equals(files) {
-    return this.audioService.equals(files);
   }
 
   ngOnInit() { }

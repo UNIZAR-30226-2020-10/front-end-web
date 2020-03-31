@@ -12,30 +12,28 @@
             <h5>{{ this.audioService.currentFile.song.Artistas }}</h5>
           </div>
           <div class="line">
-            <!-- {{ this.audioService.checkState().readableCurrentTime }} -->
             <mat-slider class="time-slider" min="0" [max]="this.audioService.checkState().duration" step="1" [value]="this.audioService.checkState().currentTime" (input)="onSliderChangeEnd($event)" [disabled]="this.audioService.checkState().error || this.audioService.currentFile.index === undefined"></mat-slider>
-            <!-- {{ this.audioService.checkState().readableDuration }} -->
           </div>
           <div class="media-action-bar">
-            <button mat-button (click)="previous()">
+            <button mat-button (click)="this.audioService.previous()">
               <mat-icon mat-list-icon>skip_previous</mat-icon>
             </button>
-            <button mat-button (click)="play()" [disabled]="this.audioService.checkState().error" *ngIf="!this.audioService.checkState().playing">
+            <button mat-button (click)="this.audioService.play()" [disabled]="this.audioService.checkState().error" *ngIf="!this.audioService.checkState().playing">
               <mat-icon mat-list-icon>play_circle_filled</mat-icon>
             </button>
-            <button mat-button (click)="pause()" *ngIf="this.audioService.checkState().playing">
+            <button mat-button (click)="this.audioService.pause()" *ngIf="this.audioService.checkState().playing">
               <mat-icon mat-list-icon>pause</mat-icon>
             </button>
-            <button  mat-button (click)="next()">
+            <button  mat-button (click)="this.audioService.next()">
               <mat-icon mat-list-icon>skip_next</mat-icon>
             </button>
-            <button  mat-button (click)="next()">
+            <button  mat-button (click)="this.audioService.next()">
               <mat-icon mat-list-icon>favorite</mat-icon>
             </button>
             <!--<button  mat-button (click)="next()">
               <mat-icon mat-list-icon>favorite_border</mat-icon>
             </button>-->
-            <button  mat-button (click)="this.audioService.loop = !this.audioService.loop">
+            <button  mat-button (click)="this.audioService.next()">
               <mat-icon mat-list-icon>playlist_add</mat-icon>
             </button>
             <button  mat-button (mouseenter)="this.volumeShow = !this.volumeShow" *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">

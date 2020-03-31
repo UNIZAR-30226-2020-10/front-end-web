@@ -18,6 +18,7 @@ export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
   private start: Boolean = false;
+  private isPodcast: Boolean = false;
   useEqualizer: Boolean = false;
   showSong: Boolean = false;
   loop: Boolean = false;
@@ -54,7 +55,11 @@ export class AudioService {
     switch (event.type) {
       case 'canplay':
         this.state.duration = this.audioObj.duration;
-        this.state.readableDuration = this.formatTime(this.state.duration);
+        if(this.isPodcast) {
+          this.state.readableDuration = this.formatTimePodcast(this.state.duration);
+        } else {
+          this.state.readableDuration = this.formatTimeSong(this.state.duration);
+        }
         this.state.canplay = true;
         break;
       case 'playing':
@@ -65,9 +70,11 @@ export class AudioService {
         break;
       case 'timeupdate':
         this.state.currentTime = this.audioObj.currentTime;
-        this.state.readableCurrentTime = this.formatTime(
-          this.state.currentTime
-        );
+        if(this.isPodcast) {
+          this.state.readableCurrentTime = this.formatTimePodcast(this.state.currentTime);
+        } else {
+          this.state.readableCurrentTime = this.formatTimeSong(this.state.currentTime);
+        }
         break;
       case 'error':
         this.resetState();
@@ -160,6 +167,10 @@ export class AudioService {
     this.stop();
   }
 
+  loadSongNoStop(song, index) {
+    this.currentFile = { index, song };
+  }
+
   openFile(song, index) {
     this.loadSong(song, index);
     this.playStream(song.URL).subscribe(events => { });
@@ -185,12 +196,21 @@ export class AudioService {
     this.audioObj.currentTime = seconds;
   }
 
-  formatTime(time: number, format: string = 'mm:ss') {
+  formatTime(time: number, format: string) {
     const momentTime = time * 1000;
     return moment.utc(momentTime).format(format);
   }
 
+  formatTimeSong(time: number, format: string = 'mm:ss') {
+    return this.formatTime(time, format);
+  }
+
+  formatTimePodcast(time: number, format: string = 'HH:mm:ss') {
+    return this.formatTime(time, format);
+  }
+
   loadList(files, song, index) {
+    this.isPodcast = false;
     this.audioList = files;
     this.maxIndex = files.length;
     this.openFile(song, index);
@@ -202,6 +222,27 @@ export class AudioService {
 
   checkVol() {
     return checkVolume(this.audioObj);
+  }
+
+  random() {
+    var currentIndex = this.maxIndex, aux, randomIndex;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      aux = this.audioList[currentIndex];
+      this.audioList[currentIndex] = this.audioList[randomIndex];
+      this.audioList[randomIndex] = aux;
+    }
+    for (let index = 0; index < this.maxIndex; index++) {
+      if(this.audioList[index].URL === this.currentFile.song.URL) {
+        aux = this.audioList[index];
+        this.audioList[index] = this.audioList[0];
+        this.audioList[0] = aux;
+        break;
+      }
+    }
+    this.loadSongNoStop(this.audioList[0], 0);
+    console.log(this.currentFile);
   }
 
   stateEqualizer() {
@@ -237,11 +278,15 @@ export class AudioService {
   }
 
   openPodcast(url, name, creator) {
+    this.isPodcast = true;
     this.maxIndex = 1;
     var song = {
       URL: url,
       Nombre: name,
-      Artistas: [creator]
+      Artistas: [creator],
+      Imagen: null,
+      ID: undefined,
+      Album: undefined
     };
     this.audioList[0] = song;
     this.loadSong(song, 0);

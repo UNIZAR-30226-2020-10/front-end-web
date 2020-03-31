@@ -1,32 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { List, Playlists } from '../list';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CloudService {
-  files: any = [
-    {
-      url:
-        'https://ia801504.us.archive.org/3/items/EdSheeranPerfectOfficialMusicVideoListenVid.com/Ed_Sheeran_-_Perfect_Official_Music_Video%5BListenVid.com%5D.mp3',
-      name: 'Perfect',
-      artist: 'Ed Sheeran'
-    },
-    {
-      url:
-        'https://ia801609.us.archive.org/16/items/nusratcollection_20170414_0953/Man%20Atkiya%20Beparwah%20De%20Naal%20Nusrat%20Fateh%20Ali%20Khan.mp3',
-      name: 'Man Atkeya Beparwah',
-      artist: 'Nusrat Fateh Ali Khan'
-    },
-    {
-      url:
-        'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Circus_Marcus/Circus_Marcus_-_Singles/Circus_Marcus_-_01_-_Eden_Kaput.mp3',
-      name: 'Penny Lane',
-      artist: 'The Beatles'
-    }
-  ];
+  files: List =
+    {"Canciones":[{"Album":"Mi album 1","Artistas":["Ed Sheeran"],"ID":3,"Imagen":null,"Nombre":"Perfect","URL":"https://ia801504.us.archive.org/3/items/EdSheeranPerfectOfficialMusicVideoListenVid.com/Ed_Sheeran_-_Perfect_Official_Music_Video%5BListenVid.com%5D.mp3"},
+    {"Album":"Mi album 1","Artistas":["Ed Sheeran"],"ID":4,"Imagen":null,"Nombre":"Shape of You","URL":"http://moozika.ir/mycont/uploads/2017/10/Shape-Of-You-www.Moozika.ir_.mp3"},
+    {"Album":"Mi album 2","Artistas":["Linkin Park (Cover)"],"ID":5,"Imagen":null,"Nombre":"In The End","URL":"http://moozika.ir/mycont/uploads/2018/10/In-The-End-Mellen-Gi-Tommee-Profitt-Remix.mp3"},
+    {"Album":"Mi album 3","Artistas":["KYGO", "Selena Gomez"],"ID":6,"Imagen":null,"Nombre":"It Ain't me","URL":"http://moozika.ir/mycont/uploads/2019/03/01-It-Aint-Me.mp3"},
+    {"Album":"Mi album 4","Artistas":["Maroon 5"],"ID":7,"Imagen":null,"Nombre":"Memories","URL":"http://dl.moozika.ir/mycont/uploads/2020/01/1-01-Memories.mp3"},
+    {"Album":"Mi album 5","Artistas":["Jay Aliyev"],"ID":8,"Imagen":null,"Nombre":"Together","URL":"http://dl.moozika.ir/mycont/uploads/2020/01/Together.mp3"},
+    {"Album":"Mi album 6","Artistas":["Vancouver Sleep Clinic"],"ID":9,"Imagen":null,"Nombre":"Revival","URL":"http://dl.moozika.ir/mycont/uploads/2019/11/11-Revival.mp3"},
+    {"Album":"Mi album 6","Artistas":["Vancouver Sleep Clinic"],"ID":10,"Imagen":null,"Nombre":"Empire","URL":"http://dl.moozika.ir/mycont/uploads/2019/11/04-Empire.mp3"},
+    {"Album":"Mi album 8","Artistas":["Lil Nas X"],"ID":11,"Imagen":null,"Nombre":"Old Town Road","URL":"http://dl.moozika.ir/mycont/uploads/2019/12/Old-Town-Road-Ft-Billy-Ray-Cyrus-Remix-1.mp3"},
+    {"Album":"Mi album 9","Artistas":["Marshmello", "Khalid"],"ID":12,"Imagen":null,"Nombre":"Silence","URL":"http://moozika.ir/mycont/uploads/2017/11/Silence.mp3"}],
+    "Desc":"Ejemplo de lista", "ID":0, "Imagen":null, "Nombre":"Ejemplo"};
 
   constructor(
     private http: HttpClient
@@ -37,7 +29,7 @@ export class CloudService {
   private askList: string = "list_data";
 
   getFiles() {
-    return of(this.files);
+    return this.files;
   }
 
   getPlaylists(): Observable<Playlists> {
