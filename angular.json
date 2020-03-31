@@ -35,7 +35,8 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/app/volumeControl.js",
-              "src/app/equalizer.js"
+              "src/app/equalizer.js",
+              "src/app/search.js"
             ]
           },
           "configurations": {

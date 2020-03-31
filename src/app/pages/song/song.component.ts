@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
-declare const showSong: any;
+declare const search: any;
 
 @Component({
   selector: 'app-song',
@@ -19,6 +19,10 @@ export class SongComponent implements OnDestroy {
 
   onSliderChangeEnd(change) {
     this.audioService.seekTo(change.value);
+  }
+
+  find() {
+    search(this.audioService.currentFile.song);
   }
 
   ngOnDestroy(): void {
