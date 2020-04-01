@@ -12,12 +12,8 @@ export class EqualizerComponent implements OnInit {
     public audioService: AudioService
   ) { }
 
-  changeEqualizer(change){
-    this.audioService.changeEqualizer(change.value);
-  }
-
-  change2Equalizer(change){
-    this.audioService.change2Equalizer(change.value);
+  changeEqualizer(change, index){
+    this.audioService.changeEqualizer(change.value, index);
   }
 
   ngOnInit(): void {

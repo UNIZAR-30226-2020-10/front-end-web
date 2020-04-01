@@ -33,7 +33,7 @@
             <!--<button  mat-button (click)="next()">
               <mat-icon mat-list-icon>favorite_border</mat-icon>
             </button>-->
-            <button  mat-button (click)="this.audioService.next()">
+            <button  mat-button (click)="addToList('c')">
               <mat-icon mat-list-icon>playlist_add</mat-icon>
             </button>
             <button  mat-button (mouseenter)="this.volumeShow = !this.volumeShow" *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">

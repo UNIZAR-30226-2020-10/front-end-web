@@ -5,13 +5,19 @@
   </div>
   <mat-list color="primary">
   <h3 mat-subheader>Songs</h3>
-  <mat-list-item *ngFor="let file of list.Canciones; let i = index" (click)="this.audioService.loadList(list.Canciones, file, i);">
-    <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-    <h4 mat-line>{{ file.Nombre }}</h4>
-    <h5 mat-line>{{ file.Artistas }}</h5>
-    <mat-icon color="primary" *ngIf="this.queue && this.audioService.currentFile.index === i && !this.audioService.checkState().error">volume_up</mat-icon>
-    <h6 *ngIf="this.queue && this.audioService.currentFile.index === i && this.audioService.checkState().error">ERROR</h6>
+  <div *ngFor="let file of list.Canciones; let i = index">
+    <mat-list-item class="info-song" (click)="this.audioService.loadList(list.Canciones, i);">
+      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+      <h4 mat-line>{{ file.Nombre }}</h4>
+      <h5 mat-line>{{ file.Artistas }}</h5>
+    </mat-list-item>
+    <div class="button-list">
+      <mat-icon color="primary" (click)="addToList(file, i, 'c')">playlist_add</mat-icon>
+      <mat-icon color="primary" *ngIf="this.queue" (click)="removeFromList(file, i, 'c')">cancel</mat-icon>
+      <mat-icon color="primary" *ngIf="this.queue && this.audioService.currentFile.index === i && !this.audioService.checkState().error">volume_up</mat-icon>
+      <h6 *ngIf="this.queue && this.audioService.currentFile.index === i && this.audioService.checkState().error">ERROR</h6>
+    </div>
     <mat-divider></mat-divider>
-  </mat-list-item>
+  </div>
   </mat-list>
 </div>

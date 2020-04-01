@@ -17,26 +17,39 @@ export class ListComponent implements OnInit {
     public cloudService: CloudService,
     public audioService: AudioService,
     private route: ActivatedRoute
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.route.paramMap.subscribe(params => {
-      console.log(params.get('id'));
       if(params.get('id') == '0') {
         this.list = this.cloudService.getFiles();
         this.queue = false;
-        console.log("LISTA DEBUG");
       } else if(params.get('id') == 'c') {
         this.queue = true;
         this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
                       "ID":'c', "Desc":"Cola de reproducción", "Imagen":null};
-        console.log("COLA DE REPRODUCCION");
       } else {
         this.queue = false;
         this.list = this.cloudService.getList(params.get('id')).subscribe(list => this.list = list);
-        console.log("LISTA DE BACKEND");
       }
     });
+   }
+
+  addToList(song, index, list) {
+    if(list == 'c') {
+      this.audioService.addToQueue(song);
+    } else {
+      this.cloudService.addSong(this.audioService[index], list);
+    }
+  }
+
+  removeFromList(song, index, list) {
+    if(list != 'c') {
+      this.cloudService.deleteSong(song, list);
+    }
+    this.audioService.deleteFromQueue(index);
+  }
+
+  ngOnInit() {
+
   }
 
 }

@@ -27,6 +27,8 @@ export class CloudService {
   private url = "https://psoftware.herokuapp.com/";
   private askPlaylists: string = "list_lists";
   private askList: string = "list_data";
+  private addToList: string = "add_to_list";
+  private deleteFromList: string = "delete_from_list";
 
   getFiles() {
     return this.files;
@@ -43,4 +45,22 @@ export class CloudService {
     params = params.append('list', id);
     return this.http.get<List>(this.url+this.askList, {params: params});
   }
+
+  addSong(song, list) {
+    console.log(this.url+this.askList);
+    let params = new HttpParams();
+    params = params.append('list', list);
+    params = params.append('cancion', song);
+    return this.http.get<List>(this.url+this.addToList, {params: params});
+  }
+
+  deleteSong(song, list) {
+    console.log(this.url+this.askList);
+    let params = new HttpParams();
+    params = params.append('list', list);
+    params = params.append('cancion', song);
+    return this.http.get<List>(this.url+this.deleteFromList, {params: params});
+  }
+
+
 }

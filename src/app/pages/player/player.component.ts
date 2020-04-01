@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-player',
@@ -11,8 +12,11 @@ export class PlayerComponent implements OnInit {
   volumeShow: Boolean = false;
 
   constructor(
-    public audioService: AudioService
-  ) { }
+    public audioService: AudioService,
+    public cloudService: CloudService
+  ) {
+    this.audioService.lists = this.cloudService.getPlaylists().subscribe(lists => this.audioService.lists = lists);
+  }
 
   changeVolume(change){
     this.audioService.changeVol(change.value);
@@ -20,6 +24,14 @@ export class PlayerComponent implements OnInit {
 
   onSliderChangeEnd(change) {
     this.audioService.seekTo(change.value);
+  }
+
+  addToList(list) {
+    if(list == 'c') {
+      this.audioService.addToQueue(this.audioService.currentFile.song);
+    } else {
+      this.cloudService.addSong(this.audioService.currentFile.song, list);
+    }
   }
 
   ngOnInit() { }

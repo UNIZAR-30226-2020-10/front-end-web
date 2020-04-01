@@ -1,4 +1,12 @@
-<p>equalizer works!</p>
-<!--<p (click)="this.audioService.useEqualizer = !this.audioService.useEqualizer">Click me to use equalizer</p>-->
-<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.stateEqualizer()" (input)="changeEqualizer($event)" [disabled]=""></mat-slider>
-<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.state2Equalizer()" (input)="change2Equalizer($event)" [disabled]=""></mat-slider>
+<p>Click the button to use equalizer</p>
+<button  mat-button (click)="this.audioService.useEqualizer = true; this.audioService.loadEqualizer()" *ngIf="!this.audioService.useEqualizer">
+  <mat-icon mat-list-icon>panorama_fish_eye</mat-icon>
+</button>
+<button  mat-button (click)="this.audioService.useEqualizer = false" *ngIf="this.audioService.useEqualizer">
+  <mat-icon mat-list-icon>lens</mat-icon>
+</button>
+<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.stateEqualizer(0)" (input)="changeEqualizer($event, 0)" [disabled]="!this.audioService.useEqualizer"></mat-slider>
+<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.stateEqualizer(1)" (input)="changeEqualizer($event, 1)" [disabled]="!this.audioService.useEqualizer"></mat-slider>
+<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.stateEqualizer(2)" (input)="changeEqualizer($event, 2)" [disabled]="!this.audioService.useEqualizer"></mat-slider>
+<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.stateEqualizer(3)" (input)="changeEqualizer($event, 3)" [disabled]="!this.audioService.useEqualizer"></mat-slider>
+<mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.stateEqualizer(4)" (input)="changeEqualizer($event, 4)" [disabled]="!this.audioService.useEqualizer"></mat-slider>

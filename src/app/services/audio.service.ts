@@ -8,8 +8,6 @@ declare const checkVolume: any;
 declare const equalizerLoad: any;
 declare const equalizer: any;
 declare const valEqualizer: any;
-declare const equalizer2: any;
-declare const val2Equalizer: any;
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +20,7 @@ export class AudioService {
   useEqualizer: Boolean = false;
   showSong: Boolean = false;
   loop: Boolean = false;
+  lists;
   maxIndex:  number = 0;
   currentFile: any = {};
   audioList: Array<any> = [];
@@ -120,9 +119,9 @@ export class AudioService {
       } else {
         this.audioObj.play();
       }
-      //if(this.useEqualizer) {
-        //equalizerLoad(this.audioObj);
-      //}
+      if(this.useEqualizer && !this.isPodcast) {
+        equalizerLoad(this.audioObj);
+      }
       const handler = (event: Event) => {
         this.updateStateEvents(event);
         observer.next(event);
@@ -176,6 +175,23 @@ export class AudioService {
     this.playStream(song.URL).subscribe(events => { });
   }
 
+  openPodcast(url, name, creator) {
+    this.isPodcast = true;
+    this.maxIndex = 1;
+    var song = {
+      URL: url,
+      Nombre: name,
+      Artistas: [creator],
+      Imagen: null,
+      ID: undefined,
+      Album: undefined
+    };
+    this.audioList = [];
+    this.audioList[0] = song;
+    this.loadSong(song, 0);
+    this.playStream(song.URL).subscribe(events => { });
+  }
+
   previous() {
     var index = this.currentFile.index - 1;
     if(index < 0) {
@@ -209,11 +225,11 @@ export class AudioService {
     return this.formatTime(time, format);
   }
 
-  loadList(files, song, index) {
+  loadList(files, index) {
     this.isPodcast = false;
-    this.audioList = files;
-    this.maxIndex = files.length;
-    this.openFile(song, index);
+    this.audioList = Array.from(files);
+    this.maxIndex = this.audioList.length;
+    this.openFile(this.audioList[index], index);
   }
 
   changeVol(val) {
@@ -242,26 +258,35 @@ export class AudioService {
       }
     }
     this.loadSongNoStop(this.audioList[0], 0);
-    console.log(this.currentFile);
   }
 
-  stateEqualizer() {
-    return valEqualizer();
+  loadEqualizer(){
+    equalizerLoad(this.audioObj);
   }
 
-  changeEqualizer(val) {
-    if(this.useEqualizer) {
-      equalizer(val);
+  stateEqualizer(index) {
+    return valEqualizer(index);
+  }
+
+  changeEqualizer(val, index) {
+    equalizer(val, index);
+  }
+
+  addToQueue(song) {
+    this.audioList[this.maxIndex++] = song;
+  }
+
+  deleteFromQueue(index) {
+    var actual = false;
+    console.log(this.currentFile.index);
+    console.log(index);
+    if(this.currentFile.index == index) {
+      actual = true;
     }
-  }
-
-  state2Equalizer() {
-    return val2Equalizer();
-  }
-
-  change2Equalizer(val) {
-    if(this.useEqualizer) {
-      equalizer2(val);
+    this.audioList.splice(index,1);
+    this.maxIndex--;
+    if(actual) {
+      this.openFile(this.audioList[index], index);
     }
   }
 
@@ -275,22 +300,6 @@ export class AudioService {
       }
     }
     return true;
-  }
-
-  openPodcast(url, name, creator) {
-    this.isPodcast = true;
-    this.maxIndex = 1;
-    var song = {
-      URL: url,
-      Nombre: name,
-      Artistas: [creator],
-      Imagen: null,
-      ID: undefined,
-      Album: undefined
-    };
-    this.audioList[0] = song;
-    this.loadSong(song, 0);
-    this.playStream(song.URL).subscribe(events => { });
   }
 
   private addEvents(obj, events, handler) {
