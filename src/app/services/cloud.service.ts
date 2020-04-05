@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { List, Playlists } from '../list';
+import { List, Playlists, Song } from '../list';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,7 @@ export class CloudService {
   private askList: string = "list_data";
   private addToList: string = "add_to_list";
   private deleteFromList: string = "delete_from_list";
+  private search: string = "search";
 
   getFiles() {
     return this.files;
@@ -62,5 +63,10 @@ export class CloudService {
     return this.http.get<List>(this.url+this.deleteFromList, {params: params});
   }
 
-
+  searchSong(title): Observable<Array<Song>> {
+    console.log(this.url+this.search);
+    let params = new HttpParams();
+    params = params.append('Nombre', title);
+    return this.http.get<Array<Song>>(this.url+this.search, {params: params});
+  }
 }

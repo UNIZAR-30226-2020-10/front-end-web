@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
@@ -8,11 +10,17 @@ import { AudioService } from 'src/app/services/audio.service';
 })
 export class SidenavComponent implements OnInit {
   change: string;
+  checkoutForm;
 
   constructor(
-    public audioService: AudioService
+    public audioService: AudioService,
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.change = 'change-right';
+    this.checkoutForm = this.formBuilder.group({
+      titulo: ''
+    });
   }
 
   changeStyle() {
@@ -21,6 +29,11 @@ export class SidenavComponent implements OnInit {
     } else {
       this.change = 'change-right';
     }
+  }
+
+  onSubmit(title){
+    this.router.navigate(['/search', title.titulo]);
+    this.checkoutForm.reset();
   }
 
   ngOnInit(): void {

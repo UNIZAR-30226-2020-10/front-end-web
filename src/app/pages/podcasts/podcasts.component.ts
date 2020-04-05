@@ -17,7 +17,7 @@ export class PodcastsComponent implements OnInit {
   checkoutForm;
   title_string: string;
 
-  constructor(private podcastService: PodcastService, private messageService: MessageService, private formBuilder: FormBuilder,) {
+  constructor(private podcastService: PodcastService, private messageService: MessageService, private formBuilder: FormBuilder) {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });

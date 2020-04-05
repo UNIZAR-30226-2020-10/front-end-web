@@ -12,22 +12,27 @@ import { AudioService } from 'src/app/services/audio.service';
 export class ListComponent implements OnInit {
   list;
   queue: Boolean;
+  search: Boolean;
 
   constructor(
     public cloudService: CloudService,
     public audioService: AudioService,
     private route: ActivatedRoute
   ) {
+    this.queue = this.route.snapshot.data['queue'];
+    this.search = this.route.snapshot.data['search'];
     this.route.paramMap.subscribe(params => {
       if(params.get('id') == '0') {
         this.list = this.cloudService.getFiles();
-        this.queue = false;
-      } else if(params.get('id') == 'c') {
-        this.queue = true;
+      } else if(this.queue) {
         this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
                       "ID":'c', "Desc":"Cola de reproducción", "Imagen":null};
+        console.log(this.list.Canciones);
+      } else if(this.search){
+        this.list = {"Canciones":[],
+                     "Nombre":"Búsqueda", "ID":5432, "Desc":"Búsqueda", "Imagen":null};
+        this.list.Canciones = this.cloudService.searchSong(params.get('id')).subscribe(list => this.list.Canciones = list);
       } else {
-        this.queue = false;
         this.list = this.cloudService.getList(params.get('id')).subscribe(list => this.list = list);
       }
     });
@@ -44,8 +49,9 @@ export class ListComponent implements OnInit {
   removeFromList(song, index, list) {
     if(list != 'c') {
       this.cloudService.deleteSong(song, list);
+    } else {
+      this.audioService.deleteFromQueue(index);
     }
-    this.audioService.deleteFromQueue(index);
   }
 
   ngOnInit() {
