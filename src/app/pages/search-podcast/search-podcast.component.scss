@@ -1,0 +1,32 @@
+.margen {
+  margin-left: auto;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  border: 1px solid #ddd;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+ul li:hover{
+  cursor: pointer;
+}
+
+img {
+  float: left;
+  max-width: 100px;
+  max-height: 100px;
+  width: auto;
+  height: auto;
+}
+
+.texto {
+  width: 66%;
+  height: 100px;
+}

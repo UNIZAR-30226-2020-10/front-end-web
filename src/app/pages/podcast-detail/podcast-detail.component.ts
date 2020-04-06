@@ -20,6 +20,10 @@ export class PodcastDetailComponent implements OnInit {
   }
 
   onPlay(): void {
-    this.audioService.openPodcast(this.result.audio, this.result.title_original, this.result.publisher_original);
+    this.audioService.openPodcast(this.result.audio, this.result.title, "Podcast");
   }
+
+  stripHTML(text) {
+    return text.replace(/<.*?>/gm, '');
+   }
 }

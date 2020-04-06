@@ -4,4 +4,7 @@ export interface Podcast {
   total: number
   results: Array<any>
   next_offset: number
+  episodes: Array<any>
+  title: string
+  description: string;
 }
