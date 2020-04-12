@@ -20,9 +20,6 @@
     <button mat-button (click)="this.audioService.pause()" *ngIf="this.audioService.checkState().playing">
       <mat-icon mat-list-icon>pause</mat-icon>
     </button>
-    <button mat-button (click)="this.audioService.stops()">
-      <mat-icon mat-list-icon>stop</mat-icon>
-    </button>
     <button mat-button (click)="this.audioService.next()">
       <mat-icon mat-list-icon>skip_next</mat-icon>
     </button>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
+import { FormBuilder } from '@angular/forms';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-playlists',
@@ -7,10 +9,24 @@ import { AudioService } from 'src/app/services/audio.service';
   styleUrls: ['./playlists.component.scss']
 })
 export class PlaylistsComponent implements OnInit {
+  checkoutForm;
 
   constructor(
-    public audioService: AudioService
-   ) { }
+    public audioService: AudioService,
+    private formBuilder: FormBuilder,
+    public cloudService: CloudService
+  ) {
+    this.audioService.lists = this.cloudService.getPlaylists().subscribe(lists => this.audioService.lists = lists);
+    this.checkoutForm = this.formBuilder.group({
+      titulo: ''
+    });
+  }
+
+   onSubmit(title){
+    this.cloudService.createList(title.titulo);
+    this.audioService.lists = this.cloudService.getPlaylists().subscribe(lists => this.audioService.lists = lists);
+    this.checkoutForm.reset();
+  }
 
   ngOnInit(): void { }
 

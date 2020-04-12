@@ -14,9 +14,7 @@ export class PlayerComponent implements OnInit {
   constructor(
     public audioService: AudioService,
     public cloudService: CloudService
-  ) {
-    this.audioService.lists = this.cloudService.getPlaylists().subscribe(lists => this.audioService.lists = lists);
-  }
+  ) { }
 
   changeVolume(change){
     this.audioService.changeVol(change.value);

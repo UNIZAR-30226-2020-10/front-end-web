@@ -227,6 +227,7 @@ export class AudioService {
 
   loadList(files, index) {
     this.isPodcast = false;
+    console.log(index);
     this.audioList = Array.from(files);
     this.maxIndex = this.audioList.length;
     this.openFile(this.audioList[index], index);
