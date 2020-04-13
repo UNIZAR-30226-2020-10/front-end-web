@@ -7,7 +7,7 @@
   <h3 mat-subheader>Songs</h3>
   <div *ngIf="!this.add" >
     <div *ngFor="let file of list.Canciones; let i = index">
-      <mat-list-item class="info-song" (click)="this.audioService.loadList(list.Canciones, i);">
+      <mat-list-item class="info-song" (click)="loadList(i, file);">
         <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
         <h4 mat-line>{{ file.Nombre }}</h4>
         <h5 mat-line>{{ file.Artistas }}</h5>

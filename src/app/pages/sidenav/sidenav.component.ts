@@ -32,8 +32,10 @@ export class SidenavComponent implements OnInit {
   }
 
   onSubmit(title){
-    this.router.navigate(['/search', title.titulo]);
-    this.checkoutForm.reset();
+    if(title.titulo.length > 2) {
+      this.router.navigate(['/search', title.titulo]);
+      this.checkoutForm.reset();
+    }
   }
 
   ngOnInit(): void {

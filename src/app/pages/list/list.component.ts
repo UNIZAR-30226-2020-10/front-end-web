@@ -69,6 +69,14 @@ export class ListComponent implements OnInit {
     this.add = false;
   }
 
+  loadList(index, song) {
+    if(this.search) {
+      this.audioService.loadList([song], 0);
+    } else {
+      this.audioService.loadList(this.list.Canciones, index);
+    }
+  }
+
   ngOnInit() {
 
   }
