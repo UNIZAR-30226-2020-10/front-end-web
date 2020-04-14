@@ -35,6 +35,13 @@ export class SongComponent implements OnDestroy {
     }
   }
 
+  loop() {
+    if(this.audioService.loop) {
+      return "loopAct";
+    }
+    return "";
+  }
+
   ngOnDestroy(): void {
     this.audioService.showSong = false;
   }

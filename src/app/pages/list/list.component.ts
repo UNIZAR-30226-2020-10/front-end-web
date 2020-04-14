@@ -25,18 +25,15 @@ export class ListComponent implements OnInit {
     this.search = this.route.snapshot.data['search'];
     this.add = false;
     this.route.paramMap.subscribe(params => {
-      if(params.get('id') == '0') {
-        this.list = this.cloudService.getFiles();
-      } else if(this.queue) {
+      if(this.queue) {
         this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
                       "ID":'c', "Desc":"Cola de reproducción", "Imagen":null};
         console.log(this.list.Canciones);
       } else if(this.search) {
         this.list = {"Canciones":[],
-                     "Nombre":"Búsqueda", "ID":5432, "Desc":"Búsqueda", "Imagen":null};
+                     "Nombre":"Búsqueda", "ID":'', "Desc":"Búsqueda", "Imagen":null};
         this.list.Canciones = this.cloudService.searchSong(params.get('id')).subscribe(list => this.list.Canciones = list);
       } else {
-        this.queue = true;
         this.list = this.cloudService.getList(params.get('id')).subscribe(list => this.list = list);
       }
     });
@@ -71,10 +68,18 @@ export class ListComponent implements OnInit {
 
   loadList(index, song) {
     if(this.search) {
-      this.audioService.loadList([song], 0);
+      this.audioService.loadList([song], 0, undefined);
     } else {
-      this.audioService.loadList(this.list.Canciones, index);
+      this.audioService.loadList(this.list.Canciones, index, this.list.ID);
     }
+  }
+
+  isActual(i) {
+    if(this.queue && this.audioService.currentFile.index === i &&
+       !this.audioService.checkState().error) {
+      return "actual";
+    }
+    return "";
   }
 
   ngOnInit() {

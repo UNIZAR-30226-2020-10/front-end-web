@@ -17,6 +17,7 @@ export class AudioService {
   private audioObj = new Audio();
   private start: Boolean = false;
   private isPodcast: Boolean = false;
+  private listID;
   useEqualizer: Boolean = false;
   showSong: Boolean = false;
   loop: Boolean = false;
@@ -225,11 +226,16 @@ export class AudioService {
     return this.formatTime(time, format);
   }
 
-  loadList(files, index) {
+  loadList(files, index, load) {
     this.isPodcast = false;
-    console.log(index);
-    this.audioList = Array.from(files);
-    this.maxIndex = this.audioList.length;
+    console.log(this.listID);
+    console.log(load);
+    if(load != 'c' && (this.listID == undefined || load == undefined || this.listID != load)) {
+      this.listID = load;
+      this.loop = false;
+      this.audioList = Array.from(files);
+      this.maxIndex = this.audioList.length;
+    }
     this.openFile(this.audioList[index], index);
   }
 
