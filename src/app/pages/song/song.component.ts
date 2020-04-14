@@ -1,6 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
 import { CloudService } from 'src/app/services/cloud.service';
+import { Router } from '@angular/router';
 declare const search: any;
 
 @Component({
@@ -8,11 +9,12 @@ declare const search: any;
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.scss']
 })
-export class SongComponent implements OnDestroy {
+export class SongComponent implements OnDestroy, OnInit {
 
   constructor(
     public audioService: AudioService,
-    public cloudService: CloudService
+    public cloudService: CloudService,
+    private route: Router
   ) { }
 
   changeVolume(change){
@@ -27,14 +29,6 @@ export class SongComponent implements OnDestroy {
     search(this.audioService.currentFile.song);
   }
 
-  addToList(list) {
-    if(list == 'c') {
-      this.audioService.addToQueue(this.audioService.currentFile.song);
-    } else {
-      this.cloudService.addSong(this.audioService.currentFile.song, list);
-    }
-  }
-
   loop() {
     if(this.audioService.loop) {
       return "loopAct";
@@ -42,8 +36,17 @@ export class SongComponent implements OnDestroy {
     return "";
   }
 
+  addToPlaylist() {
+    this.audioService.passSong = Object.assign({}, this.audioService.currentFile.song);
+    this.route.navigate(['/song/add']);
+  }
+
   ngOnDestroy(): void {
     this.audioService.showSong = false;
+  }
+
+  ngOnInit(): void {
+
   }
 
 }

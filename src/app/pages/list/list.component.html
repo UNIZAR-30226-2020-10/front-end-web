@@ -1,11 +1,11 @@
 <div class="content">
-  <div class="logo">
+  <div class="logo" *ngIf="this.list != undefined && !this.search">
     <img class="listArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
     <h3 mat-header>{{ list.Nombre }}</h3>
   </div>
   <mat-list color="primary">
   <h3 mat-subheader>Songs</h3>
-  <div *ngIf="!this.add" >
+  <div *ngIf="!this.add && this.list != undefined" >
     <div [ngClass]="[isActual(i)]" *ngFor="let file of list.Canciones; let i = index">
       <mat-list-item class="info-song" (click)="loadList(i, file);">
         <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
@@ -25,7 +25,10 @@
     </div>
   </div>
   <div *ngIf="this.add">
-    <button  mat-button (click)="backToList()">
+    <button  mat-button (click)="backToList()" *ngIf="this.list != undefined">
+      <mat-icon color="primary">cancel</mat-icon>
+    </button>
+    <button mat-button *ngIf="this.list == undefined" (click)="backToList()" >
       <mat-icon color="primary">cancel</mat-icon>
     </button>
     <mat-list-item class="info-song" (click)="addToList('c')">

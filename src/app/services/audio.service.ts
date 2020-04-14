@@ -18,6 +18,7 @@ export class AudioService {
   private start: Boolean = false;
   private isPodcast: Boolean = false;
   private listID;
+  passSong;
   useEqualizer: Boolean = false;
   showSong: Boolean = false;
   loop: Boolean = false;

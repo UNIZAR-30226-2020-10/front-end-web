@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CloudService } from '../../services/cloud.service';
 import { ActivatedRoute } from '@angular/router';
 import { AudioService } from 'src/app/services/audio.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-list',
@@ -19,20 +20,23 @@ export class ListComponent implements OnInit {
   constructor(
     public cloudService: CloudService,
     public audioService: AudioService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) {
     this.queue = this.route.snapshot.data['queue'];
     this.search = this.route.snapshot.data['search'];
-    this.add = false;
+    this.add = this.route.snapshot.data['add'];
     this.route.paramMap.subscribe(params => {
       if(this.queue) {
         this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
                       "ID":'c', "Desc":"Cola de reproducción", "Imagen":null};
-        console.log(this.list.Canciones);
       } else if(this.search) {
         this.list = {"Canciones":[],
                      "Nombre":"Búsqueda", "ID":'', "Desc":"Búsqueda", "Imagen":null};
         this.list.Canciones = this.cloudService.searchSong(params.get('id')).subscribe(list => this.list.Canciones = list);
+      } else if(this.add) {
+        this.list = undefined;
+        this.song = this.audioService.passSong;
       } else {
         this.list = this.cloudService.getList(params.get('id')).subscribe(list => this.list = list);
       }
@@ -45,7 +49,7 @@ export class ListComponent implements OnInit {
     } else {
       this.cloudService.addSong(this.song.ID, list);
     }
-    this.add = false;
+    this.backToList();
   }
 
   removeFromList(song, index, list) {
@@ -63,7 +67,12 @@ export class ListComponent implements OnInit {
 
   backToList() {
     this.song = undefined;
-    this.add = false;
+    if(this.list == undefined) {
+      this.audioService.passSong = undefined;
+      this.location.back();
+    } else {
+      this.add = false;
+    }
   }
 
   loadList(index, song) {

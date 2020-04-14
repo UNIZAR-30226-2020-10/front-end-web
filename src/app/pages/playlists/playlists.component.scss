@@ -1,4 +1,38 @@
 .albumArt {
-  height: 48px !important;
-  width: 48px !important;
+  height: 281px !important;
+  width: 281px !important;
 }
+
+form {
+  margin-top: 5px;
+}
+
+.playlists {
+  position: absolute;
+  margin-top: -64px;
+  margin-bottom: 100px;
+}
+
+.box {
+  cursor: pointer;
+  float: left;
+  margin: 40px;
+  width: 281px;
+  height: 370px;
+  border-radius: 0px 0px 0px 0px;
+  -moz-border-radius: 0px 0px 0px 0px;
+  -webkit-border-radius: 0px 0px 0px 0px;
+  border: 4px inset #000000;
+  h3 {
+    text-align: center;
+    margin-bottom: 0;
+    padding-bottom: 16px;
+  }
+  button {
+    width: 281px;
+    height: 40px;
+    background-color: #FF532E;
+  }
+}
+
+

@@ -1,25 +1,22 @@
 <div class="playlists">
   <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-    <div>
-      <label for="titulo">
-        <mat-icon mat-list-icon>playlist_add</mat-icon>
-      </label>
-      <input type="text" formControlName="titulo">
+    <label for="titulo">
+      Crear lista de reproducción
+    </label>
+    <input type="text" placeholder="Nombre de la lista..." formControlName="titulo">
 
-      <button class="button" type="submit">Añadir</button>
-    </div>
+    <button class="button" type="submit">Añadir</button>
   </form>
-  <div *ngFor="let list of this.audioService.lists">
-    <h3>
-      <a [title]="list.Nombre" [routerLink]="['/lists', list.ID]">
+  <div *ngFor="let list of this.audioService.lists" class="box">
+    <div [routerLink]="['/lists', list.ID]">
+      <img class="albumArt" *ngIf="list.Imagen === null" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+      <img class="albumArt" *ngIf="list.Imagen != null" src="list.Imagen" alt="albumart">
+      <h3>
         {{ list.Nombre }}
-      </a>
-    </h3>
-    <img class="albumArt" *ngIf="list.Imagen === null" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-    <img class="albumArt" *ngIf="list.Imagen != null" src="list.Imagen" alt="albumart">
-    <button  mat-button (click)="this.cloudService.deleteList(list.ID)">
+      </h3>
+    </div>
+    <button *ngIf="list.Nombre != 'Favoritas'" mat-button (click)="this.cloudService.deleteList(list.ID)">
       <mat-icon mat-list-icon>delete</mat-icon>
     </button>
-    <p> {{ list.Desc }} </p>
   </div>
 </div>
