@@ -1,7 +1,9 @@
 <div class="song" *ngIf="this.audioService.maxIndex > 0 && this.audioService.showSong">
   <h2>{{ this.audioService.currentFile.song.Nombre }}</h2>
   <h3>{{ this.audioService.currentFile.song.Artistas }}</h3>
-  <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+  <a [routerLink]="['/album', this.audioService.currentFile.song.Album]">
+    <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+  </a>
   <div class="line">
     {{ this.audioService.checkState().readableCurrentTime }}
     <mat-slider class="time-slider" min="0" [max]="this.audioService.checkState().duration" step="1" [value]="this.audioService.checkState().currentTime" (input)="onSliderChangeEnd($event)" [disabled]="this.audioService.checkState().error || this.audioService.currentFile.index === undefined"></mat-slider>

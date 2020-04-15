@@ -9,7 +9,7 @@ import { AlbumComponent } from './pages/album/album.component';
 import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.component';
 
 const routes: Routes = [
-  { path: 'album', component: AlbumComponent },
+  { path: 'album/:id', component: AlbumComponent },
   { path: 'lists', component: PlaylistsComponent },
   { path: 'lists/:id', component: ListComponent, data: {queue: false, search: false, add: false} },
   { path: 'podcasts', component: SearchPodcastComponent },
