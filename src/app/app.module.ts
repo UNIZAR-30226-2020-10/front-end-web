@@ -21,6 +21,7 @@ import { EqualizerComponent } from './pages/equalizer/equalizer.component';
 import { SongComponent } from './pages/song/song.component';
 import { SearchPodcastComponent } from './pages/search-podcast/search-podcast.component';
 import { AlbumComponent } from './pages/album/album.component';
+import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AlbumComponent } from './pages/album/album.component';
     SongComponent,
     SearchPodcastComponent,
     AlbumComponent,
+    InicialScreenComponent,
   ],
   imports: [
     BrowserModule,

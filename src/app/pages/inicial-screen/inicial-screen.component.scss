@@ -1,0 +1,42 @@
+.main{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+h1 {
+    font-size: xx-large;
+}
+
+.last_song {
+    display: inline;
+    padding: 10px;
+    padding-left: 0px;
+    border: 1px solid #EEEEEE;
+}
+
+.last_song img {
+    height: 40px;
+    width: 40px;
+    vertical-align: middle;
+}
+
+.lista {
+    display: inline-block;
+    margin-left: 50px;
+    margin-top: 30px;
+    border: 1px solid #EEEEEE;
+}
+
+.lista:hover{
+    cursor:pointer;
+}
+
+.lista img {
+    height: 200px;
+    width: 200px;
+}
+
+.lista h3 {
+    margin-left: 50px;
+    margin-top: 20px;
+}
