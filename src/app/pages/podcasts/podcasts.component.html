@@ -8,7 +8,7 @@
             <img src='{{result.image}}'/>
             <div class="texto">
               <h2>{{ result.title }}</h2>
-              <pre>{{ stripHTML(result.description) }}</pre>
+              <pre>{{ stripHTML(result.description)  | slice:0:150}}...</pre>
             </div>
           </div>
       </li>

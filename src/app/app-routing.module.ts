@@ -5,8 +5,10 @@ import { PlaylistsComponent } from './pages/playlists/playlists.component';
 import { ListComponent } from './pages/list/list.component';
 import { SongComponent } from './pages/song/song.component';
 import { SearchPodcastComponent } from './pages/search-podcast/search-podcast.component';
+import { AlbumComponent } from './pages/album/album.component';
 
 const routes: Routes = [
+  { path: 'album', component: AlbumComponent },
   { path: 'lists', component: PlaylistsComponent },
   { path: 'lists/:id', component: ListComponent, data: {queue: false, search: false, add: false} },
   { path: 'podcasts', component: SearchPodcastComponent },

@@ -1,0 +1,38 @@
+.info {
+    margin-top: 30px; 
+    margin-left: 75px;
+    display: inline-block;
+}
+
+.info img {
+    height: 250px;
+    width: 250px;
+}
+
+.info h1 {
+    margin-top: 20px;
+    font-size: xx-large;
+}
+
+.canciones {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 30px;
+    margin-left: 40px;
+    padding-left: 30px;
+}
+
+li {
+    list-style-type: none;
+    width: 600px;
+    border: 1px solid #EEEEEE;
+}
+
+li:hover {
+    cursor:pointer;
+}
+
+p {
+    float: left;
+    vertical-align: top;
+}
