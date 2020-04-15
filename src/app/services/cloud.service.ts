@@ -21,6 +21,10 @@ export class CloudService {
   private search: string = "search";
   private newList: string = "create_list";
   private eraseList: string = "delete_list";
+  private songs: string = "list";
+  private registerUser: string = "register";
+  private sign: string = "sign_in";
+  private eraseUser: string = "delete_user";
 
   getPlaylists(): Observable<Playlists> {
     console.log(this.url+this.askPlaylists);
@@ -80,4 +84,5 @@ export class CloudService {
     params = params.append('Nombre', title);
     return this.http.get<Array<Song>>(this.url+this.search, {params: params});
   }
+
 }

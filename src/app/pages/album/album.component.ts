@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-album',
@@ -8,15 +9,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AlbumComponent implements OnInit {
   name: String;
+  songs;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public cloudService: CloudService
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.name = params.get('id');
     });
+    this.songs = this.cloudService.searchSong(this.name).subscribe(list => this.songs = list);
   }
 
 }
