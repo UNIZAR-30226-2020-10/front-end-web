@@ -28,6 +28,13 @@ export class PlaylistsComponent implements OnInit {
     this.checkoutForm.reset();
   }
 
+  favorite(type) {
+    if(type == 'Favoritas') {
+      return "favorite"
+    }
+    return "";
+  }
+
   ngOnInit(): void { }
 
 }

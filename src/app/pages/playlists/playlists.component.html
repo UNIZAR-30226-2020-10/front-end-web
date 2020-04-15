@@ -11,7 +11,7 @@
     <div [routerLink]="['/lists', list.ID]">
       <img class="albumArt" *ngIf="list.Imagen === null" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
       <img class="albumArt" *ngIf="list.Imagen != null" src="list.Imagen" alt="albumart">
-      <h3>
+      <h3 [ngClass]="[favorite(list.Nombre)]">
         {{ list.Nombre }}
       </h3>
     </div>
