@@ -58,24 +58,20 @@ export class CloudService {
       );
   }
 
-  createList(title) {
+  async createList(title) {
     console.log(this.url+this.newList);
     var params = {'list': title, 'desc': "Lista añadida"};
-    this.http.post(this.url+this.newList, params)
-      .subscribe(
-        (response) => { console.log(response) },
-        (error) => {console.log(error) }
-      );
+    await this.http.post(this.url+this.newList, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
-  deleteList(id) {
+  async deleteList(id) {
     console.log(this.url+this.eraseList);
     var params = {'list': id};
-    this.http.post(this.url+this.eraseList, params)
-      .subscribe(
-        (response) => { console.log(response) },
-        (error) => {console.log(error) }
-      );
+    await this.http.post(this.url+this.eraseList, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
   searchSong(title): Observable<Array<Song>> {

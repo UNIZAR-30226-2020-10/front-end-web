@@ -16,16 +16,17 @@ export class PlaylistsComponent implements OnInit {
     private formBuilder: FormBuilder,
     public cloudService: CloudService
   ) {
-    this.audioService.lists = this.cloudService.getPlaylists().subscribe(lists => this.audioService.lists = lists);
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });
   }
 
-   onSubmit(title){
-    this.cloudService.createList(title.titulo);
-    this.audioService.lists = this.cloudService.getPlaylists().subscribe(lists => this.audioService.lists = lists);
+  async onSubmit(title) {
     this.checkoutForm.reset();
+    await this.cloudService.createList(title.titulo);
+    this.cloudService.getPlaylists().subscribe(lists => {
+      this.audioService.lists = lists;
+    });
   }
 
   favorite(type) {
@@ -33,6 +34,13 @@ export class PlaylistsComponent implements OnInit {
       return "favorite"
     }
     return "";
+  }
+
+  async deleteList(id) {
+    await this.cloudService.deleteList(id);
+    this.cloudService.getPlaylists().subscribe(lists => {
+      this.audioService.lists = lists;
+    });
   }
 
   ngOnInit(): void { }

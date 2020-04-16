@@ -22,7 +22,7 @@ export class AudioService {
   useEqualizer: Boolean = false;
   showSong: Boolean = false;
   loop: Boolean = false;
-  lists;
+  lists: any = [];
   maxIndex:  number = 0;
   currentFile: any = {};
   audioList: Array<any> = [];

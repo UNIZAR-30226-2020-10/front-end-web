@@ -9,13 +9,12 @@
   </form>
   <div *ngFor="let list of this.audioService.lists" class="box">
     <div [routerLink]="['/lists', list.ID]">
-      <img class="albumArt" *ngIf="list.Imagen === null" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-      <img class="albumArt" *ngIf="list.Imagen != null" src="list.Imagen" alt="albumart">
+      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
       <h3 [ngClass]="[favorite(list.Nombre)]">
         {{ list.Nombre }}
       </h3>
     </div>
-    <button *ngIf="list.Nombre != 'Favoritas'" mat-button (click)="this.cloudService.deleteList(list.ID)">
+    <button *ngIf="list.Nombre != 'Favoritas'" mat-button (click)="deleteList(list.ID)">
       <mat-icon mat-list-icon>delete</mat-icon>
     </button>
   </div>

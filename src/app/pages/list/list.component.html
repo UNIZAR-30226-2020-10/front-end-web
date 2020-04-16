@@ -25,10 +25,7 @@
     </div>
   </div>
   <div *ngIf="this.add">
-    <button  mat-button (click)="backToList()" *ngIf="this.list != undefined">
-      <mat-icon color="primary">cancel</mat-icon>
-    </button>
-    <button mat-button *ngIf="this.list == undefined" (click)="backToList()" >
+    <button  mat-button (click)="backToList()">
       <mat-icon color="primary">cancel</mat-icon>
     </button>
     <mat-list-item class="info-song" (click)="addToList('c')">

@@ -67,11 +67,11 @@ export class ListComponent implements OnInit {
 
   backToList() {
     this.song = undefined;
+    this.add = false;
     if(this.list == undefined) {
+      this.audioService.showSong = true;
       this.audioService.passSong = undefined;
       this.location.back();
-    } else {
-      this.add = false;
     }
   }
 

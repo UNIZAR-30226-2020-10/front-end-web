@@ -32,6 +32,10 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.cloudService.getPlaylists().subscribe(lists => {
+      this.audioService.lists = lists;
+    });
+  }
 
 }
