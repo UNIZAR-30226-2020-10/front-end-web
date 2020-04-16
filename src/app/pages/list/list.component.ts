@@ -3,6 +3,7 @@ import { CloudService } from '../../services/cloud.service';
 import { ActivatedRoute } from '@angular/router';
 import { AudioService } from 'src/app/services/audio.service';
 import { Location } from '@angular/common';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -16,13 +17,18 @@ export class ListComponent implements OnInit {
   search: Boolean;
   song;
   add: Boolean;
+  checkoutForm;
 
   constructor(
     public cloudService: CloudService,
     public audioService: AudioService,
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private location: Location
   ) {
+    this.checkoutForm = this.formBuilder.group({
+      titulo: ''
+    });
     this.queue = this.route.snapshot.data['queue'];
     this.search = this.route.snapshot.data['search'];
     this.add = this.route.snapshot.data['add'];
@@ -89,6 +95,14 @@ export class ListComponent implements OnInit {
       return "actual";
     }
     return "";
+  }
+
+  async onSubmit(title) {
+    this.checkoutForm.reset();
+    await this.cloudService.createList(title.titulo);
+    this.cloudService.getPlaylists().subscribe(lists => {
+      this.audioService.lists = lists;
+    });
   }
 
   ngOnInit() {

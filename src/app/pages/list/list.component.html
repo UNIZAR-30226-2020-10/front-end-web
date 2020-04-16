@@ -1,10 +1,11 @@
 <div class="content">
-  <div class="logo" *ngIf="this.list != undefined && !this.search">
+  <div class="logo" *ngIf="!this.add && !this.search && this.list != undefined">
     <img class="listArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
     <h3 mat-header>{{ list.Nombre }}</h3>
   </div>
   <mat-list color="primary">
-  <h3 mat-subheader>Songs</h3>
+  <h3 mat-subheader *ngIf="!this.add">Canciones</h3>
+  <h3 mat-subheader *ngIf="this.add">Listas de reproducción</h3>
   <div *ngIf="!this.add && this.list != undefined" >
     <div [ngClass]="[isActual(i)]" *ngFor="let file of list.Canciones; let i = index">
       <mat-list-item class="info-song" (click)="loadList(i, file);">
@@ -42,6 +43,20 @@
       </mat-list-item>
       <mat-divider></mat-divider>
     </div>
+    <mat-list-item class="info-song">
+      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+        <label mat-line for="titulo">
+          Nueva lista de reproducción
+        </label>
+        <div mat-line class="name">
+          <input type="text" placeholder="Nombre de la lista..." formControlName="titulo">
+
+          <button class="button" type="submit">Añadir</button>
+        </div>
+      </form>
+    </mat-list-item>
+    <mat-divider></mat-divider>
   </div>
   </mat-list>
 </div>
