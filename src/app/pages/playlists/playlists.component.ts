@@ -24,9 +24,7 @@ export class PlaylistsComponent implements OnInit {
   async onSubmit(title) {
     this.checkoutForm.reset();
     await this.cloudService.createList(title.titulo);
-    this.cloudService.getPlaylists().subscribe(lists => {
-      this.audioService.lists = lists;
-    });
+    this.audioService.lists = await this.cloudService.getPlaylists();
   }
 
   favorite(type) {
@@ -38,11 +36,11 @@ export class PlaylistsComponent implements OnInit {
 
   async deleteList(id) {
     await this.cloudService.deleteList(id);
-    this.cloudService.getPlaylists().subscribe(lists => {
-      this.audioService.lists = lists;
-    });
+    this.audioService.lists = await this.cloudService.getPlaylists();
   }
 
-  ngOnInit(): void { }
+  async ngOnInit() {
+    this.audioService.lists = await this.cloudService.getPlaylists();
+  }
 
 }

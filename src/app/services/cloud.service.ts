@@ -26,9 +26,11 @@ export class CloudService {
   private sign: string = "sign_in";
   private eraseUser: string = "delete_user";
 
-  getPlaylists(): Observable<Playlists> {
+  async getPlaylists() {
     console.log(this.url+this.askPlaylists);
-    return this.http.get<Playlists>(this.url+this.askPlaylists);
+    return await this.http.get<Playlists>(this.url+this.askPlaylists).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
   getList(id): Observable<List> {
@@ -48,14 +50,12 @@ export class CloudService {
       );
   }
 
-  deleteSong(song, list) {
+  async deleteSong(song, list) {
     console.log(this.url+this.deleteFromList);
     var params = {'list': list, 'cancion': song};
-    this.http.post(this.url+this.deleteFromList, params)
-      .subscribe(
-        (response) => { console.log(response) },
-        (error) => {console.log(error) }
-      );
+    await this.http.post(this.url+this.deleteFromList, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
   async createList(title) {

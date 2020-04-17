@@ -22,6 +22,7 @@ import { SongComponent } from './pages/song/song.component';
 import { SearchPodcastComponent } from './pages/search-podcast/search-podcast.component';
 import { AlbumComponent } from './pages/album/album.component';
 import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.co
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DragDropModule
   ],
   providers: [AudioService, CloudService],
   bootstrap: [AppComponent]

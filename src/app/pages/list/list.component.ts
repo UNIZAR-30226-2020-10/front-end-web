@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AudioService } from 'src/app/services/audio.service';
 import { Location } from '@angular/common';
 import { FormBuilder } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-list',
@@ -39,12 +40,13 @@ export class ListComponent implements OnInit {
       } else if(this.search) {
         this.list = {"Canciones":[],
                      "Nombre":"Búsqueda", "ID":'', "Desc":"Búsqueda", "Imagen":null};
-        this.list.Canciones = this.cloudService.searchSong(params.get('id')).subscribe(list => this.list.Canciones = list);
+        this.cloudService.searchSong(params.get('id')).subscribe(list => this.list.Canciones = list);
       } else if(this.add) {
         this.list = undefined;
         this.song = this.audioService.passSong;
+        this.loadPlaylists();
       } else {
-        this.list = this.cloudService.getList(params.get('id')).subscribe(list => this.list = list);
+        this.cloudService.getList(params.get('id')).subscribe(list => this.list = list);
       }
     });
    }
@@ -58,9 +60,10 @@ export class ListComponent implements OnInit {
     this.backToList();
   }
 
-  removeFromList(song, index, list) {
+  async removeFromList(song, index, list) {
     if(list != 'c') {
-      this.cloudService.deleteSong(song.ID, list);
+      await this.cloudService.deleteSong(song.ID, list);
+      this.cloudService.getList(list).subscribe(aux => this.list = aux);
     } else {
       this.audioService.deleteFromQueue(index);
     }
@@ -100,9 +103,29 @@ export class ListComponent implements OnInit {
   async onSubmit(title) {
     this.checkoutForm.reset();
     await this.cloudService.createList(title.titulo);
-    this.cloudService.getPlaylists().subscribe(lists => {
-      this.audioService.lists = lists;
-    });
+    this.loadPlaylists();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if(this.queue) {
+      moveItemInArray(this.audioService.audioList, event.previousIndex, event.currentIndex);
+      console.log("ACTUAL CANCION: ", this.audioService.currentFile.index);
+      console.log("INDICE CANCION A MOVER: ", event.previousIndex);
+      if(this.audioService.currentFile.index == event.previousIndex) {
+        console.log("NUEVO INDICE: ", event.currentIndex);
+        this.audioService.currentFile.index = event.currentIndex;
+      } else if(this.audioService.currentFile.index <= event.currentIndex &&
+                this.audioService.currentFile.index > event.previousIndex){
+        this.audioService.currentFile.index--;
+      } else if(this.audioService.currentFile.index >= event.currentIndex &&
+                this.audioService.currentFile.index < event.previousIndex){
+        this.audioService.currentFile.index++;
+      }
+    }
+  }
+
+  async loadPlaylists() {
+    this.audioService.lists = await this.cloudService.getPlaylists();
   }
 
   ngOnInit() {

@@ -6,21 +6,25 @@
   <mat-list color="primary">
   <h3 mat-subheader *ngIf="!this.add">Canciones</h3>
   <h3 mat-subheader *ngIf="this.add">Listas de reproducción</h3>
-  <div *ngIf="!this.add && this.list != undefined" >
-    <div [ngClass]="[isActual(i)]" *ngFor="let file of list.Canciones; let i = index">
-      <mat-list-item class="info-song" (click)="loadList(i, file);">
+  <div cdkDropList class="listDrag" *ngIf="!this.add && this.list != undefined" (cdkDropListDropped)="drop($event)">
+    <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of list.Canciones; let i = index" cdkDrag>
+      <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+      <mat-list-item class="info-song" (click)="loadList(i, file)" >
         <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
         <h4 mat-line>{{ file.Nombre }}</h4>
         <h5 mat-line>{{ file.Artistas }}</h5>
       </mat-list-item>
       <div class="button-list">
-        <button  mat-button (click)="addToPlaylist(file)">
+        <button mat-button (click)="addToPlaylist(file)">
           <mat-icon color="primary">playlist_add</mat-icon>
         </button>
-        <button mat-button *ngIf="this.queue" (click)="removeFromList(file, i, list.ID)">
+        <button mat-button (click)="removeFromList(file, i, list.ID)">
           <mat-icon color="primary">delete</mat-icon>
         </button>
-       <h6 *ngIf="this.queue && this.audioService.currentFile.index === i && this.audioService.checkState().error">ERROR</h6>
+        <button mat-button *ngIf="this.queue" cdkDragHandle>
+          <mat-icon color="primary">drag_handle</mat-icon>
+        </button>
+        <h6 *ngIf="this.queue && this.audioService.currentFile.index === i && this.audioService.checkState().error">ERROR</h6>
       </div>
       <mat-divider></mat-divider>
     </div>
