@@ -12,7 +12,6 @@
 
 .name {
   padding-left: 0px !important;
-  margin-left: 55px !important;
 }
 
 .info-song {
@@ -37,17 +36,35 @@
 }
 
 .cdk-drag-preview {
-  box-sizing: border-box;.cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
               0 8px 10px 1px rgba(0, 0, 0, 0.14),
               0 3px 14px 2px rgba(0, 0, 0, 0.12);
-}
-border-radius: 4px;
-box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-            0 8px 10px 1px rgba(0, 0, 0, 0.14),
-            0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  .info-song {
+    width: 95%;
+    .albumArt {
+      position: absolute;
+      height: 48px !important;
+      width: 48px !important;
+      margin-top: -58px;
+    }
+    .albumArt, h4, h5 {
+      margin-left: 15px;
+    }
+    .mat-line {
+      margin-top: 16px;
+      padding-left: 55px !important;
+    }
+    h4 {
+      margin-bottom: 0 !important;
+      font-size: 16px;
+    }
+    h5 {
+      margin-top: 0 !important;
+      font-size: 14px;
+    }
+  }
 }
 
 .cdk-drag-animating {

@@ -23,7 +23,7 @@
             <img (click)="onSelect(result)" src='{{result.image}}'/>
             <div class="texto">
               <h2 (click)="onSelect(result)">{{result.title_original}}</h2>
-              <h4><strong>Publicado por: </strong>{{result.publisher_original}}<div class="collapsible-header" (click)="showFirst=!showFirst">Añadir a favoritos<i class="material-icons" *ngIf="showFirst">bookmark</i><i class="material-icons" *ngIf="!showFirst">bookmark_border</i></div></h4>
+              <h4><strong>Publicado por: </strong>{{result.publisher_original}}<div class="collapsible-header" (click)="this.showFirst=!this.showFirst">Añadir a favoritos<i class="material-icons" *ngIf="showFirst">bookmark</i><i class="material-icons" *ngIf="!showFirst">bookmark_border</i></div></h4>
             </div>
           </div>
       </li>

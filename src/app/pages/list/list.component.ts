@@ -51,6 +51,13 @@ export class ListComponent implements OnInit {
     });
    }
 
+  returnBack() {
+    if(this.list == undefined || this.queue) {
+      this.audioService.showSong = true;
+    }
+    this.location.back();
+  }
+
   addToList(list) {
     if(list == 'c') {
       this.audioService.addToQueue(this.song);
@@ -78,9 +85,8 @@ export class ListComponent implements OnInit {
     this.song = undefined;
     this.add = false;
     if(this.list == undefined) {
-      this.audioService.showSong = true;
       this.audioService.passSong = undefined;
-      this.location.back();
+      this.returnBack();
     }
   }
 

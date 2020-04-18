@@ -17,6 +17,7 @@ export class SearchPodcastComponent implements OnInit {
   checkoutForm;
   title_string: string;
   podcast_id: string;
+  showFirst;
 
   constructor(private podcastService: PodcastService, private messageService: MessageService, private formBuilder: FormBuilder) {
     this.checkoutForm = this.formBuilder.group({
