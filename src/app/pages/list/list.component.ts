@@ -46,10 +46,14 @@ export class ListComponent implements OnInit {
         this.song = this.audioService.passSong;
         this.loadPlaylists();
       } else {
-        this.cloudService.getList(params.get('id')).subscribe(list => this.list = list);
+        this.getList(params.get('id'));
       }
     });
    }
+
+  async getList(list) {
+    this.list = await this.cloudService.getList(list);
+  }
 
   returnBack() {
     if(this.list == undefined || this.queue) {
@@ -70,7 +74,7 @@ export class ListComponent implements OnInit {
   async removeFromList(song, index, list) {
     if(list != 'c') {
       await this.cloudService.deleteSong(song.ID, list);
-      this.cloudService.getList(list).subscribe(aux => this.list = aux);
+      this.getList(list);
     } else {
       this.audioService.deleteFromQueue(index);
     }
@@ -112,7 +116,7 @@ export class ListComponent implements OnInit {
     this.loadPlaylists();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  async drop(event: CdkDragDrop<string[]>) {
     if(this.queue) {
       moveItemInArray(this.audioService.audioList, event.previousIndex, event.currentIndex);
       console.log("ACTUAL CANCION: ", this.audioService.currentFile.index);
@@ -127,6 +131,10 @@ export class ListComponent implements OnInit {
                 this.audioService.currentFile.index < event.previousIndex){
         this.audioService.currentFile.index++;
       }
+    } else if(!this.search && !this.add) {
+      this.list.Canciones = [];
+      await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
+      this.getList(this.list.ID);
     }
   }
 

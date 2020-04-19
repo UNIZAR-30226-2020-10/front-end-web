@@ -25,6 +25,7 @@ export class CloudService {
   private registerUser: string = "register";
   private sign: string = "sign_in";
   private eraseUser: string = "delete_user";
+  private moveSong: string = "reorder";
 
   async getPlaylists() {
     console.log(this.url+this.askPlaylists);
@@ -33,11 +34,13 @@ export class CloudService {
     );
   }
 
-  getList(id): Observable<List> {
+  async getList(id) {
     console.log(this.url+this.askList);
     let params = new HttpParams();
     params = params.append('list', id);
-    return this.http.get<List>(this.url+this.askList, {params: params});
+    return await this.http.get<List>(this.url+this.askList, {params: params}).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
   addSong(song, list) {
@@ -79,6 +82,14 @@ export class CloudService {
     let params = new HttpParams();
     params = params.append('Nombre', title);
     return this.http.get<Array<Song>>(this.url+this.search, {params: params});
+  }
+
+  async move(id, bf, af) {
+    console.log(this.url+this.moveSong);
+    var params = {'list': id, 'before': bf, 'after': af};
+    await this.http.post(this.url+this.moveSong, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
 }
