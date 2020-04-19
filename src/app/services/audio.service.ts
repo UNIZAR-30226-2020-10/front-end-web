@@ -291,9 +291,14 @@ export class AudioService {
     if(this.currentFile.index == index) {
       actual = true;
     }
+    if(this.currentFile.index > index) {
+      --this.currentFile.index;
+    }
     this.audioList.splice(index,1);
     this.maxIndex--;
-    if(actual) {
+    if(this.maxIndex == 0) {
+      this.pause();
+    } else if(actual) {
       this.openFile(this.audioList[index], index);
     }
   }

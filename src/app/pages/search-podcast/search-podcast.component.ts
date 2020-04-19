@@ -37,11 +37,13 @@ export class SearchPodcastComponent implements OnInit {
 
   onSubmit(title){
     // Tratar los datos aqui
-    this.title_string = title.titulo;
-    this.selectedPodcast = null;
-    this.getPodcasts();
+    if(title.titulo.length > 2) {
+      this.title_string = title.titulo;
+      this.selectedPodcast = null;
+      this.getPodcasts();
 
-    this.checkoutForm.reset();
+      this.checkoutForm.reset();
+    }
   }
 
   // Llama a la funcion "getPodcasts" del servicio.
