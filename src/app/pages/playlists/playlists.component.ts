@@ -10,6 +10,8 @@ import { CloudService } from 'src/app/services/cloud.service';
 })
 export class PlaylistsComponent implements OnInit {
   checkoutForm;
+  searchList;
+  found: any = [];
 
   constructor(
     public audioService: AudioService,
@@ -19,6 +21,9 @@ export class PlaylistsComponent implements OnInit {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });
+    this.searchList = this.formBuilder.group({
+      titulo: ''
+    });
   }
 
   async onSubmit(title) {
@@ -26,6 +31,24 @@ export class PlaylistsComponent implements OnInit {
     const msg = await this.cloudService.createList(title.titulo);
     console.log(msg);
     this.audioService.lists = await this.cloudService.getPlaylists();
+  }
+
+  onSearch(title) {
+    this.found = [];
+    for(let list of this.audioService.lists) {
+      if(list.Nombre.toLowerCase().includes(title.titulo.toLowerCase())) {
+        this.found.push(list);
+      }
+    }
+  }
+
+  playlists() {
+    if(this.found.length != 0) {
+      console.log("busqueda");
+      return this.found;
+    }
+    console.log("normal");
+    return this.audioService.lists;
   }
 
   favorite(type) {

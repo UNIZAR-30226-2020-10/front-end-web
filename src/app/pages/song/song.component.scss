@@ -35,9 +35,12 @@
   .media-action-3 {
     margin-left: -330px;
     margin-top: 50px;
+    button {
+      margin-top: 6px;
+    }
     mat-icon {
-      margin-top: 10px;
       font-size: 28px;
+      padding-bottom: 8px;
     }
   }
   .line {
@@ -53,7 +56,7 @@
   .queue {
     width: 50%;
     background-color: #214B8B;
-    margin-top: 30px;
+    margin-top: 20px;
     color: #FFFFFF;
   }
 }
