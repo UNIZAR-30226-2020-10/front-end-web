@@ -1,7 +1,4 @@
 <div class="content">
-  <button mat-button *ngIf="!this.add && !this.search" (click)="returnBack()">
-    <mat-icon color="primary">keyboard_return</mat-icon>
-  </button>
   <div class="logo" *ngIf="!this.add && !this.search && this.list != undefined">
     <img class="listArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
     <h3 mat-header>{{ list.Nombre }}</h3>

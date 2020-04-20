@@ -56,25 +56,31 @@ export class CloudService {
   async deleteSong(song, list) {
     console.log(this.url+this.deleteFromList);
     var params = {'list': list, 'cancion': song};
+    var msg = "";
     await this.http.post(this.url+this.deleteFromList, params).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { console.log(error.error.text); msg = error.error.text; }
     );
+    return msg;
   }
 
   async createList(title) {
     console.log(this.url+this.newList);
     var params = {'list': title, 'desc': "Lista añadida"};
+    var msg = "";
     await this.http.post(this.url+this.newList, params).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { console.log(error.error.text); msg = error.error.text; }
     );
+    return msg;
   }
 
   async deleteList(id) {
     console.log(this.url+this.eraseList);
     var params = {'list': id};
+    var msg = "";
     await this.http.post(this.url+this.eraseList, params).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { console.log(error.error.text); msg = error.error.text; }
     );
+    return msg;
   }
 
   searchSong(title): Observable<Array<Song>> {

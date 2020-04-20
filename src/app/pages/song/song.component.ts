@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 declare const search: any;
 
 @Component({
@@ -14,8 +15,13 @@ export class SongComponent implements OnDestroy, OnInit {
   constructor(
     public audioService: AudioService,
     public cloudService: CloudService,
-    private route: Router
+    private route: Router,
+    private location: Location
   ) { }
+
+  returnBack() {
+    this.location.back();
+  }
 
   changeVolume(change){
     this.audioService.changeVol(change.value);

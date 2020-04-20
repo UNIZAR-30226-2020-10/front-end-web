@@ -52,5 +52,28 @@
   }
   .queue {
     width: 50%;
+    background-color: #214B8B;
+    margin-top: 30px;
+    color: #FFFFFF;
+  }
+}
+
+.return {
+  position: absolute;
+  background-color: #214B8B;
+  .back {
+    margin-top: 18px;
+  }
+  h3, mat-icon {
+    color: #FFFFFF;
+  }
+  h3 {
+    float: right;
+    margin-right: 4px;
+    margin-left: 5px;
+  }
+  mat-icon {
+    float: left;
+    margin-top: 2px;
   }
 }

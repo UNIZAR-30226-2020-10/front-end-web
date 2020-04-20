@@ -1,9 +1,9 @@
 <mat-sidenav-container class="container" *ngIf="this.change === 'change-right'">
   <mat-sidenav opened mode="side" class="sidenav">
     <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-      <div>
+      <div class="search">
         <label for="titulo">
-          <mat-icon mat-list-icon>search</mat-icon>
+          <mat-icon mat-list-icon class="icon">search</mat-icon>
         </label>
         <input type="text" formControlName="titulo" placeholder="Buscar cancion..." required>
 

@@ -229,9 +229,7 @@ export class AudioService {
 
   loadList(files, index, load) {
     this.isPodcast = false;
-    console.log(this.listID);
-    console.log(load);
-    if(load != 'c' && (this.listID == undefined || load == undefined || this.listID != load)) {
+    if(load != 'c') {
       this.listID = load;
       this.loop = false;
       this.audioList = Array.from(files);

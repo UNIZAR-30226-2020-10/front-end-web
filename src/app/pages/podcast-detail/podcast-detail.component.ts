@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
+declare const search: any;
 
 @Component({
   selector: 'app-podcast-detail',
@@ -25,5 +26,13 @@ export class PodcastDetailComponent implements OnInit {
 
   stripHTML(text) {
     return text.replace(/<.*?>/gm, '');
-   }
+  }
+
+  find() {
+    var p = {
+      'Nombre': this.result[0].title,
+      'Artistas': this.result[1]
+    }
+    search(p);
+  }
 }

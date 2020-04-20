@@ -23,7 +23,8 @@ export class PlaylistsComponent implements OnInit {
 
   async onSubmit(title) {
     this.checkoutForm.reset();
-    await this.cloudService.createList(title.titulo);
+    const msg = await this.cloudService.createList(title.titulo);
+    console.log(msg);
     this.audioService.lists = await this.cloudService.getPlaylists();
   }
 
@@ -35,7 +36,8 @@ export class PlaylistsComponent implements OnInit {
   }
 
   async deleteList(id) {
-    await this.cloudService.deleteList(id);
+    const msg = await this.cloudService.deleteList(id);
+    console.log(msg);
     this.audioService.lists = await this.cloudService.getPlaylists();
   }
 

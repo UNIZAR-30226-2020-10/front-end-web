@@ -55,13 +55,6 @@ export class ListComponent implements OnInit {
     this.list = await this.cloudService.getList(list);
   }
 
-  returnBack() {
-    if(this.list == undefined || this.queue) {
-      this.audioService.showSong = true;
-    }
-    this.location.back();
-  }
-
   addToList(list) {
     if(list == 'c') {
       this.audioService.addToQueue(this.song);
@@ -90,7 +83,8 @@ export class ListComponent implements OnInit {
     this.add = false;
     if(this.list == undefined) {
       this.audioService.passSong = undefined;
-      this.returnBack();
+      this.audioService.showSong = true;
+      this.location.back();
     }
   }
 
@@ -98,6 +92,7 @@ export class ListComponent implements OnInit {
     if(this.search) {
       this.audioService.loadList([song], 0, undefined);
     } else {
+      console.log(index);
       this.audioService.loadList(this.list.Canciones, index, this.list.ID);
     }
   }
@@ -119,10 +114,7 @@ export class ListComponent implements OnInit {
   async drop(event: CdkDragDrop<string[]>) {
     if(this.queue) {
       moveItemInArray(this.audioService.audioList, event.previousIndex, event.currentIndex);
-      console.log("ACTUAL CANCION: ", this.audioService.currentFile.index);
-      console.log("INDICE CANCION A MOVER: ", event.previousIndex);
       if(this.audioService.currentFile.index == event.previousIndex) {
-        console.log("NUEVO INDICE: ", event.currentIndex);
         this.audioService.currentFile.index = event.currentIndex;
       } else if(this.audioService.currentFile.index <= event.currentIndex &&
                 this.audioService.currentFile.index > event.previousIndex){
@@ -132,9 +124,10 @@ export class ListComponent implements OnInit {
         this.audioService.currentFile.index++;
       }
     } else if(!this.search && !this.add) {
-      this.list.Canciones = [];
+      console.log(this.list.Canciones);
+      moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
+      console.log(this.list.Canciones);
       await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
-      this.getList(this.list.ID);
     }
   }
 

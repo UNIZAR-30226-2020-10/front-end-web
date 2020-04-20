@@ -33,14 +33,10 @@
             <!--<button  mat-button (click)="next()">
               <mat-icon mat-list-icon>favorite_border</mat-icon>
             </button>-->
-            <button  mat-button (mouseenter)="this.volumeShow = !this.volumeShow" *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">
-              <mat-icon mat-list-icon>volume_down</mat-icon>
-            </button>
-            <button  mat-button (mouseenter)="this.volumeShow = !this.volumeShow" *ngIf="this.audioService.checkVol() <= 1.00 && this.audioService.checkVol() > 0.50">
-              <mat-icon mat-list-icon>volume_up</mat-icon>
-            </button>
-            <button  mat-button (mouseenter)="this.volumeShow = !this.volumeShow" *ngIf="this.audioService.checkVol() === 0.00">
-              <mat-icon mat-list-icon>volume_mute</mat-icon>
+            <button  mat-button (click)="this.audioService.changeVol(0); this.volumeShow = false" (mouseenter)="this.volumeShow = !this.volumeShow">
+              <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">volume_down</mat-icon>
+              <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() <= 1.00 && this.audioService.checkVol() > 0.50">volume_up</mat-icon>
+              <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() === 0.00">volume_mute</mat-icon>
             </button>
           </div>
         </mat-toolbar-row>
