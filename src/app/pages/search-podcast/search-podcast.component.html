@@ -39,5 +39,5 @@
 
 <!-- (click)="onSelect(podcast) -->
 <div *ngIf="selectedPodcast">
-  <app-podcasts [title_string]="podcast_id"></app-podcasts>
+  <app-podcasts [title_string]='[podcast_id, publisher_original]'></app-podcasts>
 </div>

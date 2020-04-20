@@ -18,6 +18,7 @@ export class SearchPodcastComponent implements OnInit {
   title_string: string;
   podcast_id: string;
   showFirst;
+  publisher_original: string;
 
   constructor(private podcastService: PodcastService, private messageService: MessageService, private formBuilder: FormBuilder) {
     this.checkoutForm = this.formBuilder.group({
@@ -32,6 +33,7 @@ export class SearchPodcastComponent implements OnInit {
   onSelect(podcast): void {
     this.selectedPodcast = podcast;
     this.podcast_id = this.selectedPodcast.id;
+    this.publisher_original = this.selectedPodcast.publisher_original;
     this.podcasts = null;
   }
 

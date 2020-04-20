@@ -11,7 +11,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class PodcastsComponent implements OnInit {
 
-  @Input() title_string;
+  @Input() title_string: Array<string>;
 
   //Variables
   podcasts: Podcast;
@@ -36,7 +36,7 @@ export class PodcastsComponent implements OnInit {
   // Llama a la funcion "getEpisodes" del servicio.
   // Pone una lista de episodios en @podcasts
   getPodcasts(): void {
-    this.podcastService.getEpisodes(this.title_string).subscribe(podcasts => this.podcasts = podcasts);
+    this.podcastService.getEpisodes(this.title_string[0]).subscribe(podcasts => this.podcasts = podcasts);
   }
 
   stripHTML(text) {

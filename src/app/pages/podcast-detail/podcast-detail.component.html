@@ -1,8 +1,8 @@
 <!-- Podcast seleccionado -->
 <div class="absoluteCenter" *ngIf="result">
-  <img src='{{result.image}}'/>
-  <h2>{{result.title}}</h2>
-  {{stripHTML(result.description)}}
+  <img src='{{result[0].image}}'/>
+  <h2>{{result[0].title}}</h2>
+  {{stripHTML(result[0].description)}}
   <div class="reproducir" (click)="onPlay()">
     <mat-icon>play_arrow</mat-icon> <strong>Reproducir episodio</strong>
   </div>

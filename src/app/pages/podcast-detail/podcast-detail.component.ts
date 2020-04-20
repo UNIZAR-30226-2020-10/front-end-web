@@ -8,7 +8,7 @@ import { AudioService } from 'src/app/services/audio.service';
 })
 export class PodcastDetailComponent implements OnInit {
 
-  @Input() result;
+  @Input() result: Array<any>;
 
   // Variables
 
@@ -20,7 +20,7 @@ export class PodcastDetailComponent implements OnInit {
   }
 
   onPlay(): void {
-    this.audioService.openPodcast(this.result.audio, this.result.title, "Podcast");
+    this.audioService.openPodcast(this.result[0].audio, this.result[0].title, this.result[1]);
   }
 
   stripHTML(text) {
