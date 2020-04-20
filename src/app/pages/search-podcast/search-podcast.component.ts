@@ -51,4 +51,10 @@ export class SearchPodcastComponent implements OnInit {
   getPodcasts(): void {
     this.podcastService.getPodcasts(this.title_string).subscribe(podcasts => this.podcasts = podcasts);
   }
+
+  // Para saver si un podcast esta guardado o no
+  isSaved(title: string): boolean {
+    // PREGUNTAR A BACK END SI EL PODCAST @TITLE ESTA GUARDADO
+    return false;
+  }
 }
