@@ -19,6 +19,7 @@ export class SearchPodcastComponent implements OnInit {
   podcast_id: string;
   showFirst;
   publisher_original: string;
+  icon: boolean;
 
   constructor(private podcastService: PodcastService, private messageService: MessageService, private formBuilder: FormBuilder) {
     this.checkoutForm = this.formBuilder.group({
@@ -55,8 +56,8 @@ export class SearchPodcastComponent implements OnInit {
   }
 
   // Para saver si un podcast esta guardado o no
-  isSaved(title: string): boolean {
+  isSaved(title: string) {
     // PREGUNTAR A BACK END SI EL PODCAST @TITLE ESTA GUARDADO
-    return false;
+    this.icon = true;
   }
 }

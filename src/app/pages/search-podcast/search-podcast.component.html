@@ -23,12 +23,13 @@
             <img (click)="onSelect(result)" src='{{result.image}}'/>
             <div class="texto">
               <h2 (click)="onSelect(result)">{{result.title_original}}</h2>
-              <button ng-model="save_podcast">
-                <!-- LLAMAR A FUNCION QUE DIGA SI EL PODCAST ESTA GUARDADO-->
-                <div *ngIf="isSaved(result.title_original); then thenBlock else elseBlock"></div>
-                <ng-template #thenBlock><span class="material-icons">bookmark</span></ng-template>
-                <ng-template #elseBlock><span class="material-icons">bookmark_border</span></ng-template>
+
+              <!-- LLAMAR A FUNCION QUE DIGA SI EL PODCAST ESTA GUARDADO-->
+              <div>{{ isSaved(result.title_original) }}</div>
+              <button mat-icon-button (click)="icon = !icon">
+                <mat-icon [ngClass]="icon ? 'bookmark' : 'bookmarked'">bookmark_border</mat-icon>
               </button>
+
               <h4><strong>Publicado por: </strong>{{result.publisher_original}}</h4>
             </div>
           </div>
