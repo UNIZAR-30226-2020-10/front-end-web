@@ -2,10 +2,15 @@
   z-index: 100;
   position: fixed;
   top: 0;
+  background-color: #512DA8;
   .empty_spaces{
     flex: 1 1 auto;
   }
   .opciones{
     padding: 0 28px;
+  }
+
+  a {
+    color: #ffffff;
   }
 }

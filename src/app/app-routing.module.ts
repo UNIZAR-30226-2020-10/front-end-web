@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'queue', component: ListComponent, data: {queue: true, search: false, add: false} },
   { path: 'search/:id', component: ListComponent, data: {queue: false, search: true, add: false} },
   { path: 'song/add', component: ListComponent, data: {queue: false, search: false, add: true} },
-  { path: 'initial-screen', component: InicialScreenComponent},
+  { path: 'inicial-screen', component: InicialScreenComponent},
   { path: '**', component: LoginComponent},
 ];
 
