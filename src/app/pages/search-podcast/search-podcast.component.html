@@ -18,18 +18,11 @@
     <strong>Podcast buscado: </strong>{{ title_string }}
     <!-- LISTA DE PODCASTS -->
     <ul class="podcasts">
-      <li *ngFor="let result of podcasts.results">
+      <li *ngFor="let result of podcasts.results" (click)="onSelect(result)">
           <div class="separar">
-            <img (click)="onSelect(result)" src='{{result.image}}'/>
+            <img src='{{result.image}}'/>
             <div class="texto">
-              <h2 (click)="onSelect(result)">{{result.title_original}}</h2>
-
-              <!-- LLAMAR A FUNCION QUE DIGA SI EL PODCAST ESTA GUARDADO-->
-              <div>{{ isSaved(result.title_original) }}</div>
-              <button mat-icon-button (click)="icon = !icon">
-                <mat-icon [ngClass]="icon ? 'bookmark' : 'bookmarked'">bookmark_borderw</mat-icon>
-              </button>
-
+              <h2>{{result.title_original}}</h2>
               <h4><strong>Publicado por: </strong>{{result.publisher_original}}</h4>
             </div>
           </div>

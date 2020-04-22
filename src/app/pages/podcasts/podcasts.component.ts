@@ -18,6 +18,7 @@ export class PodcastsComponent implements OnInit {
   selectedPodcast: Podcast;
   description: string;
   checkoutForm;
+  saved: boolean;
 
   constructor(private podcastService: PodcastService, private messageService: MessageService, private formBuilder: FormBuilder) {
    }
@@ -41,5 +42,16 @@ export class PodcastsComponent implements OnInit {
 
   stripHTML(text) {
     return text.replace(/<.*?>/gm, '');
-   }
+  }
+
+  // Check if saved podcast
+  isSaved(): void {
+    //whatever
+    this.saved = false;
+  }
+
+  // To save a podcast
+  toggleIcon(): void {
+   this.saved = !this.saved;
+  }
 }

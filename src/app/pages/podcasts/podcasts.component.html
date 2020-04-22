@@ -1,6 +1,20 @@
 <div class="margen">
   <div *ngIf="podcasts">
-    <strong>Podcast buscado: </strong>{{ podcasts.title }}
+    <!-- Presentar el podcast buscado -->
+    <div class="absoluteCenter">
+      {{ isSaved() }}
+      <h2>
+        {{ podcasts.title }}
+        <button (click)="toggleIcon()">
+          <span class="material-icons" *ngIf="!this.saved">
+            bookmark_border
+          </span>
+          <span class="material-icons" *ngIf="this.saved">
+            bookmark
+          </span>
+        </button>
+      </h2>
+    </div>
     <!-- LISTA DE EPISODIOS -->
     <ul class="podcasts">
       <li *ngFor="let result of podcasts.episodes" (click)="onSelect(result)">
