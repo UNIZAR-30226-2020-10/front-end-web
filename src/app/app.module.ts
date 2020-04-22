@@ -23,6 +23,7 @@ import { SearchPodcastComponent } from './pages/search-podcast/search-podcast.co
 import { AlbumComponent } from './pages/album/album.component';
 import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     SearchPodcastComponent,
     AlbumComponent,
     InicialScreenComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
