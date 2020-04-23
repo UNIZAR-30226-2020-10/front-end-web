@@ -24,6 +24,7 @@ import { AlbumComponent } from './pages/album/album.component';
 import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { LoginComponent } from './pages/login/login.component';
     AlbumComponent,
     InicialScreenComponent,
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

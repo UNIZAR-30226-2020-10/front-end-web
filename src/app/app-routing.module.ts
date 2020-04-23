@@ -8,6 +8,7 @@ import { SearchPodcastComponent } from './pages/search-podcast/search-podcast.co
 import { AlbumComponent } from './pages/album/album.component';
 import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.component';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 const routes: Routes = [
   { path: 'album/:id', component: AlbumComponent },
@@ -20,6 +21,8 @@ const routes: Routes = [
   { path: 'search/:id', component: ListComponent, data: {queue: false, search: true, add: false} },
   { path: 'song/add', component: ListComponent, data: {queue: false, search: false, add: true} },
   { path: 'inicial-screen', component: InicialScreenComponent},
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
   { path: '**', component: LoginComponent},
 ];
 
