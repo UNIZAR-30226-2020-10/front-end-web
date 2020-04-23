@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
+  lista: string[]=["España","Alemania","Francia", "Inglaterra"];
+  seleccionado: string;
+
   constructor() { }
 
   ngOnInit(): void {

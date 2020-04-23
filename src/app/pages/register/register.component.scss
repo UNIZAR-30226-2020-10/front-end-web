@@ -19,12 +19,6 @@ h4 {
   color:  #000; 
   opacity:  .85; 
 }
-label {
-  font-size:  12.5px; 
-  color:  #000;
-  opacity:  .8;
-  font-weight:  400; 
-}
 form {
   padding:  40px 30px; 
   background:  #fefefe; 
@@ -90,7 +84,7 @@ button {
     }
   }
 }
-input {
+.field {
   font-size:  16px; 
   padding:  20px 0px; 
   height:  56px; 
@@ -113,15 +107,7 @@ input {
   position:  relative; 
   margin-bottom:  10px;
   width:  100%; 
-  label {
-    position:  absolute; 
-    top: calc(50% - 7px);
-    left:  0; 
-    opacity:  0; 
-    transition:  all .3s ease; 
-    padding-left:  44px; 
-  }
-  input {
+  .field {
     width:  calc(100% - 44px); 
     margin-left:  auto;
     display:  flex; 
@@ -144,14 +130,14 @@ input {
       }
     }
   }
-  input:not(:placeholder-shown) {
+  .field:not(:placeholder-shown) {
     padding:  28px 0px 12px 0px; 
   }
-  input:not(:placeholder-shown) + label {
+  .field:not(:placeholder-shown) + label {
     transform:  translateY(-10px); 
     opacity:  .7; 
   }
-  input:valid:not(:placeholder-shown) + label + .icon {
+  .field:valid:not(:placeholder-shown) + label + .icon {
     svg {
       opacity:  1; 
       path {
@@ -159,7 +145,7 @@ input {
       }      
     }
   }
-  input:not(:valid):not(:focus) + label + .icon {
+  .field:not(:valid):not(:focus) + label + .icon {
     animation-name: shake-shake;
     animation-duration: .3s;
   }
@@ -196,5 +182,9 @@ $displacement:  3px;
     height:  40px; 
     width:  auto; 
     margin:  20px; 
+  }
+
+  .menu {
+    margin-left: 200px;
   }
 }

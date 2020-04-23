@@ -7,6 +7,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule} from '@angular/material/menu';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field'; 
+import { MatNativeDateModule } from '@angular/material/core';
+
+
 
 const modules = [
   MatButtonModule,
@@ -16,7 +22,11 @@ const modules = [
   MatToolbarModule,
   MatCardModule,
   MatSidenavModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatMenuModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatFormFieldModule
 ];
 
 @NgModule({
