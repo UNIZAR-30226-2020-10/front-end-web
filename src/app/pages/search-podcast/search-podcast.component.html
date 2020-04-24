@@ -1,16 +1,5 @@
 <div class="margen">
-  <h2>Buscar podcasts</h2>
-
-  <!-- <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-    <div>
-      <label for="titulo">
-        Name
-      </label>
-      <input type="text" formControlName="titulo">
-
-      <button class="button" type="submit">Buscar</button>
-      </form>
-    </div> -->
+  <h2 class="title">Buscar podcasts</h2>
 
     <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
       <div class="search">
@@ -21,11 +10,12 @@
       </div>
     </form>
 
-  <div *ngIf="podcasts">
-    <strong>Podcast buscado: </strong>{{ title_string }}
+  <div *ngIf="podcasts" class="uff">
+    <div class="searched"><strong>Podcast buscado: </strong>{{ title_string }}</div>
     <!-- LISTA DE PODCASTS -->
     <ul class="podcasts">
-      <li *ngFor="let result of podcasts.results" (click)="onSelect(result)">
+      <!-- GUARDAR PODCAST SELECCIONADO EN UN SERVICIO -->
+      <li *ngFor="let result of podcasts.results" [routerLink]="['/podcasts', result.title_original]" (click)="onSelect(result)">
           <div class="separar">
             <img src='{{result.image}}'/>
             <div class="texto">
@@ -36,9 +26,4 @@
       </li>
     </ul>
   </div>
-</div>
-
-<!-- (click)="onSelect(podcast) -->
-<div *ngIf="selectedPodcast">
-  <app-podcasts [title_string]='[podcast_id, publisher_original]'></app-podcasts>
 </div>

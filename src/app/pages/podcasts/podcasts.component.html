@@ -1,4 +1,4 @@
-<div class="margen">
+<div class="margen" [routerLinkActive]="['is-active']">
   <div *ngIf="podcasts">
     <!-- Presentar el podcast buscado -->
     <div class="absoluteCenter">
@@ -46,5 +46,5 @@
 
 <!-- (click)="onSelect(podcast) -->
 <div *ngIf="selectedPodcast">
-  <app-podcast-detail [result]="[selectedPodcast, title_string[1]]"></app-podcast-detail>
+  <app-podcast-detail [result]="[selectedPodcast, pod.publisher_original]"></app-podcast-detail>
 </div>

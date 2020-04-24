@@ -9,6 +9,7 @@ import { AlbumComponent } from './pages/album/album.component';
 import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { PodcastsComponent } from './pages/podcasts/podcasts.component';
 
 const routes: Routes = [
   { path: 'album/:id', component: AlbumComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'inicial-screen', component: InicialScreenComponent},
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'podcasts/:id', component: PodcastsComponent},
   { path: '**', component: LoginComponent},
 ];
 

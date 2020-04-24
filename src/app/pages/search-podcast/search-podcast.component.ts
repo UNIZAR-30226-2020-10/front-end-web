@@ -3,6 +3,7 @@ import { Podcast } from 'src/app/podcast';
 import { PodcastService } from 'src/app/services/podcast.service';
 import { MessageService } from 'src/app/services/message.service';
 import { FormBuilder } from '@angular/forms';
+import { SavePodcastService } from 'src/app/services/save-podcast.service';
 
 @Component({
   selector: 'app-search-podcast',
@@ -21,21 +22,21 @@ export class SearchPodcastComponent implements OnInit {
   publisher_original: string;
   icon: boolean;
 
-  constructor(private podcastService: PodcastService, private messageService: MessageService, private formBuilder: FormBuilder) {
+  constructor(private podcastService: PodcastService, private formBuilder: FormBuilder, private savePodcast: SavePodcastService) {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });
    }
 
   ngOnInit(): void {
+    this.podcasts = this.savePodcast.restoreState();
   }
 
   // Para el podcast seleccionado
   onSelect(podcast): void {
-    this.selectedPodcast = podcast;
-    this.podcast_id = this.selectedPodcast.id;
-    this.publisher_original = this.selectedPodcast.publisher_original;
-    this.podcasts = null;
+    // Guardar podcast en un servicio.
+    this.savePodcast.save(podcast);
+    this.savePodcast.saveState(this.podcasts);
   }
 
   onSubmit(title){

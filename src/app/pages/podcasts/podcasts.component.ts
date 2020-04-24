@@ -4,6 +4,8 @@ import { PodcastService } from 'src/app/services/podcast.service';
 import { MessageService } from 'src/app/services/message.service';
 import { FormBuilder } from '@angular/forms';
 import { AudioService } from 'src/app/services/audio.service';
+import { ActivatedRoute } from '@angular/router';
+import { SavePodcastService } from 'src/app/services/save-podcast.service';
 
 @Component({
   selector: 'app-podcasts',
@@ -11,8 +13,6 @@ import { AudioService } from 'src/app/services/audio.service';
   styleUrls: ['./podcasts.component.scss']
 })
 export class PodcastsComponent implements OnInit {
-
-  @Input() title_string: Array<string>;
 
   //Variables
   podcasts: Podcast;
@@ -22,12 +22,17 @@ export class PodcastsComponent implements OnInit {
   saved: boolean;
   add: boolean;
   added: boolean;
+  title: string;
+  pod;
 
-  constructor(private podcastService: PodcastService, private messageService: MessageService, private formBuilder: FormBuilder, public audioService: AudioService) {
-   }
+  constructor(private savePodcast: SavePodcastService, private route: ActivatedRoute, private podcastService: PodcastService, public audioService: AudioService) {
+  }
 
   ngOnInit(): void {
-    this.selectedPodcast = null;
+    this.route.paramMap.subscribe(params => {
+      this.title = params.get('id');
+    });
+    this.pod = this.savePodcast.get();
     this.getPodcasts();
   }
 
@@ -40,7 +45,7 @@ export class PodcastsComponent implements OnInit {
   // Llama a la funcion "getEpisodes" del servicio.
   // Pone una lista de episodios en @podcasts
   getPodcasts(): void {
-    this.podcastService.getEpisodes(this.title_string[0]).subscribe(podcasts => this.podcasts = podcasts);
+    this.podcastService.getEpisodes(this.pod.id).subscribe(podcasts => this.podcasts = podcasts);
   }
 
   stripHTML(text) {
@@ -68,7 +73,7 @@ export class PodcastsComponent implements OnInit {
         var song = {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
-          Artistas: this.title_string[1],
+          Artistas: this.pod.publisher_original,
           Imagen: null,
           ID: undefined,
           Album: undefined
@@ -77,12 +82,12 @@ export class PodcastsComponent implements OnInit {
       }
     } else {
       this.audioService.openPodcast(this.podcasts.episodes[0].audio,
-        this.podcasts.episodes[0].title, this.title_string[1]);
+        this.podcasts.episodes[0].title, this.pod.publisher_original);
       for(let i=1; i<this.podcasts.episodes.length; i++){
         var song = {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
-          Artistas: this.title_string[1],
+          Artistas: this.pod.publisher_original,
           Imagen: null,
           ID: undefined,
           Album: undefined
