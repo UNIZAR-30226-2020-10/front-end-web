@@ -13,6 +13,8 @@ export class CloudService {
     private http: HttpClient
   ) { }
 
+  public user;
+
   private url = "https://psoftware.herokuapp.com/";
   private askPlaylists: string = "list_lists";
   private askList: string = "list_data";
@@ -26,10 +28,15 @@ export class CloudService {
   private sign: string = "sign_in";
   private eraseUser: string = "delete_user";
   private moveSong: string = "reorder";
+  private listAlbum: string = "list_albums_data";
+  private favoritePodcast: string = "podcast_fav";
+  private notFavoritePodcast: string = "delete_podcast_fav";
+  private isFavoritePodcast: string = "podcast_is_fav";
 
   async getPlaylists() {
     console.log(this.url+this.askPlaylists);
-    return await this.http.get<Playlists>(this.url+this.askPlaylists).toPromise().catch(
+    var params = {'usuario': this.user};
+    return await this.http.get<Playlists>(this.url+this.askPlaylists, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }
@@ -37,7 +44,7 @@ export class CloudService {
   async getList(id) {
     console.log(this.url+this.askList);
     let params = new HttpParams();
-    params = params.append('list', id);
+    params = params.append('lista', id);
     return await this.http.get<List>(this.url+this.askList, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );
@@ -45,7 +52,7 @@ export class CloudService {
 
   addSong(song, list) {
     console.log(this.url+this.addToList);
-    var params = {'list': list, 'cancion': song};
+    var params = {'lista': list, 'cancion': song};
     this.http.post(this.url+this.addToList, params)
       .subscribe(
         (response) => { console.log(response) },
@@ -55,7 +62,7 @@ export class CloudService {
 
   async deleteSong(song, list) {
     console.log(this.url+this.deleteFromList);
-    var params = {'list': list, 'cancion': song};
+    var params = {'lista': list, 'cancion': song};
     var msg = "";
     await this.http.post(this.url+this.deleteFromList, params).toPromise().catch(
       error => { console.log(error.error.text); msg = error.error.text; }
@@ -65,7 +72,7 @@ export class CloudService {
 
   async createList(title) {
     console.log(this.url+this.newList);
-    var params = {'list': title, 'desc': "Lista añadida"};
+    var params = {'lista': title, 'desc': "Lista añadida", 'usuario': this.user};
     var msg = "";
     await this.http.post(this.url+this.newList, params).toPromise().catch(
       error => { console.log(error.error.text); msg = error.error.text; }
@@ -75,7 +82,7 @@ export class CloudService {
 
   async deleteList(id) {
     console.log(this.url+this.eraseList);
-    var params = {'list': id};
+    var params = {'lista': id};
     var msg = "";
     await this.http.post(this.url+this.eraseList, params).toPromise().catch(
       error => { console.log(error.error.text); msg = error.error.text; }
@@ -92,10 +99,36 @@ export class CloudService {
 
   async move(id, bf, af) {
     console.log(this.url+this.moveSong);
-    var params = {'list': id, 'before': bf, 'after': af};
+    var params = {'lista': id, 'before': bf, 'after': af};
     await this.http.post(this.url+this.moveSong, params).toPromise().catch(
       error => { console.log(error.error.text) }
     );
+  }
+
+  async signIn(email, pass) {
+    console.log(this.url+this.sign);
+    var params = {'email': email, 'password': pass};
+    var msg = "";
+    await this.http.post(this.url+this.sign, params).toPromise().catch(
+      error => { msg = error.error.text; }
+    );
+    if(msg === "Success") {
+      this.user = email;
+    }
+    return msg;
+  }
+
+  async register(email, pass, name, country, date) {
+    console.log(this.url+this.registerUser);
+    var params = {'email': email, 'password': pass, 'pais': country, 'fecha': date, 'nombre': name};
+    var msg = "";
+    await this.http.post(this.url+this.registerUser, params).toPromise().catch(
+      error => { msg = error.error.text; }
+    );
+    if(msg === "Success") {
+      this.user = email;
+    }
+    return msg;
   }
 
 }

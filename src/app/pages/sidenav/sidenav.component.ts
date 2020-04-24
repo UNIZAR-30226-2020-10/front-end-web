@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -15,7 +16,8 @@ export class SidenavComponent implements OnInit {
   constructor(
     public audioService: AudioService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    public cloudService: CloudService
   ) {
     this.change = 'change-right';
     this.checkoutForm = this.formBuilder.group({
