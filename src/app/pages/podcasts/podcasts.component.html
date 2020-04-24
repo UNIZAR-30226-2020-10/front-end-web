@@ -5,14 +5,27 @@
       {{ isSaved() }}
       <h2>
         {{ podcasts.title }}
-        <button (click)="toggleIcon()">
-          <span class="material-icons" *ngIf="!this.saved">
-            bookmark_border
-          </span>
-          <span class="material-icons" *ngIf="this.saved">
-            bookmark
-          </span>
-        </button>
+        <div class="buttons">
+          <button (click)="toggleIcon()">
+            <span class="material-icons" *ngIf="!this.saved">
+              bookmark_border
+            </span>
+            <span class="material-icons" *ngIf="this.saved">
+              bookmark
+            </span>
+            <p>Agregar a favoritos</p>
+          </button>
+
+          <button class="add_episodes">
+            <span class="material-icons" *ngIf="!this.saved">
+            playlist_add
+            </span>
+            <span class="material-icons" *ngIf="this.saved">
+            playlist_add_check
+            </span>
+            <p>Añadir episodios a la cola de reproducción</p>
+          </button>
+      </div>
       </h2>
     </div>
     <!-- LISTA DE EPISODIOS -->

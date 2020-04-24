@@ -31,7 +31,8 @@
   }
 
   .is-active {
-    background-color: #448AFF;
+    background-color: #D1C4E9;
+    color: black;
   }
 }
 
@@ -90,7 +91,7 @@
 
 .searchTerm {
   width: 100%;
-  border: 3px solid #2196F3;
+  border: 3px solid #D1C4E9;
   border-right: none;
   padding: 5px;
   height: 20px;
@@ -106,10 +107,10 @@
 .searchButton {
   width: 40px;
   height: 36px;
-  border: 1px solid #2196F3;
-  background: #2196F3;
+  border: 1px solid #D1C4E9;
+  background: #D1C4E9;
   text-align: center;
-  color: #fff;
+  color: #000;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
   font-size: 20px;

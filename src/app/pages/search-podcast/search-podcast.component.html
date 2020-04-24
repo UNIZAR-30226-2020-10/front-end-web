@@ -1,7 +1,7 @@
 <div class="margen">
   <h2>Buscar podcasts</h2>
 
-  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+  <!-- <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
     <div>
       <label for="titulo">
         Name
@@ -9,10 +9,17 @@
       <input type="text" formControlName="titulo">
 
       <button class="button" type="submit">Buscar</button>
-    </div>
+      </form>
+    </div> -->
 
-
-  </form>
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+      <div class="search">
+        <input type="text" formControlName="titulo" class="searchTerm" placeholder="Podcast a buscar">
+      <button type="submit" class="searchButton">
+          <i class="material-icons">search</i>
+     </button>
+      </div>
+    </form>
 
   <div *ngIf="podcasts">
     <strong>Podcast buscado: </strong>{{ title_string }}

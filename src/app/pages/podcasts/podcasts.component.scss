@@ -31,6 +31,38 @@ img {
   height: 100px;
 }
 
-.absoluteCenter {
-    text-align: center;
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
+.absoluteCenter h2{
+  margin-left: 40px;
+}
+
+button {
+  box-shadow: 0 3px 10px rgba(0,0,0,.23),0 3px 10px rgba(0,0,0,.16);
+  background-color: #448AFF;
+  border-radius: 4px;
+  border: none;
+  border-color: #448AFF;
+  display: flex;
+  align-items: center;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+button p {
+  color:  #fff;
+  margin-top: 10px;
+}
+
+button .material-icons {
+  color: #fff;
+}
+
+.add_episodes {
+  margin-left: 20px;
 }
