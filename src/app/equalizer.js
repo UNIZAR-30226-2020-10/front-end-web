@@ -1,4 +1,5 @@
-var context, source, equalizeVal = [0, 0, 0, 0, 0], equalize = [0, 0, 0, 0, 0];
+var context, source, freq = [60, 230, 910, 3600, 14000], original = [0, 0, 0, 0, 0],
+    equalize = [0, 0, 0, 0, 0], actual = [0, 0, 0, 0, 0], inUse = false;
 
 function equalizerLoad(mediaElement) {
   mediaElement.crossOrigin = "anonymous";
@@ -17,32 +18,31 @@ function equalizerLoad(mediaElement) {
   equalize[3].connect(equalize[4]);
   equalize[4].connect(context.destination);
 
-  equalize[0].type = "peaking";
-  equalize[0].frequency.value = 60;
-  equalize[0].gain.value = equalizeVal[0];
-
-  equalize[1].type = "peaking";
-  equalize[1].frequency.value = 230;
-  equalize[1].gain.value = equalizeVal[1];
-
-  equalize[2].type = "peaking";
-  equalize[2].frequency.value = 910;
-  equalize[2].gain.value = equalizeVal[2];
-
-  equalize[3].type = "peaking";
-  equalize[3].frequency.value = 3600;
-  equalize[3].gain.value = equalizeVal[3];
-
-  equalize[4].type = "peaking";
-  equalize[4].frequency.value = 14000;
-  equalize[4].gain.value = equalizeVal[4];
+  for(let i = 0; i < 5; ++i) {
+    equalize[i].type = "peaking";
+    equalize[i].frequency.value = freq[i];
+    if(inUse) {
+      equalize[i].Q.value = actual[i];
+    } else {
+      original[i] = equalize[i].Q.value;
+      actual[i] = original[i];
+    }
+  }
+  inUse = true;
 }
 
 function equalizer(value, index) {
-  equalizeVal[index] = value;
-  equalize[index].gain.value = value;
+  actual[index] = value;
+  equalize[index].Q.value = value;
 }
 
 function valEqualizer(index) {
-  return equalizeVal[index];
+  return actual[index];
+}
+
+function quitEqualizer() {
+  for(let i = 0; i < 5; ++i) {
+    equalize[i].Q.value = original[i];
+  }
+  inUse = false;
 }

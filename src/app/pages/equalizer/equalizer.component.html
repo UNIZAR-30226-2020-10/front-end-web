@@ -1,8 +1,8 @@
 <p>Click the button to use equalizer</p>
-<button  mat-button (click)="this.audioService.useEqualizer = true; this.audioService.loadEqualizer()" *ngIf="!this.audioService.useEqualizer">
+<button  mat-button (click)="this.audioService.loadEqualizer()" *ngIf="!this.audioService.useEqualizer">
   <mat-icon mat-list-icon>panorama_fish_eye</mat-icon>
 </button>
-<button  mat-button (click)="this.audioService.useEqualizer = false" *ngIf="this.audioService.useEqualizer">
+<button  mat-button (click)="this.audioService.exitEqualizer()" *ngIf="this.audioService.useEqualizer">
   <mat-icon mat-list-icon>lens</mat-icon>
 </button>
 <mat-slider vertical class="vol-slider" min="0" [max]="100" step="1" [value]="this.audioService.stateEqualizer(0)" (input)="changeEqualizer($event, 0)" [disabled]="!this.audioService.useEqualizer"></mat-slider>

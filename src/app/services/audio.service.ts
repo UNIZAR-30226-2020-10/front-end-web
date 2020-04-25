@@ -8,6 +8,7 @@ declare const checkVolume: any;
 declare const equalizerLoad: any;
 declare const equalizer: any;
 declare const valEqualizer: any;
+declare const quitEqualizer: any;
 
 @Injectable({
   providedIn: 'root'
@@ -267,6 +268,7 @@ export class AudioService {
   }
 
   loadEqualizer(){
+    this.useEqualizer = true;
     equalizerLoad(this.audioObj);
   }
 
@@ -276,6 +278,10 @@ export class AudioService {
 
   changeEqualizer(val, index) {
     equalizer(val, index);
+  }
+
+  exitEqualizer() {
+    quitEqualizer();
   }
 
   addToQueue(song) {
