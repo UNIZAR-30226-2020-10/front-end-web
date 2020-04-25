@@ -1,0 +1,4 @@
+<div [ngClass]="[this.alertService.alert]" *ngIf="this.alertService.use" (click)="close()">
+  <!--<span class="closebtn" (click)="close()">&times;</span> -->
+  <strong>{{ this.alertService.strong }}</strong> {{ this.alertService.body }}
+</div>

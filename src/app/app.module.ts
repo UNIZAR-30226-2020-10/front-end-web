@@ -28,6 +28,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoaderComponent } from './pages/loader/loader.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { AlertsComponent } from './pages/alerts/alerts.component';
+import { AlertsService } from './services/alerts.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     LoginComponent,
     RegisterComponent,
     LoaderComponent,
+    AlertsComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     HttpClientModule,
     DragDropModule
   ],
-  providers: [AudioService, CloudService, LoaderService,
+  providers: [AudioService, CloudService, LoaderService, AlertsService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })

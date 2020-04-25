@@ -268,8 +268,10 @@ export class AudioService {
   }
 
   loadEqualizer(){
-    this.useEqualizer = true;
-    equalizerLoad(this.audioObj);
+    if(!this.isPodcast) {
+      this.useEqualizer = true;
+      equalizerLoad(this.audioObj);
+    }
   }
 
   stateEqualizer(index) {
