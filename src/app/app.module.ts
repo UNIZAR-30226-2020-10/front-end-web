@@ -13,7 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AudioService } from './services/audio.service';
 import { CloudService } from './services/cloud.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessagesComponent } from './pages/messages/messages.component';
 import { PodcastsComponent } from './pages/podcasts/podcasts.component';
 import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.component';
@@ -25,6 +25,9 @@ import { InicialScreenComponent } from './pages/inicial-screen/inicial-screen.co
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { LoaderComponent } from './pages/loader/loader.component';
+import { LoaderService } from './services/loader.service';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { RegisterComponent } from './pages/register/register.component';
     InicialScreenComponent,
     LoginComponent,
     RegisterComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +61,8 @@ import { RegisterComponent } from './pages/register/register.component';
     HttpClientModule,
     DragDropModule
   ],
-  providers: [AudioService, CloudService],
+  providers: [AudioService, CloudService, LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
