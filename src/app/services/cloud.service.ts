@@ -14,6 +14,7 @@ export class CloudService {
   ) { }
 
   public user;
+  public change;
 
   private url = "https://psoftware.herokuapp.com/";
   private askPlaylists: string = "list_lists";
@@ -114,6 +115,7 @@ export class CloudService {
     );
     if(msg === "Success") {
       this.user = email;
+      this.change = 'change-right';
     }
     return msg;
   }
@@ -127,6 +129,7 @@ export class CloudService {
     );
     if(msg === "Success") {
       this.user = email;
+      this.change = 'change-right';
     }
     return msg;
   }

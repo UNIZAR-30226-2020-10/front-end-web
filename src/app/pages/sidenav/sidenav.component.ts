@@ -10,7 +10,6 @@ import { CloudService } from 'src/app/services/cloud.service';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
-  change: string;
   checkoutForm;
 
   constructor(
@@ -19,17 +18,25 @@ export class SidenavComponent implements OnInit {
     private router: Router,
     public cloudService: CloudService
   ) {
-    this.change = 'change-right';
+    console.log(this.cloudService.user);
+    if(this.cloudService.user == undefined) {
+      this.cloudService.change = 'nothing';
+    } else {
+      this.cloudService.change = 'change-right';
+    }
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });
   }
 
   changeStyle() {
-    if(this.change == 'change-right') {
-      this.change = 'change-left';
+    console.log(this.cloudService.user);
+    if(this.cloudService.user == undefined) {
+      this.cloudService.change = 'nothing';
+    } else if(this.cloudService.change == 'change-right') {
+      this.cloudService.change = 'change-left';
     } else {
-      this.change = 'change-right';
+      this.cloudService.change = 'change-right';
     }
   }
 
