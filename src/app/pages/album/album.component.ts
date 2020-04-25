@@ -20,7 +20,7 @@ export class AlbumComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.name = params.get('id');
     });
-    this.songs = this.cloudService.searchSong(this.name).subscribe(list => this.songs = list);
+    this.songs = this.cloudService.searchSong(this.name);
   }
 
 }

@@ -51,14 +51,14 @@ export class CloudService {
     );
   }
 
-  addSong(song, list) {
+  async addSong(song, list) {
     console.log(this.url+this.addToList);
+    var msg;
     var params = {'lista': list, 'cancion': song};
-    this.http.post(this.url+this.addToList, params)
-      .subscribe(
-        (response) => { console.log(response) },
-        (error) => {console.log(error) }
-      );
+    await this.http.post(this.url+this.addToList, params).toPromise().catch(
+      error => { console.log(error.error.text); msg = error.error.text; }
+    );
+    return msg;
   }
 
   async deleteSong(song, list) {
@@ -91,11 +91,13 @@ export class CloudService {
     return msg;
   }
 
-  searchSong(title): Observable<Array<Song>> {
+  async searchSong(title) {
     console.log(this.url+this.search);
     let params = new HttpParams();
-    params = params.append('Nombre', title);
-    return this.http.get<Array<Song>>(this.url+this.search, {params: params});
+    params = params.append('nombre', title);
+    return await this.http.get<Array<Song>>(this.url+this.search, {params: params}).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
   async move(id, bf, af) {

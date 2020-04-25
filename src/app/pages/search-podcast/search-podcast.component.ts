@@ -4,6 +4,7 @@ import { PodcastService } from 'src/app/services/podcast.service';
 import { MessageService } from 'src/app/services/message.service';
 import { FormBuilder } from '@angular/forms';
 import { SavePodcastService } from 'src/app/services/save-podcast.service';
+import { AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-search-podcast',
@@ -22,7 +23,12 @@ export class SearchPodcastComponent implements OnInit {
   publisher_original: string;
   icon: boolean;
 
-  constructor(private podcastService: PodcastService, private formBuilder: FormBuilder, private savePodcast: SavePodcastService) {
+  constructor(
+    private podcastService: PodcastService,
+    private formBuilder: FormBuilder,
+    private savePodcast: SavePodcastService,
+    public alertService: AlertsService
+    ) {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });
@@ -47,6 +53,8 @@ export class SearchPodcastComponent implements OnInit {
       this.getPodcasts();
 
       this.checkoutForm.reset();
+    } else {
+      this.alertService.showAlert(2, "", "La búsqueda requiere un mínimo de 3 carácteres");
     }
   }
 

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CloudService } from '../../services/cloud.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AudioService } from 'src/app/services/audio.service';
 import { Location } from '@angular/common';
 import { FormBuilder } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-list',
@@ -25,7 +26,9 @@ export class ListComponent implements OnInit {
     public audioService: AudioService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private location: Location
+    private location: Location,
+    public alertService: AlertsService,
+    private router: Router
   ) {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
@@ -33,44 +36,68 @@ export class ListComponent implements OnInit {
     this.queue = this.route.snapshot.data['queue'];
     this.search = this.route.snapshot.data['search'];
     this.add = this.route.snapshot.data['add'];
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe(async params => {
       if(this.queue) {
         this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
                       "ID":'c', "Desc":"Cola de reproducción", "Imagen":null};
+        if(this.list.Canciones === [] || this.list === undefined) {
+          this.alertService.showAlert(3, "", "Cola vacía");
+        }
       } else if(this.search) {
-        this.list = {"Canciones":[],
+        this.list = {"Canciones": [],
                      "Nombre":"Búsqueda", "ID":'', "Desc":"Búsqueda", "Imagen":null};
-        this.cloudService.searchSong(params.get('id')).subscribe(list => this.list.Canciones = list);
+        console.log(params.get('id'));
+        this.list.Canciones = await this.cloudService.searchSong(params.get('id'));
+        console.log(this.list);
+        if(this.list.Canciones === undefined || this.list.Canciones === []) {
+          this.alertService.showAlert(3, "", "No se han encontrado canciones");
+        } else {
+          this.alertService.showAlert(1, "", "Se han encontrado " + this.list.Canciones.length + " canciones");
+        }
       } else if(this.add) {
         this.list = undefined;
         this.song = this.audioService.passSong;
-        this.loadPlaylists();
+        this.audioService.lists = await this.cloudService.getPlaylists();
       } else {
-        this.getList(params.get('id'));
+        this.list = await this.cloudService.getList(params.get('id'));
+        console.log(this.list);
+        if(this.list.Canciones === undefined || this.list.Canciones === []) {
+          this.alertService.showAlert(3, "", "Lista vacía");
+        }
+        console.log(this.list);
       }
     });
-   }
-
-  async getList(list) {
-    this.list = await this.cloudService.getList(list);
   }
 
-  addToList(list) {
+  async addToList(list, name) {
     if(list == 'c') {
       this.audioService.addToQueue(this.song);
+      this.alertService.showAlert(1, "", "Canción añadida a la cola");
     } else {
-      this.cloudService.addSong(this.song.ID, list);
+      const msg = await this.cloudService.addSong(this.song.ID, list);
+      if(msg === 'Success') {
+        this.alertService.showAlert(1, "", "Canción añadida a la lista " + name);
+      } else {
+        this.alertService.showAlert(0, "", "No se ha podido añadir una canción a la lista " + name);
+      }
     }
     this.backToList();
   }
 
   async removeFromList(song, index, list) {
+    var pr = "";
     if(list != 'c') {
       await this.cloudService.deleteSong(song.ID, list);
-      this.getList(list);
+      this.list = await this.cloudService.getList(list);
+      pr = "lista " + this.list.Nombre;
     } else {
       this.audioService.deleteFromQueue(index);
+      pr = "cola";
+      if(this.audioService.maxIndex === 0) {
+        this.router.navigateByUrl('/initial-screen');
+      }
     }
+    this.alertService.showAlert(1, "", "Canción eliminada de la " + pr);
   }
 
   addToPlaylist(song) {
@@ -108,7 +135,7 @@ export class ListComponent implements OnInit {
   async onSubmit(title) {
     this.checkoutForm.reset();
     await this.cloudService.createList(title.titulo);
-    this.loadPlaylists();
+    this.audioService.lists = await this.cloudService.getPlaylists();
   }
 
   async drop(event: CdkDragDrop<string[]>) {
@@ -131,12 +158,6 @@ export class ListComponent implements OnInit {
     }
   }
 
-  async loadPlaylists() {
-    this.audioService.lists = await this.cloudService.getPlaylists();
-  }
-
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
 }

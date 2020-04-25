@@ -6,11 +6,11 @@
     <div class="reprofooter">
       <mat-toolbar color="primary">
         <mat-toolbar-row>
-          <button class="info" (click)="this.audioService.showSong = true" [routerLink]="['/song']">
+          <div class="info" (click)="this.audioService.showSong = true" [routerLink]="['/song']">
             <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
             <h4>{{ this.audioService.currentFile.song.Nombre }}</h4>
             <h5>{{ this.audioService.currentFile.song.Artistas }}</h5>
-          </button>
+          </div>
           <div class="line">
             <mat-slider class="time-slider" min="0" [max]="this.audioService.checkState().duration" step="1" [value]="this.audioService.checkState().currentTime" (input)="onSliderChangeEnd($event)" [disabled]="this.audioService.checkState().error || this.audioService.currentFile.index === undefined"></mat-slider>
           </div>

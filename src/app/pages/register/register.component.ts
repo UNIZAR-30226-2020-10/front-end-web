@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CloudService } from 'src/app/services/cloud.service';
+import { AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public cloudService: CloudService
+    public cloudService: CloudService,
+    public alertService: AlertsService
   ) { }
 
   async register() {
@@ -27,20 +29,21 @@ export class RegisterComponent implements OnInit {
     if(pass === repass) {
       let msg = await this.cloudService.register(email, pass, name, country, date);
       console.log(msg);
-      if(msg === "Contraseña incorrecta") {
+      if(msg === "Clave duplicada") {
         console.log("INCORRECT");
-
-      } else if(msg === "No user") {
+        this.alertService.showAlert(0, "", "Usuario ya registrado");
+      } else if(msg === "Fecha incorrecta") {
         console.log("USER");
-
+        this.alertService.showAlert(0, "", "Fecha introducida no válida");
       } else if(msg === "Error") {
         console.log("ERROR");
-
+        this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
       } else {
         this.router.navigateByUrl('/initial-screen');
+        this.alertService.showAlert(0, "Bienvenido", "");
       }
     } else {
-
+      this.alertService.showAlert(0, "", "Las contraseñas no coinciden");
     }
   }
 

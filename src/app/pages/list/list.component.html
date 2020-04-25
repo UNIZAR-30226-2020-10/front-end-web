@@ -17,9 +17,6 @@
         <button mat-button (click)="addToPlaylist(file)">
           <mat-icon color="primary">playlist_add</mat-icon>
         </button>
-        <button mat-button (click)="removeFromList(file, i, list.ID)">
-          <mat-icon color="primary">delete</mat-icon>
-        </button>
         <h6 *ngIf="this.queue && this.audioService.currentFile.index === i && this.audioService.checkState().error">ERROR</h6>
       </div>
       <mat-divider></mat-divider>
@@ -52,14 +49,14 @@
     <button  mat-button (click)="backToList()">
       <mat-icon color="primary">cancel</mat-icon>
     </button>
-    <mat-list-item class="info-song" (click)="addToList('c')">
+    <mat-list-item class="info-song" (click)="addToList('c', 'Cola')">
       <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
       <h4 mat-line>Cola de reproducción</h4>
       <h5 mat-line>Mi cola de reproducción</h5>
     </mat-list-item>
     <mat-divider></mat-divider>
     <div *ngFor="let list of this.audioService.lists">
-      <mat-list-item class="info-song" (click)="addToList(list.ID)">
+      <mat-list-item class="info-song" (click)="addToList(list.ID, list.Nombre)">
         <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
         <h4 mat-line>{{ list.Nombre }}</h4>
         <h5 mat-line>{{ list.Desc }}</h5>

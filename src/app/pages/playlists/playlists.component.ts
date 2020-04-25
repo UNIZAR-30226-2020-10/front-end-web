@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
 import { FormBuilder } from '@angular/forms';
 import { CloudService } from 'src/app/services/cloud.service';
+import { AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-playlists',
@@ -16,7 +17,8 @@ export class PlaylistsComponent implements OnInit {
   constructor(
     public audioService: AudioService,
     private formBuilder: FormBuilder,
-    public cloudService: CloudService
+    public cloudService: CloudService,
+    public alertService: AlertsService
   ) {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
@@ -31,6 +33,7 @@ export class PlaylistsComponent implements OnInit {
     const msg = await this.cloudService.createList(title.titulo);
     console.log(msg);
     this.audioService.lists = await this.cloudService.getPlaylists();
+    this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo);
   }
 
   onSearch(title) {
@@ -39,6 +42,9 @@ export class PlaylistsComponent implements OnInit {
       if(list.Nombre.toLowerCase().includes(title.titulo.toLowerCase())) {
         this.found.push(list);
       }
+    }
+    if(this.found.length === 0) {
+      this.alertService.showAlert(2, "", "No se ha encontrado ninguna lista");
     }
   }
 
@@ -58,10 +64,11 @@ export class PlaylistsComponent implements OnInit {
     return "";
   }
 
-  async deleteList(id) {
+  async deleteList(id, name) {
     const msg = await this.cloudService.deleteList(id);
     console.log(msg);
     this.audioService.lists = await this.cloudService.getPlaylists();
+    this.alertService.showAlert(1, "", "La lista " + name + " se ha eliminado");
   }
 
   async ngOnInit() {
