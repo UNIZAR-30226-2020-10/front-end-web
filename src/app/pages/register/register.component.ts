@@ -24,9 +24,11 @@ export class RegisterComponent implements OnInit {
     const pass = (<HTMLInputElement> document.getElementById("password")).value;
     const repass = (<HTMLInputElement> document.getElementById("repassword")).value;
     const date = (<HTMLInputElement> document.getElementById("date")).value;
+    const name = (<HTMLInputElement> document.getElementById("text")).value;
     const country = (<HTMLSelectElement> document.getElementById("country")).value;
-    const name = "Web";
-    if(pass.length === 0) {
+    if(name.length < 3) {
+      this.alertService.showAlert(2, "", "El nombre requiere como mínimo 3 carácteres");
+    } else if(pass.length === 0) {
       this.alertService.showAlert(0, "", "Introduce una contraseña");
     } else if(pass === repass) {
       if(country.length === 0) {
