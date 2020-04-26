@@ -1,0 +1,28 @@
+<h1>Configuración</h1>
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+  <div class="changes">
+    <h2>Para realizar un cambio, primero hay que introducir la contraseña actual</h2>
+    <label for="repass">Contraseña actual:</label>
+    <input type="password" formControlName="repass" name="repass" class="passwordAct" placeholder="Contraseña actual" required>
+    <h3>Cambiar contraseña</h3>
+    <label for="newpass">Nueva contraseña:</label>
+    <input type="password" formControlName="newpass" name="newpass" class="passwordNew" placeholder="Nueva contraseña">
+    <label for="renewpass">Repetir contraseña:</label>
+    <input type="password" formControlName="renewpass" name="renewpass" class="repasswordNew" placeholder="Repetir contraseña">
+    <h3>Cambiar nombre</h3>
+    <label for="name">Nuevo nombre:</label>
+    <input type="text" formControlName="name" name="name" class="name" placeholder="Nuevo nombre">
+    <h3>Cambiar país</h3>
+    <label for="name">Cambiar país:</label>
+    <select name="miselect" formControlName="country">
+      <option [ngValue]="item" *ngFor="let item of lista">{{item}}</option>
+    </select>
+    <br/>
+    <button type="submit" (click)="submit()" class="submitButton">
+      Guardar cambios
+    </button>
+    <button type="submit" (click)="deleteUser()" class="submitButton">
+      Eliminar usuario
+    </button>
+  </div>
+</form>

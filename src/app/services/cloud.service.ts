@@ -28,6 +28,7 @@ export class CloudService {
   private registerUser: string = "register";
   private sign: string = "sign_in";
   private eraseUser: string = "delete_user";
+  private modifyUser: string = "modify";
   private moveSong: string = "reorder";
   private listAlbum: string = "list_albums_data";
   private favoritePodcast: string = "podcast_fav";
@@ -115,7 +116,7 @@ export class CloudService {
     await this.http.post(this.url+this.sign, params).toPromise().catch(
       error => { msg = error.error.text; }
     );
-    if(msg === "Success") {
+    if(msg === "Success" && this.user === undefined) {
       this.user = email;
       this.change = 'change-right';
     }
@@ -133,6 +134,39 @@ export class CloudService {
       this.user = email;
       this.change = 'change-right';
     }
+    return msg;
+  }
+
+  async deleteUser(pass) {
+    console.log(this.url+this.eraseUser);
+    var params = {'email': this.user, 'password': pass};
+    var msg = "";
+    await this.http.post(this.url+this.eraseUser, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    if(msg === "Success") {
+      this.user = undefined;
+      this.change = "nothing";
+    }
+    return msg;
+  }
+
+  async modify(pass, name, country) {
+    console.log(this.url+this.modifyUser);
+    var params = {'email': this.user};
+    if(pass.length != 0) {
+      params['password'] = pass;
+    }
+    if(name.length != 0) {
+      params['nombre'] = name;
+    }
+    if(country.length != 0) {
+      params['pais'] = country;
+    }
+    var msg = "";
+    await this.http.post(this.url+this.modifyUser, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
     return msg;
   }
 

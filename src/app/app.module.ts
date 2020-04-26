@@ -30,6 +30,7 @@ import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AlertsComponent } from './pages/alerts/alerts.component';
 import { AlertsService } from './services/alerts.service';
+import { ConfigurationComponent } from './pages/configuration/configuration.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AlertsService } from './services/alerts.service';
     RegisterComponent,
     LoaderComponent,
     AlertsComponent,
+    ConfigurationComponent,
   ],
   imports: [
     BrowserModule,

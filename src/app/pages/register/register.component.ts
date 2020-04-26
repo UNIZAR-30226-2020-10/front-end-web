@@ -26,21 +26,24 @@ export class RegisterComponent implements OnInit {
     const date = (<HTMLInputElement> document.getElementById("date")).value;
     const country = (<HTMLSelectElement> document.getElementById("country")).value;
     const name = "Web";
-    if(pass === repass) {
+    if(pass.length === 0) {
+      this.alertService.showAlert(0, "", "Introduce una contraseña");
+    } else if(pass === repass) {
+      if(country.length === 0) {
+        this.alertService.showAlert(0, "", "Introduce tu país de residencia");
+        return;
+      }
       let msg = await this.cloudService.register(email, pass, name, country, date);
       console.log(msg);
       if(msg === "Clave duplicada") {
-        console.log("INCORRECT");
         this.alertService.showAlert(0, "", "Usuario ya registrado");
       } else if(msg === "Fecha incorrecta") {
-        console.log("USER");
         this.alertService.showAlert(0, "", "Fecha introducida no válida");
       } else if(msg === "Error") {
-        console.log("ERROR");
         this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
       } else {
         this.router.navigateByUrl('/initial-screen');
-        this.alertService.showAlert(0, "Bienvenido", "");
+        this.alertService.showAlert(1, "Bienvenido", "");
       }
     } else {
       this.alertService.showAlert(0, "", "Las contraseñas no coinciden");

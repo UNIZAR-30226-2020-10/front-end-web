@@ -12,7 +12,7 @@
             <h4>Registrate en  <span>TuneIt</span></h4>
             <p>Bienvenido! Crea una cuenta para disfrutar de tu música favorita:</p>
             <div class="floating-label">
-                <input class="field" placeholder="Email" type="email" name="email" id="email" autocomplete="off">
+                <input class="field" placeholder="Email" type="email" name="email" id="email" autocomplete="off" required>
                 <div class="icon">
                     <svg enable-background="new 0 0 100 100" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
                         <style type="text/css">.st0{fill:none;}
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="floating-label">
-                <input class="field" placeholder="Contraseña" type="password" name="password" id="password" autocomplete="off">
+                <input class="field" placeholder="Contraseña" type="password" name="password" id="password" autocomplete="off" required>
                 <div class="icon">
                     <svg enable-background="new 0 0 24 24" version="1.1" viewBox="0 0 24 24" xml:space="preserve"              xmlns="http://www.w3.org/2000/svg">
                         <style type="text/css">
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="floating-label">
-                <input class="field" placeholder="Repetir contraseña" type="password" name="repassword" id="repassword" autocomplete="off">
+                <input class="field" placeholder="Repetir contraseña" type="password" name="repassword" id="repassword" autocomplete="off" required>
                 <div class="icon">
                     <svg enable-background="new 0 0 24 24" version="1.1" viewBox="0 0 24 24" xml:space="preserve"              xmlns="http://www.w3.org/2000/svg">
                         <style type="text/css">
@@ -57,7 +57,7 @@
 
             <!-- MENU PARA ELEGIR FECHA DE NACIMIENTO -->
             <div>
-                <input matInput [matDatepicker]="picker" placeholder="Fecha de nacimiento" id="date">
+                <input matInput [matDatepicker]="picker" placeholder="Fecha de nacimiento" id="date" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </div>
