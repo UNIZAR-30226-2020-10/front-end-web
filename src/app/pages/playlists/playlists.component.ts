@@ -58,7 +58,7 @@ export class PlaylistsComponent implements OnInit {
   }
 
   favorite(type) {
-    if(type == 'Favoritas') {
+    if(type == 'Favoritos') {
       return "favorite"
     }
     return "";
