@@ -31,9 +31,14 @@ export class PlaylistsComponent implements OnInit {
   async onSubmit(title) {
     this.checkoutForm.reset();
     const msg = await this.cloudService.createList(title.titulo);
-    console.log(msg);
-    this.audioService.lists = await this.cloudService.getPlaylists();
-    this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo);
+    if(msg === "No favoritos") {
+      this.alertService.showAlert(0, "", "No se permite crear una lista con el nombre introducido");
+    } else if(msg === "Error") {
+      this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
+    } else {
+      this.audioService.lists = await this.cloudService.getPlaylists();
+      this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo);
+    }
   }
 
   onSearch(title) {
@@ -66,9 +71,12 @@ export class PlaylistsComponent implements OnInit {
 
   async deleteList(id, name) {
     const msg = await this.cloudService.deleteList(id);
-    console.log(msg);
-    this.audioService.lists = await this.cloudService.getPlaylists();
-    this.alertService.showAlert(1, "", "La lista " + name + " se ha eliminado");
+    if(msg === "Error") {
+      this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
+    } else {
+      this.audioService.lists = await this.cloudService.getPlaylists();
+      this.alertService.showAlert(1, "", "La lista " + name + " se ha eliminado");
+    }
   }
 
   async ngOnInit() {

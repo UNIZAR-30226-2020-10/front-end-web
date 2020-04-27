@@ -50,7 +50,7 @@ export class ConfigurationComponent implements OnInit {
     } else if(msg === "Error") {
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
-      if(title.name.length > 2 || title.name.length === 0) {
+      if((title.name.length > 2 && title.name.length < 51) || title.name.length === 0) {
         if(title.newpass.length > 0 && title.newpass != title.renewpass) {
           this.alertService.showAlert(0, "", "Las contraseñas no coinciden");
         } else {
@@ -68,7 +68,7 @@ export class ConfigurationComponent implements OnInit {
           }
         }
       } else {
-        this.alertService.showAlert(2, "", "El nombre requiere un mínimo de 3 carácteres");
+        this.alertService.showAlert(2, "", "El nombre debe estar entre 3 y 50 carácteres");
       }
     }
   }

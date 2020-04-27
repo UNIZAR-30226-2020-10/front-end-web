@@ -27,7 +27,7 @@
         {{ list.Nombre }}
       </h3>
     </div>
-    <button *ngIf="list.Nombre != 'Favoritas'" mat-button (click)="deleteList(list.ID, list.Nombre)">
+    <button *ngIf="list.Nombre != 'Favoritos'" mat-button (click)="deleteList(list.ID, list.Nombre)">
       <mat-icon mat-list-icon>delete</mat-icon>
     </button>
   </div>

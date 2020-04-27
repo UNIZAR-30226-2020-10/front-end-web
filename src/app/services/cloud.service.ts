@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { List, Playlists, Song } from '../list';
 import { catchError } from 'rxjs/operators';
@@ -26,6 +26,7 @@ export class CloudService {
   private eraseList: string = "delete_list";
   private songs: string = "list";
   private registerUser: string = "register";
+  private info: string = "info_usuario";
   private sign: string = "sign_in";
   private eraseUser: string = "delete_user";
   private modifyUser: string = "modify";
@@ -34,6 +35,7 @@ export class CloudService {
   private favoritePodcast: string = "podcast_fav";
   private notFavoritePodcast: string = "delete_podcast_fav";
   private isFavoritePodcast: string = "podcast_is_fav";
+  private podcastList: string = "list_podcast";
 
   async getPlaylists() {
     console.log(this.url+this.askPlaylists);
@@ -45,8 +47,7 @@ export class CloudService {
 
   async getList(id) {
     console.log(this.url+this.askList);
-    let params = new HttpParams();
-    params = params.append('lista', id);
+    var params = {'lista': id};
     return await this.http.get<List>(this.url+this.askList, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );
@@ -94,8 +95,7 @@ export class CloudService {
 
   async searchSong(title) {
     console.log(this.url+this.search);
-    let params = new HttpParams();
-    params = params.append('nombre', title);
+    var params = {'nombre': title};
     return await this.http.get<Array<Song>>(this.url+this.search, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );
@@ -168,6 +168,54 @@ export class CloudService {
       error => { msg = error.error.text }
     );
     return msg;
+  }
+
+  async infoUser() {
+    console.log(this.url+this.info);
+    var params = {};
+    var msg = "";
+    await this.http.post(this.url+this.info, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async isPodcastFavorite(id) {
+    console.log(this.url+this.isFavoritePodcast);
+    var params = {'email': this.user, 'podcast': id};
+    var msg = "";
+    await this.http.post(this.url+this.isFavoritePodcast, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async deletePodcast(id) {
+    console.log(this.url+this.notFavoritePodcast);
+    var params = {'email': this.user, 'podcast': id};
+    var msg = "";
+    await this.http.post(this.url+this.notFavoritePodcast, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async addPodcast(id, name) {
+    console.log(this.url+this.favoritePodcast);
+    var params = {'email': this.user, 'podcast': id, 'nombre': name};
+    var msg = "";
+    await this.http.post(this.url+this.favoritePodcast, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async listPodcast() {
+    console.log(this.url+this.podcastList);
+    var params = {'email': this.user};
+    return await this.http.get(this.url+this.podcastList, {params: params}).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
 }
