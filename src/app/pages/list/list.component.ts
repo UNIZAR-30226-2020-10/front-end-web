@@ -52,7 +52,12 @@ export class ListComponent implements OnInit {
         if(this.list.Canciones === undefined || this.list.Canciones === []) {
           this.alertService.showAlert(3, "", "No se han encontrado canciones");
         } else {
-          this.alertService.showAlert(1, "", "Se han encontrado " + this.list.Canciones.length + " canciones");
+          var n = this.list.Canciones.length;
+          if(n === 1) {
+            this.alertService.showAlert(1, "", "Se ha encontrado una canción");
+          } else {
+            this.alertService.showAlert(1, "", "Se han encontrado " + n + " canciones");
+          }
         }
       } else if(this.add) {
         this.list = undefined;
@@ -134,8 +139,15 @@ export class ListComponent implements OnInit {
 
   async onSubmit(title) {
     this.checkoutForm.reset();
-    await this.cloudService.createList(title.titulo);
-    this.audioService.lists = await this.cloudService.getPlaylists();
+    const msg = await this.cloudService.createList(title.titulo);
+    if(msg === "No favoritos") {
+      this.alertService.showAlert(0, "", "No se permite crear una lista con el nombre introducido");
+    } else if(msg === "Error") {
+      this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
+    } else {
+      this.audioService.lists = await this.cloudService.getPlaylists();
+      this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo);
+    }
   }
 
   async drop(event: CdkDragDrop<string[]>) {
