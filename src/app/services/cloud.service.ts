@@ -30,7 +30,9 @@ export class CloudService {
   public change;
 
   setToken(token) {
-    this.cookies.set("TuneIT", JSON.stringify(token));
+    const dateNow = new Date();
+    dateNow.setDate(dateNow.getDate() + 15);
+    this.cookies.set("TuneIT", JSON.stringify(token), dateNow);
   }
 
   getToken() {
