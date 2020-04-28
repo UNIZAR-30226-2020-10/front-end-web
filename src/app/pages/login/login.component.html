@@ -41,6 +41,10 @@
                     </svg>
                 </div>
             </div>
+            <div class="floating-label">
+              <input type="checkbox" name="session" [(ngModel)]="session">
+              <label for="session">Mantener la sesión abierta</label>
+            </div>
             <button type="submit" (click)="sign()">Iniciar sesión</button>
             <a  routerLink="/register" routerLinkActive="active" class="discrete">¿No tienes cuenta? Registrarse</a>
         </form>

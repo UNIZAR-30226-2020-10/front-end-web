@@ -11,22 +11,23 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { PodcastsComponent } from './pages/podcasts/podcasts.component';
 import { ConfigurationComponent } from './pages/configuration/configuration.component';
+import { AccessGuardService } from './services/access-guard.service';
 
 const routes: Routes = [
-  { path: 'album/:id', component: AlbumComponent },
-  { path: 'lists', component: PlaylistsComponent },
-  { path: 'lists/:id', component: ListComponent, data: {queue: false, search: false, add: false} },
-  { path: 'podcasts', component: SearchPodcastComponent },
-  { path: 'equalizer', component: EqualizerComponent },
-  { path: 'song', component: SongComponent },
-  { path: 'queue', component: ListComponent, data: {queue: true, search: false, add: false} },
-  { path: 'search/:id', component: ListComponent, data: {queue: false, search: true, add: false} },
-  { path: 'song/add', component: ListComponent, data: {queue: false, search: false, add: true} },
-  { path: 'initial-screen', component: InicialScreenComponent},
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'podcasts/:id', component: PodcastsComponent},
-  { path: 'conf', component: ConfigurationComponent},
+  { path: 'album/:id', component: AlbumComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'lists', component: PlaylistsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'lists/:id', component: ListComponent, data: {queue: false, search: false, add: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'podcasts', component: SearchPodcastComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'equalizer', component: EqualizerComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'song', component: SongComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'queue', component: ListComponent, data: {queue: true, search: false, add: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'search/:id', component: ListComponent, data: {queue: false, search: true, add: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'song/add', component: ListComponent, data: {queue: false, search: false, add: true, requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'initial-screen', component: InicialScreenComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'register', component: RegisterComponent, canActivate: [ AccessGuardService ]  },
+  { path: 'login', component: LoginComponent, canActivate: [ AccessGuardService ] },
+  { path: 'podcasts/:id', component: PodcastsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'conf', component: ConfigurationComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: '**', component: LoginComponent},
 ];
 

@@ -59,6 +59,8 @@
   .router {
     transform: translateX(300px);
     margin-right: 19%;
+    left: 30px;
+    margin-bottom: 64px;
   }
 }
 
@@ -70,15 +72,15 @@
   }
   .router {
     margin-right: 3%;
+    left: 30px;
+    margin-bottom: 64px;
   }
 }
 
 .router {
-  left: 30px;
   z-index: 1;
   position: relative;
   top: 64px;
-  margin-bottom: 64px;
 }
 
 .search {

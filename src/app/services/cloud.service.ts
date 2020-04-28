@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { List, Playlists, Song } from '../list';
-import { catchError } from 'rxjs/operators';
+import { CookieService } from "ngx-cookie-service";
+import { Router } from '@angular/router';
+import { AlertsService } from './alerts.service';
+import { AudioService } from './audio.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +12,47 @@ import { catchError } from 'rxjs/operators';
 export class CloudService {
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private cookies: CookieService,
+    private router: Router,
+    private alertService: AlertsService,
+    private audioService: AudioService
+  ) {
+    const token = this.getToken();
+    console.log(token);
+    if(token.email) {
+      this.user = token.email;
+      this.change = 'change-right';
+    }
+  }
 
   public user;
   public change;
+
+  setToken(token) {
+    this.cookies.set("TuneIT", JSON.stringify(token));
+  }
+
+  getToken() {
+    if(this.cookies.check("TuneIT")) {
+      return JSON.parse(this.cookies.get("TuneIT"));
+    }
+    return "false";
+  }
+
+  closeSession() {
+    this.user = undefined;
+    this.change = 'nothing';
+    if(this.cookies.check("TuneIT")) {
+      this.cookies.delete("TuneIT");
+    }
+    this.audioService.maxIndex = 0;
+    this.audioService.audioList = [];
+    this.audioService.pause();
+    this.audioService.currentFile = {};
+    this.alertService.showAlert(1, "", "Se ha cerrado la sesión");
+    this.router.navigateByUrl('/login');
+  }
 
   private url = "https://psoftware.herokuapp.com/";
   private askPlaylists: string = "list_lists";
@@ -109,7 +147,7 @@ export class CloudService {
     );
   }
 
-  async signIn(email, pass) {
+  async signIn(email, pass, session) {
     console.log(this.url+this.sign);
     var params = {'email': email, 'password': pass};
     var msg = "";
@@ -117,6 +155,9 @@ export class CloudService {
       error => { msg = error.error.text; }
     );
     if(msg === "Success" && this.user === undefined) {
+      if(session) {
+        this.setToken(params);
+      }
       this.user = email;
       this.change = 'change-right';
     }
@@ -130,10 +171,6 @@ export class CloudService {
     await this.http.post(this.url+this.registerUser, params).toPromise().catch(
       error => { msg = error.error.text; }
     );
-    if(msg === "Success") {
-      this.user = email;
-      this.change = 'change-right';
-    }
     return msg;
   }
 
@@ -145,8 +182,7 @@ export class CloudService {
       error => { msg = error.error.text }
     );
     if(msg === "Success") {
-      this.user = undefined;
-      this.change = "nothing";
+      this.closeSession();
     }
     return msg;
   }

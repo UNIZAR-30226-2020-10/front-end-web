@@ -9,6 +9,7 @@ import { AlertsService } from 'src/app/services/alerts.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  session: boolean;
 
   constructor(
     private router: Router,
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   async sign() {
     const email = (<HTMLInputElement> document.getElementById("email")).value;
     const pass = (<HTMLInputElement> document.getElementById("password")).value;
-    let msg = await this.cloudService.signIn(email, pass);
+    let msg = await this.cloudService.signIn(email, pass, this.session);
     console.log(msg);
     if(msg === "Contraseña incorrecta") {
       console.log("INCORRECT");

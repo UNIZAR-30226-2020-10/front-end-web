@@ -44,7 +44,7 @@ export class ConfigurationComponent implements OnInit {
       }
       return;
     }
-    msg = await this.cloudService.signIn(this.cloudService.user, title.repass);
+    msg = await this.cloudService.signIn(this.cloudService.user, title.repass, false);
     if(msg === "Contraseña incorrecta") {
       this.alertService.showAlert(0, "", "Contraseña incorrecta");
     } else if(msg === "Error") {

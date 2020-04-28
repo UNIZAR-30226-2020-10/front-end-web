@@ -55,10 +55,8 @@ export class PlaylistsComponent implements OnInit {
 
   playlists() {
     if(this.found.length != 0) {
-      console.log("busqueda");
       return this.found;
     }
-    console.log("normal");
     return this.audioService.lists;
   }
 

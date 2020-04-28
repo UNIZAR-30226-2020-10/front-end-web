@@ -31,7 +31,8 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AlertsComponent } from './pages/alerts/alerts.component';
 import { AlertsService } from './services/alerts.service';
 import { ConfigurationComponent } from './pages/configuration/configuration.component';
-
+import { CookieService } from 'ngx-cookie-service';
+import { AccessGuardService } from './services/access-guard.service'
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +68,7 @@ import { ConfigurationComponent } from './pages/configuration/configuration.comp
     DragDropModule
   ],
   providers: [AudioService, CloudService, LoaderService, AlertsService,
+    CookieService, AccessGuardService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })

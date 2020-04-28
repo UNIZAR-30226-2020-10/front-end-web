@@ -10,4 +10,7 @@
     <div class="opciones">
         <span><a routerLink='/conf' aria-label="Configuracion">Configuración</a></span>
     </div>
+    <div class="opciones">
+      <span><a (click)="this.cloudService.closeSession()" class="close" aria-label="Cerrar sesión">Cerrar sesión</a></span>
+    </div>
 </mat-toolbar>
