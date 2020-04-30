@@ -12,6 +12,7 @@ export class PodcastDetailComponent implements OnInit {
   @Input() result: Array<any>;
 
   // Variables
+  added: boolean;
 
   constructor(
     public audioService: AudioService
@@ -34,5 +35,32 @@ export class PodcastDetailComponent implements OnInit {
       'Artistas': this.result[1]
     }
     search(p);
+  }
+
+  // Check if saved podcast
+  isSaved(): void {
+    //whatever
+    this.added = false;
+  }
+
+  addToPlayList(): void {
+    this.added = true;
+
+    // Comprobar que no haya algo ya reproduciendose
+    console.log(this.audioService.checkState());
+    if (this.audioService.checkState().playing){
+      var song = {
+        URL: this.result[0].audio,
+        Nombre: this.result[0].title,
+        Artistas: this.result[0].publisher_original,
+        Imagen: null,
+        ID: undefined,
+        Album: undefined
+      };
+      this.audioService.addToQueue(song);
+    } else {
+      this.audioService.openPodcast(this.result[0].audio,
+        this.result[0].title, this.result[0].publisher_original);
+    }
   }
 }

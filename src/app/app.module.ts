@@ -32,7 +32,8 @@ import { AlertsComponent } from './pages/alerts/alerts.component';
 import { AlertsService } from './services/alerts.service';
 import { ConfigurationComponent } from './pages/configuration/configuration.component';
 import { CookieService } from 'ngx-cookie-service';
-import { AccessGuardService } from './services/access-guard.service'
+import { AccessGuardService } from './services/access-guard.service';
+import { ArtistComponent } from './pages/artist/artist.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +56,7 @@ import { AccessGuardService } from './services/access-guard.service'
     LoaderComponent,
     AlertsComponent,
     ConfigurationComponent,
+    ArtistComponent,
   ],
   imports: [
     BrowserModule,

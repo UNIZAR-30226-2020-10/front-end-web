@@ -3,9 +3,49 @@
 }
 
 .reproducir {
-  border: 1px solid #ddd;
+  height: 41px;
 }
 
 .reproducir:hover {
   cursor: pointer;
+}
+
+button {
+  box-shadow: 0 3px 10px rgba(0,0,0,.23),0 3px 10px rgba(0,0,0,.16);
+  background-color: #448AFF;
+  border-radius: 4px;
+  border: none;
+  border-color: #448AFF;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+button p {
+  color:  #fff;
+  margin-top: 10px;
+}
+
+button .material-icons {
+  color: #fff;
+}
+
+strong {
+  color: #ffffff;
+}
+
+.info {
+  margin-left: 10px;
+  height: 41px;
+}
+
+.linea {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
 }

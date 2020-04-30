@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Podcast } from 'src/app/podcast';
 import { PodcastService } from 'src/app/services/podcast.service';
-import { MessageService } from 'src/app/services/message.service';
-import { FormBuilder } from '@angular/forms';
 import { AudioService } from 'src/app/services/audio.service';
 import { ActivatedRoute } from '@angular/router';
 import { SavePodcastService } from 'src/app/services/save-podcast.service';
@@ -23,6 +21,7 @@ export class PodcastsComponent implements OnInit {
   add: boolean;
   added: boolean;
   title: string;
+  temp: string;
   pod;
 
   constructor(private savePodcast: SavePodcastService, private route: ActivatedRoute, private podcastService: PodcastService, public audioService: AudioService) {
@@ -49,7 +48,8 @@ export class PodcastsComponent implements OnInit {
   }
 
   stripHTML(text) {
-    return text.replace(/<.*?>/gm, '');
+    this.temp =  text.replace(/<.*?>/gm, '');
+    return this.temp.replace(/\n/gm, ' ');
   }
 
   // Check if saved podcast
@@ -95,6 +95,5 @@ export class PodcastsComponent implements OnInit {
         this.audioService.addToQueue(song);
       }
     }
-
   }
 }

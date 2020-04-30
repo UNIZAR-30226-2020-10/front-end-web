@@ -12,6 +12,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { PodcastsComponent } from './pages/podcasts/podcasts.component';
 import { ConfigurationComponent } from './pages/configuration/configuration.component';
 import { AccessGuardService } from './services/access-guard.service';
+import { ArtistComponent } from './pages/artist/artist.component';
 
 const routes: Routes = [
   { path: 'album/:id', component: AlbumComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [ AccessGuardService ] },
   { path: 'podcasts/:id', component: PodcastsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'conf', component: ConfigurationComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'artist', component: ArtistComponent},
   { path: '**', component: LoginComponent},
 ];
 
