@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { List, Playlists, Song } from '../list';
 import { CookieService } from "ngx-cookie-service";
@@ -9,7 +9,7 @@ import { AudioService } from './audio.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CloudService {
+export class CloudService implements OnInit{
 
   constructor(
     private http: HttpClient,
@@ -17,15 +17,20 @@ export class CloudService {
     private router: Router,
     private alertService: AlertsService,
     private audioService: AudioService
-  ) {
+  ) { }
+
+  async ngOnInit() {
+    console.log("DO IT");
     const token = this.getToken();
     console.log(token);
     if(token.email) {
       this.user = token.email;
+      this.userInfo = await this.infoUser();
       this.change = 'change-right';
     }
   }
 
+  public userInfo;
   public user;
   public change;
 
@@ -82,6 +87,13 @@ export class CloudService {
     console.log(this.url+this.askPlaylists);
     var params = {'usuario': this.user};
     return await this.http.get<Playlists>(this.url+this.askPlaylists, {params: params}).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async getSongs() {
+    console.log(this.url+this.songs);
+    return await this.http.get(this.url+this.songs).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }
@@ -211,12 +223,10 @@ export class CloudService {
 
   async infoUser() {
     console.log(this.url+this.info);
-    var params = {};
-    var msg = "";
-    await this.http.post(this.url+this.info, params).toPromise().catch(
-      error => { msg = error.error.text }
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.info, params).toPromise().catch(
+      error => { console.log(error.error.text) }
     );
-    return msg;
   }
 
   async infoArtist(id) {

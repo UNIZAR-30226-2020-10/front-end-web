@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
       console.log("ERROR");
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
+      this.cloudService.userInfo = await this.cloudService.infoUser();
       this.router.navigateByUrl('/initial-screen');
       this.alertService.showAlert(1, "", "¡Bienvenido de nuevo!");
     }

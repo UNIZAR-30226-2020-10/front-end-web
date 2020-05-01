@@ -59,6 +59,7 @@ export class ConfigurationComponent implements OnInit {
           } else {
             msg = await this.cloudService.modify(title.newpass, title.name, title.country);
             if(msg === "Success") {
+              this.cloudService.userInfo = await this.cloudService.infoUser();
               this.alertService.showAlert(1, "", "Los cambios se han guardado");
             } else if(msg === "Error") {
               this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");

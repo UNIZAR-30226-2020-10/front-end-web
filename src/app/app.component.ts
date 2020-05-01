@@ -11,6 +11,8 @@ export class AppComponent {
 
   constructor(
     public cloudService: CloudService
-  ) { }
+  ) {
+    this.cloudService.ngOnInit();
+  }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-perfil',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PerfilComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public cloudService: CloudService
+  ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() {}
 
 }

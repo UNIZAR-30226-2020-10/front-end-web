@@ -1,12 +1,22 @@
 <div class="main">
-    <h1>Nombre usuario</h1>
+    <h1>¡Hola {{ this.cloudService.userInfo.Nombre }}!</h1>
 
-    <h3>Ultima cancion reproducida: 
+    <h3>Ultima cancion reproducida:
         <div class="last_song">
             <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
             La gozadera
         </div>
     </h3>
+
+    <h2>Últimas canciones añadidas</h2>
+    <button class="addAll" (click)="addToQueue()">
+      Añadir todas a la cola
+    </button>
+    <div *ngFor="let song of this.songs" class="lastSongs" (click)="this.audioService.loadList([song], 0, 'l')">
+      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
+      <h4 mat-line>{{ song.Nombre }}</h4>
+      <h5 mat-line>{{ song.Artistas }}</h5>
+    </div>
 
     <h2>Listas de reproduccion</h2>
 

@@ -1,29 +1,29 @@
 <div class="user">
-    <img class="imagenUsuario" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
+    <img class="imagenUsuario" [src]="this.cloudService.userInfo.Foto">
     <div>
         <h2>
             Usuario:
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Elon Musk
+            {{ this.cloudService.userInfo.Nombre }}
         </h2>
         <h2>
             Correo electrónico:
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            elon@gmail.com
+            {{ this.cloudService.user }}
         </h2>
         <h2>
             Fecha de nacimiento:
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            28 de junio de 1971
+            {{ this.cloudService.userInfo.fecha }}
         </h2>
         <h2>
             País:
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Españita
+            {{ this.cloudService.userInfo.Pais }}
         </h2>
         <a href="" [routerLink]="['/conf']">Editar perfil</a>
     </div>
@@ -69,5 +69,5 @@
                 <p>Paquirrín</p>
             </div>
         </li>
-    </ul> 
+    </ul>
 </div>
