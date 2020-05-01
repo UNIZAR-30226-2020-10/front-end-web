@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [ AccessGuardService ] },
   { path: 'podcasts/:id', component: PodcastsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'conf', component: ConfigurationComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'artist', component: ArtistComponent},
+  { path: 'artist/:id', component: ArtistComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'perfil', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: '**', component: LoginComponent},
 ];

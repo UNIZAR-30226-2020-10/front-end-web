@@ -72,6 +72,7 @@ export class CloudService {
   private modifyUser: string = "modify";
   private moveSong: string = "reorder";
   private listAlbum: string = "list_albums_data";
+  private listArtist: string = "list_artist_data";
   private favoritePodcast: string = "podcast_fav";
   private notFavoritePodcast: string = "delete_podcast_fav";
   private isFavoritePodcast: string = "podcast_is_fav";
@@ -216,6 +217,22 @@ export class CloudService {
       error => { msg = error.error.text }
     );
     return msg;
+  }
+
+  async infoArtist(id) {
+    console.log(this.url+this.listArtist);
+    var params = {'artista': id};
+    return await this.http.get(this.url+this.listArtist, {params: params}).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async infoAlbum(id) {
+    console.log(this.url+this.listAlbum);
+    var params = {'album': id};
+    return await this.http.get(this.url+this.listAlbum, {params: params}).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
   async isPodcastFavorite(id) {

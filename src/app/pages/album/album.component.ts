@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CloudService } from 'src/app/services/cloud.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'app-album',
@@ -13,14 +14,16 @@ export class AlbumComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public cloudService: CloudService
+    public cloudService: CloudService,
+    public audioService: AudioService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.name = params.get('id');
     });
-    this.songs = this.cloudService.searchSong(this.name);
+    this.songs = await this.cloudService.infoAlbum(this.name);
+    console.log(this.songs);
   }
 
 }

@@ -6,7 +6,7 @@
 </button>
 <div class="song" *ngIf="this.audioService.maxIndex > 0 && this.audioService.showSong">
   <h2>{{ this.audioService.currentFile.song.Nombre }}</h2>
-  <h3>{{ this.audioService.currentFile.song.Artistas }}</h3>
+  <h3 class="linkArtist" [routerLink]="['/artist', this.audioService.currentFile.song.Artistas[0]]">{{ this.audioService.currentFile.song.Artistas }}</h3>
   <a [routerLink]="['/album', this.audioService.currentFile.song.Album]">
     <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
   </a>

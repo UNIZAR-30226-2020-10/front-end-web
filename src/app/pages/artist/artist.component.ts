@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-artist',
@@ -6,12 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./artist.component.scss']
 })
 export class ArtistComponent implements OnInit {
-
+  info;
   saved: boolean;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    public cloudService: CloudService
+  ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(){
+    var id = "";
+    this.route.paramMap.subscribe( params => {
+      id = params.get('id');
+    });
+    this.info = await this.cloudService.infoArtist(id);
   }
 
   toggleIcon() {
