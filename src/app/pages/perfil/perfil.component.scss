@@ -1,0 +1,79 @@
+.user  {
+    display: flex;
+    margin: 1rem 1rem;
+}
+
+.imagenUsuario {
+    width: 10rem;
+    height: 10rem;
+    //margin: 1rem 1rem;
+    display: block;
+}
+
+h2 {
+    margin-left: 1rem;
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-color: #dddddd;
+    line-height: 1.5rem;
+}
+
+h3 {
+    margin-left: 1rem;
+}
+
+a {
+    margin-left: 1rem;
+}
+
+.albums {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.albums ul {
+    list-style-type: none;
+}
+
+.albums li {
+    //margin-top: 1rem;
+    display: flex;
+    align-items:center;
+    border: 1px solid #d1c4e9;
+    background: #ede7f6;
+}
+
+.albums li:hover {
+    cursor: pointer;
+}
+
+.albums .album_image{
+    width: 5rem;
+    height: 5rem;
+    //padding: 1rem;
+}
+
+.albums h3 {
+    margin-left: 1rem;
+}
+
+.album_details button {
+    box-shadow: 0 3px 10px rgba(0,0,0,.23),0 3px 10px rgba(0,0,0,.16);
+    background-color: #448AFF;
+    border-radius: 4px;
+    border: none;
+    border-color: #448AFF;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.album_details button:hover {
+    cursor: pointer;
+}
+
+.album_details p {
+    margin-left: 1rem;
+}

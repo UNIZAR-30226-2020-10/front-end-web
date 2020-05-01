@@ -33,7 +33,8 @@ import { AlertsService } from './services/alerts.service';
 import { ConfigurationComponent } from './pages/configuration/configuration.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AccessGuardService } from './services/access-guard.service';
-import { ArtistComponent } from './pages/artist/artist.component'
+import { ArtistComponent } from './pages/artist/artist.component';
+import { PerfilComponent } from './pages/perfil/perfil.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +58,7 @@ import { ArtistComponent } from './pages/artist/artist.component'
     AlertsComponent,
     ConfigurationComponent,
     ArtistComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,
