@@ -5,6 +5,7 @@
       {{ isSaved() }}
       <h2>
         {{ podcasts.title }}
+        <!-- {{pod.publisher_original }} -->
         <div class="buttons">
           <button (click)="toggleIcon()">
             <span class="material-icons" *ngIf="!this.saved">

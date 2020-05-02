@@ -7,4 +7,5 @@ export interface Podcast {
   episodes: Array<any>
   title: string
   description: string;
+  publisher_original;
 }
