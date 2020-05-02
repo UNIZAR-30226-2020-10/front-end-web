@@ -46,5 +46,5 @@
 
 <!-- (click)="onSelect(podcast) -->
 <div *ngIf="selectedPodcast">
-  <app-podcast-detail [result]="[selectedPodcast, pod.publisher_original]"></app-podcast-detail>
+  <app-podcast-detail [result]="[selectedPodcast, pod.publisher_original, this.title]"></app-podcast-detail>
 </div>

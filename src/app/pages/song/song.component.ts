@@ -47,12 +47,20 @@ export class SongComponent implements OnDestroy, OnInit {
     this.route.navigate(['/song/add']);
   }
 
+  album() {
+    if(this.audioService.currentFile.song.title) {
+      this.route.navigate(['/podcasts', this.audioService.currentFile.song.title]);
+    } else {
+      this.route.navigate(['/album', this.audioService.currentFile.song.Album]);
+    }
+  }
+
   ngOnDestroy(): void {
     this.audioService.showSong = false;
   }
 
   ngOnInit(): void {
-
+    this.audioService.showSong = true;
   }
 
 }

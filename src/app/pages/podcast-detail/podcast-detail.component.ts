@@ -22,7 +22,7 @@ export class PodcastDetailComponent implements OnInit {
   }
 
   onPlay(): void {
-    this.audioService.openPodcast(this.result[0].audio, this.result[0].title, this.result[1]);
+    this.audioService.openPodcast(this.result[0].audio, this.result[0].title, this.result[1], this.result[2]);
   }
 
   stripHTML(text) {
@@ -55,12 +55,14 @@ export class PodcastDetailComponent implements OnInit {
         Artistas: this.result[0].publisher_original,
         Imagen: null,
         ID: undefined,
-        Album: undefined
+        Album: undefined,
+        title: this.result[2]
+
       };
       this.audioService.addToQueue(song);
     } else {
       this.audioService.openPodcast(this.result[0].audio,
-        this.result[0].title, this.result[0].publisher_original);
+        this.result[0].title, this.result[0].publisher_original, this.result[2]);
     }
   }
 }

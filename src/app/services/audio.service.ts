@@ -17,7 +17,6 @@ export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
   private start: Boolean = false;
-  private isPodcast: Boolean = false;
   private listID;
   passSong;
   useEqualizer: Boolean = false;
@@ -57,7 +56,7 @@ export class AudioService {
     switch (event.type) {
       case 'canplay':
         this.state.duration = this.audioObj.duration;
-        if(this.isPodcast) {
+        if(this.currentFile.song.title) {
           this.state.readableDuration = this.formatTimePodcast(this.state.duration);
         } else {
           this.state.readableDuration = this.formatTimeSong(this.state.duration);
@@ -72,7 +71,7 @@ export class AudioService {
         break;
       case 'timeupdate':
         this.state.currentTime = this.audioObj.currentTime;
-        if(this.isPodcast) {
+        if(this.currentFile.song.title) {
           this.state.readableCurrentTime = this.formatTimePodcast(this.state.currentTime);
         } else {
           this.state.readableCurrentTime = this.formatTimeSong(this.state.currentTime);
@@ -122,7 +121,7 @@ export class AudioService {
       } else {
         this.audioObj.play();
       }
-      if(this.useEqualizer && !this.isPodcast) {
+      if(this.useEqualizer && !this.currentFile.song.title) {
         equalizerLoad(this.audioObj);
       }
       const handler = (event: Event) => {
@@ -178,8 +177,7 @@ export class AudioService {
     this.playStream(song.URL).subscribe(events => { });
   }
 
-  openPodcast(url, name, creator) {
-    this.isPodcast = true;
+  openPodcast(url, name, creator, t) {
     this.maxIndex = 1;
     var song = {
       URL: url,
@@ -187,7 +185,8 @@ export class AudioService {
       Artistas: [creator],
       Imagen: null,
       ID: undefined,
-      Album: undefined
+      Album: undefined,
+      title: t
     };
     this.audioList = [];
     this.audioList[0] = song;
@@ -229,7 +228,6 @@ export class AudioService {
   }
 
   loadList(files, index, load) {
-    this.isPodcast = false;
     if(load != 'c') {
       this.listID = load;
       this.loop = false;
@@ -268,7 +266,7 @@ export class AudioService {
   }
 
   loadEqualizer(){
-    if(!this.isPodcast) {
+    if(!this.currentFile.song.title) {
       this.useEqualizer = true;
       equalizerLoad(this.audioObj);
     }

@@ -76,13 +76,14 @@ export class PodcastsComponent implements OnInit {
           Artistas: this.pod.publisher_original,
           Imagen: null,
           ID: undefined,
-          Album: undefined
+          Album: undefined,
+          title: this.title
         };
         this.audioService.addToQueue(song);
       }
     } else {
       this.audioService.openPodcast(this.podcasts.episodes[0].audio,
-        this.podcasts.episodes[0].title, this.pod.publisher_original);
+        this.podcasts.episodes[0].title, this.pod.publisher_original, this.title);
       for(let i=1; i<this.podcasts.episodes.length; i++){
         var song = {
           URL: this.podcasts.episodes[i].audio,
@@ -90,7 +91,8 @@ export class PodcastsComponent implements OnInit {
           Artistas: this.pod.publisher_original,
           Imagen: null,
           ID: undefined,
-          Album: undefined
+          Album: undefined,
+          title: this.title
         };
         this.audioService.addToQueue(song);
       }
