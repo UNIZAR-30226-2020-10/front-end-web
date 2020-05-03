@@ -37,7 +37,8 @@ export class RegisterComponent implements OnInit {
         this.alertService.showAlert(0, "", "Introduce tu país de residencia");
         return;
       }
-      let msg = await this.cloudService.register(email, pass, name, country, date);
+      const newpass = this.cloudService.encrypt(pass);
+      let msg = await this.cloudService.register(email, newpass, name, country, date);
       console.log(msg);
       if(msg === "Clave duplicada") {
         this.alertService.showAlert(0, "", "Usuario ya registrado");

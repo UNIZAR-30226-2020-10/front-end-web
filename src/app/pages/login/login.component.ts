@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit {
     const email = (<HTMLInputElement> document.getElementById("email")).value;
     const pass = (<HTMLInputElement> document.getElementById("password")).value;
     console.log(this.session);
-    let msg = await this.cloudService.signIn(email, pass, this.session);
+    const newpass = this.cloudService.encrypt(pass);
+    let msg = await this.cloudService.signIn(email, newpass, this.session);
     console.log(msg);
     if(msg === "Contraseña incorrecta") {
       console.log("INCORRECT");

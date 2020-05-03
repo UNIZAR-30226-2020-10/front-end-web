@@ -17,11 +17,14 @@ export class AccessGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean>|Promise<boolean>|boolean {
     const requiresLogin = route.data.requiresLogin || false;
-    if(requiresLogin && this.cloudService.user === undefined) {
+    console.log("RUTA " + requiresLogin);
+    console.log(this.cloudService.user);
+    console.log(this.cloudService.userInfo)
+    if(requiresLogin && !this.cloudService.userInfo.Nombre) {
       this.alertService.showAlert(0, "", "Primero tienes que iniciar sesión");
       this.router.navigateByUrl('/login');
       return false;
-    } else if(!requiresLogin && this.cloudService.user != undefined) {
+    } else if(!requiresLogin && this.cloudService.userInfo.Nombre) {
       this.router.navigateByUrl('/initial-screen');
       return false;
     }

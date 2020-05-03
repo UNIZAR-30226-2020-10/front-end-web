@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CloudService } from './services/cloud.service';
 
 @Component({
@@ -6,13 +6,15 @@ import { CloudService } from './services/cloud.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'TuneIT';
 
   constructor(
     public cloudService: CloudService
-  ) {
-    this.cloudService.ngOnInit();
+  ) { }
+
+  async ngOnInit() {
+    await this.cloudService.ngOnInit();
   }
 
 }

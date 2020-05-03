@@ -1,4 +1,18 @@
 <div class="content">
+  <div class="filtro" *ngIf="!this.add">
+    <button (click)="byTitle()">
+      Filtrar por título
+    </button>
+    <button (click)="byArtist()">
+      Filtrar por artista
+    </button>
+    <button *ngIf="!this.queue && !this.add && !this.search" (click)="byCategory()">
+      Filtrar por categoría
+    </button>
+    <button *ngIf="this.filter != undefined" (click)="clean()">
+      Eliminar filtro
+    </button>
+  </div>
   <div class="logo" *ngIf="!this.add && !this.search && this.list != undefined">
     <img class="listArt" *ngIf="this.list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
     <img class="listArt" *ngIf="this.list.Imagen != 'default'" [src]="this.list.Imagen" alt="listart">
@@ -7,8 +21,8 @@
   <mat-list color="primary">
   <h3 mat-subheader *ngIf="!this.add">Canciones</h3>
   <h3 mat-subheader *ngIf="this.add">Listas de reproducción</h3>
-  <div class="listDrag" *ngIf="!this.add && this.list != undefined && this.search">
-    <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of list.Canciones; let i = index">
+  <div class="listDrag" *ngIf="!this.add && this.list != undefined && (this.search || this.filter != undefined)">
+    <div class="drag" *ngFor="let file of this.filter; let i = index; trackBy: trackByFn">
       <mat-list-item class="info-song" (click)="loadList(i, file)" >
         <img class="albumArt" [src]="file.Imagen" alt="albumart">
         <h4 mat-line>{{ file.Nombre }}</h4>
@@ -23,8 +37,8 @@
       <mat-divider></mat-divider>
     </div>
   </div>
-  <div cdkDropList class="listDrag" *ngIf="!this.add && this.list != undefined && !this.search" (cdkDropListDropped)="drop($event)">
-    <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of list.Canciones; let i = index" cdkDrag>
+  <div cdkDropList class="listDrag" *ngIf="!this.add && this.list != undefined && !this.search && this.filter === undefined" (cdkDropListDropped)="drop($event)">
+    <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of this.list.Canciones; let i = index; trackBy: trackByFn" cdkDrag>
       <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
       <mat-list-item class="info-song" (click)="loadList(i, file)" >
         <img class="albumArt" [src]="file.Imagen" alt="albumart">

@@ -5,6 +5,7 @@ import { CookieService } from "ngx-cookie-service";
 import { Router } from '@angular/router';
 import { AlertsService } from './alerts.service';
 import { AudioService } from './audio.service';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -20,29 +21,34 @@ export class CloudService implements OnInit{
   ) { }
 
   async ngOnInit() {
-    console.log("DO IT");
     const token = this.getToken();
-    console.log(token);
     if(token.email) {
-      this.user = token.email;
-      this.userInfo = await this.infoUser();
-      this.change = 'change-right';
+      const msg = await this.signIn(token.email, token.password, false);
+      if(msg === "Success") {
+        this.userInfo = await this.infoUser();
+        this.audioService.lists = await this.getPlaylists();
+        this.audioService.favList(await this.getList(this.audioService.lists[0].ID));
+        this.audioService.favoriteID = this.audioService.lists[0].ID;
+      } else {
+        this.cookies.delete("TuneIT");
+      }
     }
   }
 
   public userInfo;
   public user;
   public change;
+  private key = CryptoJS.enc.Utf8.parse("KarenSparckJonesProyectoSoftware");
 
   setToken(token) {
     const dateNow = new Date();
     dateNow.setDate(dateNow.getDate() + 15);
-    this.cookies.set("TuneIT", JSON.stringify(token), dateNow);
+    this.cookies.set("TuneIT", this.encrypt(JSON.stringify(token)), dateNow);
   }
 
   getToken() {
     if(this.cookies.check("TuneIT")) {
-      return JSON.parse(this.cookies.get("TuneIT"));
+      return JSON.parse(this.decrypt(this.cookies.get("TuneIT")));
     }
     return "false";
   }
@@ -59,6 +65,27 @@ export class CloudService implements OnInit{
     this.audioService.currentFile = {};
     this.alertService.showAlert(1, "", "Se ha cerrado la sesión");
     this.router.navigateByUrl('/login');
+  }
+
+  encrypt(value) : string{
+    console.log(CryptoJS.AES.encrypt(value, this.key, {
+      keySize: 32,
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    }).toString());
+    return CryptoJS.AES.encrypt(value, this.key, {
+      keySize: 32,
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    }).toString();
+  }
+
+  decrypt(textToDecrypt){
+    return CryptoJS.AES.decrypt(textToDecrypt, this.key, {
+      keySize: 32,
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    }).toString(CryptoJS.enc.Utf8);
   }
 
   private url = "https://psoftware.herokuapp.com/";
@@ -82,6 +109,7 @@ export class CloudService implements OnInit{
   private notFavoritePodcast: string = "delete_podcast_fav";
   private isFavoritePodcast: string = "podcast_is_fav";
   private podcastList: string = "list_podcast";
+  private filterCategory: string = "filter_category_in_list";
 
   async getPlaylists() {
     console.log(this.url+this.askPlaylists);
@@ -279,6 +307,14 @@ export class CloudService implements OnInit{
     console.log(this.url+this.podcastList);
     var params = {'email': this.user};
     return await this.http.get(this.url+this.podcastList, {params: params}).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async listCategory(cat, list) {
+    console.log(this.url+this.filterCategory);
+    var params = {'lista': list, 'categorias': ["Rock"]};
+    return await this.http.get(this.url+this.filterCategory, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }

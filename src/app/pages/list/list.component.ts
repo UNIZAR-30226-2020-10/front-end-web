@@ -15,7 +15,10 @@ import { List } from 'src/app/list';
 })
 
 export class ListComponent implements OnInit {
+  private orderArtist: Boolean = false;
+  private orderTitle: Boolean = false;
   list;
+  filter;
   queue: Boolean;
   search: Boolean;
   song;
@@ -129,7 +132,7 @@ export class ListComponent implements OnInit {
   backToList() {
     this.song = undefined;
     this.add = false;
-    if(this.list == undefined) {
+    if(this.list === undefined) {
       this.audioService.passSong = undefined;
       this.audioService.showSong = true;
       this.location.back();
@@ -140,14 +143,13 @@ export class ListComponent implements OnInit {
     if(this.search) {
       this.audioService.loadList([song], 0, undefined);
     } else {
-      console.log(index);
-      this.audioService.loadList(this.list.Canciones, index, this.list.ID);
+      this.audioService.loadList(this.isFilter(), index, this.list.ID);
     }
   }
 
   isActual(i) {
     if(this.queue && this.audioService.currentFile.index === i &&
-       !this.audioService.checkState().error) {
+       !this.audioService.checkState().error && this.filter === undefined) {
       return "actual";
     }
     return "";
@@ -185,6 +187,64 @@ export class ListComponent implements OnInit {
       }
       moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
       await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
+    }
+  }
+
+  trackByFn(index, file) {
+    return file.ID;
+  }
+
+  clean() {
+    this.orderArtist = false;
+    this.orderTitle = false;
+    console.log(this.filter);
+    console.log(this.list.Canciones);
+    delete this.filter;
+  }
+
+  isFilter() {
+    if(this.filter != undefined) {
+      return this.filter;
+    }
+    return this.list.Canciones;
+  }
+
+  byArtist() {
+    this.orderArtist = !this.orderArtist;
+    if(!this.orderArtist) {
+      this.filter = this.filter.reverse();
+    } else {
+      const aux = Array.from(this.orderByKey('Artistas'));
+      this.filter = aux;
+    }
+  }
+
+  byTitle() {
+    this.orderTitle = !this.orderTitle;
+    if(!this.orderTitle) {
+      this.filter = this.filter.reverse();
+    } else {
+      const aux = Array.from(this.orderByKey('Nombre'));
+      this.filter = aux;
+    }
+  }
+
+  private orderByKey(key) {
+    var aux = new Array(this.list.Canciones.length);
+    aux = Array.from(this.list.Canciones);
+    return aux.sort(function(a, b) {
+      var x = a[key]; var y = b[key];
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+
+  async byCategory() {
+    const aux = await this.cloudService.listCategory(["Rock"], this.list.ID);
+    console.log(aux);
+    if(aux === undefined) {
+      this.alertService.showAlert(3, "", "No se ha encontrado ninguna canción de la categoría introducida");
+    } else {
+      this.filter = aux;
     }
   }
 

@@ -31,8 +31,9 @@ export class ConfigurationComponent implements OnInit {
       return;
     }
     let msg;
+    const encrepass = this.cloudService.encrypt(title.repass);
     if(this.delete) {
-      msg = await this.cloudService.deleteUser(title.repass);
+      msg = await this.cloudService.deleteUser(encrepass);
       if(msg === "Success") {
         this.checkoutForm.reset();
         this.alertService.showAlert(1, "", "Usuario eliminado");
@@ -44,7 +45,7 @@ export class ConfigurationComponent implements OnInit {
       }
       return;
     }
-    msg = await this.cloudService.signIn(this.cloudService.user, title.repass, false);
+    msg = await this.cloudService.signIn(this.cloudService.user, encrepass, false);
     if(msg === "Contraseña incorrecta") {
       this.alertService.showAlert(0, "", "Contraseña incorrecta");
     } else if(msg === "Error") {
@@ -59,7 +60,11 @@ export class ConfigurationComponent implements OnInit {
           if(title.name.length === 0 && title.newpass.length === 0 && title.country.length === 0) {
             this.alertService.showAlert(2, "", "Introduce algún campo para modificar");
           } else {
-            msg = await this.cloudService.modify(title.newpass, title.name, title.country);
+            var encnewpass = title.newpass;
+            if(title.newpass.length > 0) {
+              encnewpass = this.cloudService.encrypt(title.repass);
+            }
+            msg = await this.cloudService.modify(encnewpass, title.name, title.country);
             if(msg === "Success") {
               this.cloudService.userInfo = await this.cloudService.infoUser();
               this.alertService.showAlert(1, "", "Los cambios se han guardado");
