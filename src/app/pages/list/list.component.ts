@@ -103,6 +103,7 @@ export class ListComponent implements OnInit {
       await this.cloudService.deleteSong(song.ID, list);
       if(list === this.audioService.favoriteID) {
         this.audioService.dropFav(index);
+        this.list.Canciones.splice(index,1);
         if(song.ID === this.audioService.currentFile.song.ID) {
           this.audioService.songFav = false;
         }
@@ -181,9 +182,8 @@ export class ListComponent implements OnInit {
       console.log(this.list.Canciones);
       if(this.list.ID === this.audioService.favoriteID) {
         moveItemInArray(this.audioService.favoriteSongs, event.previousIndex, event.currentIndex);
-      } else {
-        moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
       }
+      moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
       await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
     }
   }
