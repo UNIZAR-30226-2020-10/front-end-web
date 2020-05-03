@@ -10,12 +10,16 @@
       </div>
     </form>
 
-  <div *ngIf="podcasts" class="uff">
-    <div class="searched"><strong>Podcast buscado: </strong>{{ title_string }}</div>
+  <div *ngIf="podcasts || favPodcasts" class="uff">
+    <div class="searched" *ngIf="title_string != undefined"><strong>Podcast buscado: </strong>{{ title_string }}</div>
+    <div class="searched" *ngIf="title_string === undefined"><strong>Podcasts favoritos: </strong></div>
+    <button (click)="podcasts = undefined; title_string = undefined" *ngIf="title_string != undefined">
+      Eliminar búsqueda
+    </button>
     <!-- LISTA DE PODCASTS -->
     <ul class="podcasts">
       <!-- GUARDAR PODCAST SELECCIONADO EN UN SERVICIO -->
-      <li *ngFor="let result of podcasts.results" [routerLink]="['/podcasts', result.title_original]" (click)="onSelect(result)">
+      <li *ngFor="let result of isFavorite()" [routerLink]="['/podcasts', result.title_original]" (click)="onSelect(result)">
           <div class="separar">
             <img src='{{result.image}}'/>
             <div class="texto">

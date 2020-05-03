@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,6 +35,11 @@ import { CookieService } from 'ngx-cookie-service';
 import { AccessGuardService } from './services/access-guard.service';
 import { ArtistComponent } from './pages/artist/artist.component';
 import { PerfilComponent } from './pages/perfil/perfil.component'
+
+export function appInit(cloudService: CloudService): () => Promise<any> {
+  return () => cloudService.initApp();
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,7 +78,8 @@ import { PerfilComponent } from './pages/perfil/perfil.component'
   ],
   providers: [AudioService, CloudService, LoaderService, AlertsService,
     CookieService, AccessGuardService,
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: APP_INITIALIZER, useFactory: appInit, deps: [CloudService], multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

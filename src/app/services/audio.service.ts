@@ -180,14 +180,14 @@ export class AudioService {
     this.playStream(song.URL).subscribe(events => { });
   }
 
-  openPodcast(url, name, creator, t, img) {
+  openPodcast(url, name, creator, t, img, id) {
     this.maxIndex = 1;
     var song = {
       URL: url,
       Nombre: name,
       Artistas: [creator],
       Imagen: img,
-      ID: undefined,
+      ID: id,
       Album: undefined,
       title: t
     };

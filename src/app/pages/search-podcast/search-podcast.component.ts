@@ -5,6 +5,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { FormBuilder } from '@angular/forms';
 import { SavePodcastService } from 'src/app/services/save-podcast.service';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-search-podcast',
@@ -22,20 +23,31 @@ export class SearchPodcastComponent implements OnInit {
   showFirst;
   publisher_original: string;
   icon: boolean;
+  ids;
+  favPodcasts;
 
   constructor(
     private podcastService: PodcastService,
     private formBuilder: FormBuilder,
     private savePodcast: SavePodcastService,
-    public alertService: AlertsService
+    public alertService: AlertsService,
+    public cloudService: CloudService
     ) {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });
    }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.podcasts = this.savePodcast.restoreState();
+    this.ids = await this.cloudService.listPodcast();
+    if(this.ids.length > 0) {
+      var ids = this.ids[0];
+      for(let id of this.ids) {
+        ids += "," + id;
+      }
+      this.podcastService.getPodcastsPost(ids).subscribe(podcasts => this.favPodcasts = podcasts);
+    }
   }
 
   // Para el podcast seleccionado
@@ -50,7 +62,7 @@ export class SearchPodcastComponent implements OnInit {
     if(title.titulo.length > 2) {
       this.title_string = title.titulo;
       this.selectedPodcast = null;
-      this.getPodcasts();
+      this.getPodcasts(this.title_string);
 
       this.checkoutForm.reset();
     } else {
@@ -60,13 +72,21 @@ export class SearchPodcastComponent implements OnInit {
 
   // Llama a la funcion "getPodcasts" del servicio.
   // Pone una lista de podcasts en @podcasts
-  getPodcasts(): void {
-    this.podcastService.getPodcasts(this.title_string).subscribe(podcasts => this.podcasts = podcasts);
+  getPodcasts(search): void {
+    this.podcastService.getPodcasts(search).subscribe(podcasts => this.podcasts = podcasts);
   }
 
   // Para saver si un podcast esta guardado o no
   isSaved(title: string) {
     // PREGUNTAR A BACK END SI EL PODCAST @TITLE ESTA GUARDADO
     this.icon = true;
+  }
+
+  isFavorite() {
+    if(this.title_string === undefined) {
+      return this.favPodcasts.results;
+    } else {
+      return this.podcasts.results;
+    }
   }
 }

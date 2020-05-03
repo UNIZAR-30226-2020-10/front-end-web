@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { List, Playlists, Song } from '../list';
 import { CookieService } from "ngx-cookie-service";
@@ -10,17 +10,17 @@ import * as CryptoJS from 'crypto-js';
 @Injectable({
   providedIn: 'root'
 })
-export class CloudService implements OnInit{
+export class CloudService {
 
   constructor(
     private http: HttpClient,
-    private cookies: CookieService,
+    public cookies: CookieService,
     private router: Router,
     private alertService: AlertsService,
     private audioService: AudioService
   ) { }
 
-  async ngOnInit() {
+  async initApp() {
     const token = this.getToken();
     if(token.email) {
       const msg = await this.signIn(token.email, token.password, false);
@@ -67,12 +67,7 @@ export class CloudService implements OnInit{
     this.router.navigateByUrl('/login');
   }
 
-  encrypt(value) : string{
-    console.log(CryptoJS.AES.encrypt(value, this.key, {
-      keySize: 32,
-      mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7
-    }).toString());
+  encrypt(value) : string {
     return CryptoJS.AES.encrypt(value, this.key, {
       keySize: 32,
       mode: CryptoJS.mode.ECB,
@@ -80,7 +75,7 @@ export class CloudService implements OnInit{
     }).toString();
   }
 
-  decrypt(textToDecrypt){
+  decrypt(textToDecrypt) : string {
     return CryptoJS.AES.decrypt(textToDecrypt, this.key, {
       keySize: 32,
       mode: CryptoJS.mode.ECB,
@@ -281,7 +276,10 @@ export class CloudService implements OnInit{
     await this.http.post(this.url+this.isFavoritePodcast, params).toPromise().catch(
       error => { msg = error.error.text }
     );
-    return msg;
+    if(msg === "True") {
+      return true;
+    }
+    return false;
   }
 
   async deletePodcast(id) {
@@ -291,6 +289,7 @@ export class CloudService implements OnInit{
     await this.http.post(this.url+this.notFavoritePodcast, params).toPromise().catch(
       error => { msg = error.error.text }
     );
+    console.log(msg);
     return msg;
   }
 
@@ -301,6 +300,7 @@ export class CloudService implements OnInit{
     await this.http.post(this.url+this.favoritePodcast, params).toPromise().catch(
       error => { msg = error.error.text }
     );
+    console.log(msg);
     return msg;
   }
 

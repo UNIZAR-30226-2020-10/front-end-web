@@ -14,6 +14,7 @@ export class PodcastService {
   private podcast_url_2 = '&type=podcast&only_in=title&language=Spanish'
 
   private episode_url_1 = 'https://listen-api.listennotes.com/api/v2/podcasts/';
+  private episode_url_2 = 'https://listen-api.listennotes.com/api/v2/podcasts';
 
   httpOptions = {
     headers: new HttpHeaders({ 'X-ListenAPI-Key': 'fb46ce2b5ca54885969d1445995238e1' })
@@ -29,5 +30,12 @@ export class PodcastService {
 
   getEpisodes(title: String): Observable<Podcast> {
     return this.http.get<Podcast>(`${this.episode_url_1}${title}`, this.httpOptions);
+  }
+
+  getPodcastsPost(title): Observable<Podcast> {
+    var param = {
+      body: title
+    }
+    return this.http.post<Podcast>(`${this.episode_url_2}${title}`, param, this.httpOptions);
   }
 }

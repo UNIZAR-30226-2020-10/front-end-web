@@ -27,13 +27,13 @@ const routes: Routes = [
   { path: 'search/:id', component: ListComponent, data: {queue: false, search: true, add: false, category: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'song/add', component: ListComponent, data: {queue: false, search: false, add: true, category: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'initial-screen', component: InicialScreenComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'register', component: RegisterComponent, data: {requiresLogin: false}, canActivate: [ AccessGuardService ]  },
-  { path: 'login', component: LoginComponent, data: {requiresLogin: false}, canActivate: [ AccessGuardService ] },
+  { path: 'register', component: RegisterComponent, canActivate: [ AccessGuardService ] },
+  { path: 'login', component: LoginComponent, canActivate: [ AccessGuardService ] },
   { path: 'podcasts/:id', component: PodcastsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'conf', component: ConfigurationComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'artist/:id', component: ArtistComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'perfil', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: '**', component: LoginComponent },
+  { path: '**', component: InicialScreenComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
 ];
 
 @NgModule({

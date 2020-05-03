@@ -2,10 +2,10 @@
     <span><a [routerLink]="['initial-screen']">TuneIt</a></span>
     <span class="empty_spaces"></span>
     <div class="opciones" *ngIf="this.cloudService.user != undefined">
-        <span><a routerLink='' aria-label="Notificaciones">Notificaciones</a></span>
+        <span><a routerLink='/notifications' aria-label="Notificaciones">Notificaciones</a></span>
     </div>
     <div class="opciones">
-        <span><a routerLink='' aria-label="Ayuda">Ayuda</a></span>
+        <span><a routerLink='/help' aria-label="Ayuda">Ayuda</a></span>
     </div>
     <div class="opciones" *ngIf="this.cloudService.user != undefined">
         <span><a routerLink='/conf' aria-label="Configuracion">Configuración</a></span>

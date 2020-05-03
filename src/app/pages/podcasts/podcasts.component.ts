@@ -4,6 +4,7 @@ import { PodcastService } from 'src/app/services/podcast.service';
 import { AudioService } from 'src/app/services/audio.service';
 import { ActivatedRoute } from '@angular/router';
 import { SavePodcastService } from 'src/app/services/save-podcast.service';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-podcasts',
@@ -24,14 +25,21 @@ export class PodcastsComponent implements OnInit {
   temp: string;
   pod;
 
-  constructor(private savePodcast: SavePodcastService, private route: ActivatedRoute, private podcastService: PodcastService, public audioService: AudioService) {
+  constructor(
+    private savePodcast: SavePodcastService,
+    private route: ActivatedRoute,
+    private podcastService: PodcastService,
+    public audioService: AudioService,
+    public cloudService: CloudService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.title = params.get('id');
     });
     this.pod = this.savePodcast.get();
+    this.saved = await this.cloudService.isPodcastFavorite(this.pod.id);
+    console.log(this.saved);
     this.getPodcasts();
   }
 
@@ -59,8 +67,13 @@ export class PodcastsComponent implements OnInit {
   }
 
   // To save a podcast
-  toggleIcon() {
-   this.saved = true;
+  async toggleIcon() {
+    this.saved = !this.saved;
+    if(!this.saved) {
+      await this.cloudService.deletePodcast(this.pod.id);
+    } else {
+      await this.cloudService.addPodcast(this.pod.id, this.title);
+    }
   }
 
   addToPlayList(): void {
@@ -75,7 +88,7 @@ export class PodcastsComponent implements OnInit {
           Nombre: this.podcasts.episodes[i].title,
           Artistas: this.pod.publisher_original,
           Imagen: this.podcasts.episodes[i].image,
-          ID: undefined,
+          ID: this.pod.id,
           Album: undefined,
           title: this.title
         };
@@ -83,14 +96,14 @@ export class PodcastsComponent implements OnInit {
       }
     } else {
       this.audioService.openPodcast(this.podcasts.episodes[0].audio,
-        this.podcasts.episodes[0].title, this.pod.publisher_original, this.title, this.podcasts.episodes[0].image);
+        this.podcasts.episodes[0].title, this.pod.publisher_original, this.title, this.podcasts.episodes[0].image, this.pod.id);
       for(let i=1; i<this.podcasts.episodes.length; i++){
         var song = {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
           Artistas: this.pod.publisher_original,
           Imagen: this.podcasts.episodes[i].image,
-          ID: undefined,
+          ID: this.pod.id,
           Album: undefined,
           title: this.title
         };

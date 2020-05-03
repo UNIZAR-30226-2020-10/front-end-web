@@ -1,20 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CloudService } from './services/cloud.service';
+import { AudioService } from './services/audio.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'TuneIT';
 
-  constructor(
-    public cloudService: CloudService
-  ) { }
-
-  async ngOnInit() {
-    await this.cloudService.ngOnInit();
-  }
+  constructor() { }
 
 }

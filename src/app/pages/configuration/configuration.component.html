@@ -5,12 +5,12 @@
     <div class="changes">
     <div class="form-group">
       <span>Contraseña actual</span>
-      <input class="form-field" formControlName="repass" type="password" placeholder="Contraseña actual" required>
+      <input class="form-field" formControlName="repass" type="password" placeholder="Contraseña actual" required appBlockCopyPaste>
     </div>
     <h3 style="padding-top: 1rem;">Modificar contraseña</h3>
     <div class="form-group">
       <span>Nueva contraseña</span>
-      <input class="form-field" formControlName="newpass" type="password" placeholder="Nueva contraseña">
+      <input class="form-field" formControlName="newpass" type="password" placeholder="Nueva contraseña" appBlockCopyPaste>
     </div>
       <!--<label for="renewpass">
         Repetir contraseña:
@@ -19,7 +19,7 @@
     -->
       <div class="form-group">
         <span>Repetir nueva contraseña</span>
-        <input class="form-field" formControlName="renewpass" type="password" placeholder="Repetir nueva contraseña">
+        <input class="form-field" formControlName="renewpass" type="password" placeholder="Repetir nueva contraseña" appBlockCopyPaste>
       </div>
       <h3 style="padding-top: 1rem;">Modificar nombre</h3>
       <!--<input type="text" formControlName="name" name="name" class="name" placeholder="Nuevo nombre">
