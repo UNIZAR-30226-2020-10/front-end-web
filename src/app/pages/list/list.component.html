@@ -6,7 +6,7 @@
     <button (click)="byArtist()">
       Filtrar por artista
     </button>
-    <button *ngIf="!this.queue && !this.add && !this.search" (click)="byCategory()">
+    <button *ngIf="!this.queue && !this.add && !this.search && !this.category" (click)="byCategory()">
       Filtrar por categoría
     </button>
     <button *ngIf="this.filter != undefined" (click)="clean()">
@@ -21,8 +21,8 @@
   <mat-list color="primary">
   <h3 mat-subheader *ngIf="!this.add">Canciones</h3>
   <h3 mat-subheader *ngIf="this.add">Listas de reproducción</h3>
-  <div class="listDrag" *ngIf="!this.add && this.list != undefined && (this.search || this.filter != undefined)">
-    <div class="drag" *ngFor="let file of this.filter; let i = index; trackBy: trackByFn">
+  <div class="listDrag" *ngIf="!this.add && this.list != undefined && (this.search || this.filter != undefined || this.category)">
+    <div class="drag" *ngFor="let file of isFilter() let i = index; trackBy: trackByFn">
       <mat-list-item class="info-song" (click)="loadList(i, file)" >
         <img class="albumArt" [src]="file.Imagen" alt="albumart">
         <h4 mat-line>{{ file.Nombre }}</h4>
@@ -37,7 +37,7 @@
       <mat-divider></mat-divider>
     </div>
   </div>
-  <div cdkDropList class="listDrag" *ngIf="!this.add && this.list != undefined && !this.search && this.filter === undefined" (cdkDropListDropped)="drop($event)">
+  <div cdkDropList class="listDrag" *ngIf="!this.add && this.list != undefined && !this.search && this.filter === undefined && !this.category" (cdkDropListDropped)="drop($event)">
     <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of this.list.Canciones; let i = index; trackBy: trackByFn" cdkDrag>
       <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
       <mat-list-item class="info-song" (click)="loadList(i, file)" >

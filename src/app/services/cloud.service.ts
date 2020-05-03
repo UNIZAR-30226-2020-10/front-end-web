@@ -110,6 +110,7 @@ export class CloudService implements OnInit{
   private isFavoritePodcast: string = "podcast_is_fav";
   private podcastList: string = "list_podcast";
   private filterCategory: string = "filter_category_in_list";
+  private categoryList: string = "filter_category";
 
   async getPlaylists() {
     console.log(this.url+this.askPlaylists);
@@ -313,8 +314,16 @@ export class CloudService implements OnInit{
 
   async listCategory(cat, list) {
     console.log(this.url+this.filterCategory);
-    var params = {'lista': list, 'categorias': ["Rock"]};
+    var params = {'lista': list, 'categorias': ['Rock']};
     return await this.http.get(this.url+this.filterCategory, {params: params}).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async categories(cat) {
+    console.log(this.url+this.categoryList);
+    var params = {'categorias': cat};
+    return await this.http.get(this.url+this.categoryList, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }

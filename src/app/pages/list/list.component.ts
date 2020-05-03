@@ -23,6 +23,7 @@ export class ListComponent implements OnInit {
   search: Boolean;
   song;
   add: Boolean;
+  category: Boolean;
   checkoutForm;
 
   constructor(
@@ -40,6 +41,7 @@ export class ListComponent implements OnInit {
     this.queue = this.route.snapshot.data['queue'];
     this.search = this.route.snapshot.data['search'];
     this.add = this.route.snapshot.data['add'];
+    this.category = this.route.snapshot.data['category'];
     this.route.paramMap.subscribe(async params => {
       if(this.queue) {
         this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
@@ -67,6 +69,9 @@ export class ListComponent implements OnInit {
         this.list = undefined;
         this.song = this.audioService.passSong;
         //this.audioService.lists = await this.cloudService.getPlaylists();
+      } else if(this.category) {
+        this.list = {"Canciones": await this.cloudService.categories([params.get('id')]),
+                     "Nombre":params.get('id'), "ID":'', "Desc":params.get('id'), "Imagen":"default"};
       } else {
         this.list = await this.cloudService.getList(params.get('id'));
         if(params.get('id') === this.audioService.favoriteID) {
@@ -81,7 +86,11 @@ export class ListComponent implements OnInit {
 
   async addToList(list, name) {
     if(list == 'c') {
-      this.audioService.addToQueue(this.song);
+      if(!this.audioService.checkState().playing) {
+        this.audioService.loadList([this.song], 0, undefined);
+      } else {
+        this.audioService.addToQueue(this.song);
+      }
       this.alertService.showAlert(1, "", "Canción añadida a la cola");
     } else {
       const msg = await this.cloudService.addSong(this.song.ID, list);
