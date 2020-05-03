@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CloudService } from 'src/app/services/cloud.service';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     public cloudService: CloudService,
-    public alertService: AlertsService
+    public alertService: AlertsService,
+    private audioService: AudioService
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +39,9 @@ export class LoginComponent implements OnInit {
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
       this.cloudService.userInfo = await this.cloudService.infoUser();
+      this.audioService.lists = await this.cloudService.getPlaylists();
+      this.audioService.favList(await this.cloudService.getList(this.audioService.lists[0].ID));
+      this.audioService.favoriteID = this.audioService.lists[0].ID;
       this.router.navigateByUrl('/initial-screen');
       this.alertService.showAlert(1, "", "¡Bienvenido de nuevo!");
     }

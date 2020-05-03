@@ -13,7 +13,7 @@
       Añadir todas a la cola
     </button>
     <div *ngFor="let song of this.songs" class="lastSongs" (click)="this.audioService.loadList([song], 0, 'l')">
-      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
+      <img class="albumArt" [src]="song.Imagen">
       <h4 mat-line>{{ song.Nombre }}</h4>
       <h5 mat-line>{{ song.Artistas }}</h5>
     </div>

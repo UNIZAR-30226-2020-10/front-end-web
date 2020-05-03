@@ -77,8 +77,6 @@ export class PlaylistsComponent implements OnInit {
     }
   }
 
-  async ngOnInit() {
-    this.audioService.lists = await this.cloudService.getPlaylists();
-  }
+  ngOnInit() { }
 
 }

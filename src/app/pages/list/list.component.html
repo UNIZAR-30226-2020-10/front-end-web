@@ -1,6 +1,7 @@
 <div class="content">
   <div class="logo" *ngIf="!this.add && !this.search && this.list != undefined">
-    <img class="listArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
+    <img class="listArt" *ngIf="this.list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
+    <img class="listArt" *ngIf="this.list.Imagen != 'default'" [src]="this.list.Imagen" alt="listart">
     <h3 mat-header>{{ list.Nombre }}</h3>
   </div>
   <mat-list color="primary">
@@ -9,7 +10,7 @@
   <div class="listDrag" *ngIf="!this.add && this.list != undefined && this.search">
     <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of list.Canciones; let i = index">
       <mat-list-item class="info-song" (click)="loadList(i, file)" >
-        <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+        <img class="albumArt" [src]="file.Imagen" alt="albumart">
         <h4 mat-line>{{ file.Nombre }}</h4>
         <h5 mat-line>{{ file.Artistas }}</h5>
       </mat-list-item>
@@ -26,7 +27,7 @@
     <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of list.Canciones; let i = index" cdkDrag>
       <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
       <mat-list-item class="info-song" (click)="loadList(i, file)" >
-        <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+        <img class="albumArt" [src]="file.Imagen" alt="albumart">
         <h4 mat-line>{{ file.Nombre }}</h4>
         <h5 mat-line>{{ file.Artistas }}</h5>
       </mat-list-item>
@@ -57,7 +58,8 @@
     <mat-divider></mat-divider>
     <div *ngFor="let list of this.audioService.lists">
       <mat-list-item class="info-song" (click)="addToList(list.ID, list.Nombre)">
-        <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+        <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
+        <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
         <h4 mat-line>{{ list.Nombre }}</h4>
         <h5 mat-line>{{ list.Desc }}</h5>
       </mat-list-item>

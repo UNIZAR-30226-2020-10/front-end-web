@@ -7,7 +7,7 @@
       <mat-toolbar color="primary">
         <mat-toolbar-row>
           <div class="info" (click)="this.audioService.showSong = true" [routerLink]="['/song']">
-            <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+            <img class="albumArt" [src]="this.audioService.currentFile.song.Imagen" alt="albumart">
             <h4>{{ this.audioService.currentFile.song.Nombre }}</h4>
             <h5>{{ this.audioService.currentFile.song.Artistas }}</h5>
           </div>
@@ -27,12 +27,10 @@
             <button  mat-button (click)="this.audioService.next()">
               <mat-icon mat-list-icon>skip_next</mat-icon>
             </button>
-            <button  mat-button (click)="this.audioService.next()">
-              <mat-icon mat-list-icon>favorite</mat-icon>
+            <button  mat-button (click)="favorite()">
+              <mat-icon mat-list-icon *ngIf="this.audioService.songFav">favorite</mat-icon>
+              <mat-icon mat-list-icon *ngIf="!this.audioService.songFav">favorite_border</mat-icon>
             </button>
-            <!--<button  mat-button (click)="next()">
-              <mat-icon mat-list-icon>favorite_border</mat-icon>
-            </button>-->
             <button  mat-button (click)="this.audioService.changeVol(0); this.volumeShow = false" (mouseenter)="this.volumeShow = !this.volumeShow">
               <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">volume_down</mat-icon>
               <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() <= 1.00 && this.audioService.checkVol() > 0.50">volume_up</mat-icon>

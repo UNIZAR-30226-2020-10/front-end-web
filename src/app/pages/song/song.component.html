@@ -9,7 +9,7 @@
   <h3 *ngIf="this.audioService.currentFile.song.title">{{ this.audioService.currentFile.song.Artistas }}</h3>
   <h3 *ngIf="!this.audioService.currentFile.song.title" class="linkArtist" [routerLink]="['/artist', this.audioService.currentFile.song.Artistas[0]]">{{ this.audioService.currentFile.song.Artistas }}</h3>
   <a (click)="album()" style="cursor: pointer;">
-    <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+    <img class="albumArt" [src]="this.audioService.currentFile.song.Imagen" alt="albumart">
   </a>
   <div class="line">
     {{ this.audioService.checkState().readableCurrentTime }}
@@ -37,12 +37,10 @@
     </button>
   </div>
   <div class="media-action-2">
-    <button mat-button (click)="this.audioService.next()">
-      <mat-icon mat-list-icon>favorite</mat-icon>
+    <button  mat-button (click)="favorite()">
+      <mat-icon mat-list-icon *ngIf="this.audioService.songFav">favorite</mat-icon>
+      <mat-icon mat-list-icon *ngIf="!this.audioService.songFav">favorite_border</mat-icon>
     </button>
-    <!--<button mat-button (click)="next()">
-      <mat-icon mat-list-icon>favorite_border</mat-icon>
-    </button>-->
     <button mat-button (click)="addToPlaylist()">
       <mat-icon mat-list-icon>playlist_add</mat-icon>
     </button>

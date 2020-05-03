@@ -22,7 +22,8 @@
   </div>
   <div *ngFor="let list of playlists()" class="box">
     <div [routerLink]="['/lists', list.ID]">
-      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+      <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+      <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
       <h3 [ngClass]="[favorite(list.Nombre)]">
         {{ list.Nombre }}
       </h3>

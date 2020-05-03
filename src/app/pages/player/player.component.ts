@@ -32,6 +32,23 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  ngOnInit() { }
+  async favorite() {
+    this.audioService.songFav = !this.audioService.songFav;
+    if(this.audioService.songFav) {
+      this.cloudService.addSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);
+      this.audioService.addToQueue(this.audioService.currentFile.song);
+    } else {
+      this.cloudService.deleteSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);
+      this.audioService.dropFav(this.audioService.currentFile.index);
+    }
+  }
+
+  async ngOnInit() {
+    if(this.cloudService.user != undefined) {
+      this.audioService.lists = await this.cloudService.getPlaylists();
+      this.audioService.favoriteID = this.audioService.lists[0].ID;
+      this.audioService.favList(await this.cloudService.getList(this.audioService.lists[0].ID));
+    }
+  }
 
 }

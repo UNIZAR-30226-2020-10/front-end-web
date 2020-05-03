@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CloudService } from 'src/app/services/cloud.service';
 import { AudioService } from 'src/app/services/audio.service';
 
@@ -14,7 +14,9 @@ export class InicialScreenComponent implements OnInit {
   constructor(
     public cloudService: CloudService,
     public audioService: AudioService
-  ) { }
+  ) {
+
+  }
 
   addToQueue() {
     if(this.audioService.checkState().playing) {
@@ -29,7 +31,6 @@ export class InicialScreenComponent implements OnInit {
   async ngOnInit() {
     this.songs = await this.cloudService.getSongs();
     this.songs.reverse().splice(this.showAdd);
-    console.log(this.songs);
   }
 
 }

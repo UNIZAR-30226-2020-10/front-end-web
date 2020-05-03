@@ -17,12 +17,14 @@ export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
   private start: Boolean = false;
-  private listID;
   passSong;
   useEqualizer: Boolean = false;
   showSong: Boolean = false;
   loop: Boolean = false;
   lists: any = [];
+  favoriteID;
+  favoriteSongs: Array<any> = [];
+  songFav: Boolean;
   maxIndex:  number = 0;
   currentFile: any = {};
   audioList: Array<any> = [];
@@ -174,16 +176,17 @@ export class AudioService {
 
   openFile(song, index) {
     this.loadSong(song, index);
+    this.songFav = this.songFavorite(this.currentFile.song);
     this.playStream(song.URL).subscribe(events => { });
   }
 
-  openPodcast(url, name, creator, t) {
+  openPodcast(url, name, creator, t, img) {
     this.maxIndex = 1;
     var song = {
       URL: url,
       Nombre: name,
       Artistas: [creator],
-      Imagen: null,
+      Imagen: img,
       ID: undefined,
       Album: undefined,
       title: t
@@ -229,7 +232,6 @@ export class AudioService {
 
   loadList(files, index, load) {
     if(load != 'c') {
-      this.listID = load;
       this.loop = false;
       this.audioList = Array.from(files);
       this.maxIndex = this.audioList.length;
@@ -305,6 +307,27 @@ export class AudioService {
     } else if(actual) {
       this.openFile(this.audioList[index], index);
     }
+  }
+
+  songFavorite(fav) {
+    for(let song of this.favoriteSongs) {
+      if(song.ID === fav.ID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  addToFav(song) {
+    this.favoriteSongs.push(song);
+  }
+
+  dropFav(index) {
+    this.favoriteSongs.splice(index,1);
+  }
+
+  favList(list) {
+    this.favoriteSongs = list.Canciones;
   }
 
   equals(files) {

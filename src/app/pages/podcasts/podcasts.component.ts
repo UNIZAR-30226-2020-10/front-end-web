@@ -74,7 +74,7 @@ export class PodcastsComponent implements OnInit {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
           Artistas: this.pod.publisher_original,
-          Imagen: null,
+          Imagen: this.podcasts.episodes[i].image,
           ID: undefined,
           Album: undefined,
           title: this.title
@@ -83,13 +83,13 @@ export class PodcastsComponent implements OnInit {
       }
     } else {
       this.audioService.openPodcast(this.podcasts.episodes[0].audio,
-        this.podcasts.episodes[0].title, this.pod.publisher_original, this.title);
+        this.podcasts.episodes[0].title, this.pod.publisher_original, this.title, this.podcasts.episodes[0].image);
       for(let i=1; i<this.podcasts.episodes.length; i++){
         var song = {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
           Artistas: this.pod.publisher_original,
-          Imagen: null,
+          Imagen: this.podcasts.episodes[i].image,
           ID: undefined,
           Album: undefined,
           title: this.title

@@ -11,6 +11,7 @@ declare const search: any;
   styleUrls: ['./song.component.scss']
 })
 export class SongComponent implements OnDestroy, OnInit {
+  aux;
 
   constructor(
     public audioService: AudioService,
@@ -52,6 +53,17 @@ export class SongComponent implements OnDestroy, OnInit {
       this.route.navigate(['/podcasts', this.audioService.currentFile.song.title]);
     } else {
       this.route.navigate(['/album', this.audioService.currentFile.song.Album]);
+    }
+  }
+
+  async favorite() {
+    this.audioService.songFav = !this.audioService.songFav;
+    if(this.audioService.songFav) {
+      this.cloudService.addSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);
+      this.audioService.addToQueue(this.audioService.currentFile.song);
+    } else {
+      this.cloudService.deleteSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);
+      this.audioService.dropFav(this.audioService.currentFile.index);
     }
   }
 

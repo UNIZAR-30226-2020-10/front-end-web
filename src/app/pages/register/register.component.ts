@@ -30,6 +30,8 @@ export class RegisterComponent implements OnInit {
       this.alertService.showAlert(2, "", "El nombre debe estar entre 3 y 50 carácteres");
     } else if(pass.length === 0) {
       this.alertService.showAlert(0, "", "Introduce una contraseña");
+    } else if(pass.length < 7 || ! this.reg(pass)) {
+      this.alertService.showAlert(2, "", "La contraseña debe contener como mínimo 7 carácteres no especiales y 1 número");
     } else if(pass === repass) {
       if(country.length === 0) {
         this.alertService.showAlert(0, "", "Introduce tu país de residencia");
@@ -50,6 +52,11 @@ export class RegisterComponent implements OnInit {
     } else {
       this.alertService.showAlert(0, "", "Las contraseñas no coinciden");
     }
+  }
+
+  reg(pass) {
+    const regex = new RegExp("^[a-zA-Z]*[0-9][0-9a-zA-Z]*$");
+    return regex.test(pass);
   }
 
   ngOnInit(): void {

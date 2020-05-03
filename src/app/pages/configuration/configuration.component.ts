@@ -53,6 +53,8 @@ export class ConfigurationComponent implements OnInit {
       if((title.name.length > 2 && title.name.length < 51) || title.name.length === 0) {
         if(title.newpass.length > 0 && title.newpass != title.renewpass) {
           this.alertService.showAlert(0, "", "Las contraseñas no coinciden");
+        } else if(title.newpass.length < 7 || ! this.reg(title.newpass)) {
+          this.alertService.showAlert(2, "", "La contraseña debe contener como mínimo 7 carácteres no especiales y 1 número");
         } else {
           if(title.name.length === 0 && title.newpass.length === 0 && title.country.length === 0) {
             this.alertService.showAlert(2, "", "Introduce algún campo para modificar");
@@ -72,6 +74,11 @@ export class ConfigurationComponent implements OnInit {
         this.alertService.showAlert(2, "", "El nombre debe estar entre 3 y 50 carácteres");
       }
     }
+  }
+
+  reg(pass) {
+    const regex = new RegExp("^[a-zA-Z]*[0-9][0-9a-zA-Z]*$");
+    return regex.test(pass);
   }
 
   deleteUser() {

@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { FormBuilder } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { List } from 'src/app/list';
 
 @Component({
   selector: 'app-list',
@@ -39,17 +40,17 @@ export class ListComponent implements OnInit {
     this.route.paramMap.subscribe(async params => {
       if(this.queue) {
         this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
-                      "ID":'c', "Desc":"Cola de reproducción", "Imagen":null};
+                      "ID":'c', "Desc":"Cola de reproducción", "Imagen":"default"};
         if(this.list.Canciones === [] || this.list === undefined) {
           this.alertService.showAlert(3, "", "Cola vacía");
         }
       } else if(this.search) {
         this.list = {"Canciones": [],
-                     "Nombre":"Búsqueda", "ID":'', "Desc":"Búsqueda", "Imagen":null};
+                     "Nombre":"Búsqueda", "ID":'', "Desc":"Búsqueda", "Imagen":"default"};
         console.log(params.get('id'));
         this.list.Canciones = await this.cloudService.searchSong(params.get('id'));
         console.log(this.list);
-        if(this.list.Canciones === undefined || this.list.Canciones === []) {
+        if(this.list.Canciones.length === 0) {
           this.alertService.showAlert(3, "", "No se han encontrado canciones");
         } else {
           var n = this.list.Canciones.length;
@@ -62,14 +63,15 @@ export class ListComponent implements OnInit {
       } else if(this.add) {
         this.list = undefined;
         this.song = this.audioService.passSong;
-        this.audioService.lists = await this.cloudService.getPlaylists();
+        //this.audioService.lists = await this.cloudService.getPlaylists();
       } else {
         this.list = await this.cloudService.getList(params.get('id'));
-        console.log(this.list);
-        if(this.list.Canciones === undefined || this.list.Canciones === []) {
+        if(params.get('id') === this.audioService.favoriteID) {
+          this.list.Canciones = this.audioService.favoriteSongs;
+        }
+        if(this.list.Canciones.length === 0) {
           this.alertService.showAlert(3, "", "Lista vacía");
         }
-        console.log(this.list);
       }
     });
   }
@@ -82,8 +84,14 @@ export class ListComponent implements OnInit {
       const msg = await this.cloudService.addSong(this.song.ID, list);
       if(msg === 'Success') {
         this.alertService.showAlert(1, "", "Canción añadida a la lista " + name);
+        if(list === this.audioService.favoriteID) {
+          this.audioService.addToFav(this.song);
+          if(this.song.ID === this.audioService.currentFile.song.ID) {
+            this.audioService.songFav = true;
+          }
+        }
       } else {
-        this.alertService.showAlert(0, "", "No se ha podido añadir una canción a la lista " + name);
+        this.alertService.showAlert(0, "", "No se ha podido añadir la canción a la lista " + name);
       }
     }
     this.backToList();
@@ -93,7 +101,14 @@ export class ListComponent implements OnInit {
     var pr = "";
     if(list != 'c') {
       await this.cloudService.deleteSong(song.ID, list);
-      this.list = await this.cloudService.getList(list);
+      if(list === this.audioService.favoriteID) {
+        this.audioService.dropFav(index);
+        if(song.ID === this.audioService.currentFile.song.ID) {
+          this.audioService.songFav = false;
+        }
+      } else {
+        this.list = await this.cloudService.getList(list);
+      }
       pr = "lista " + this.list.Nombre;
     } else {
       this.audioService.deleteFromQueue(index);
@@ -164,8 +179,11 @@ export class ListComponent implements OnInit {
       }
     } else if(!this.search && !this.add) {
       console.log(this.list.Canciones);
-      moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
-      console.log(this.list.Canciones);
+      if(this.list.ID === this.audioService.favoriteID) {
+        moveItemInArray(this.audioService.favoriteSongs, event.previousIndex, event.currentIndex);
+      } else {
+        moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
+      }
       await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
     }
   }
