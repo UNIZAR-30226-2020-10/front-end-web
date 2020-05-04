@@ -121,3 +121,19 @@
     margin-top: 5px;
   }
 }
+
+.imagen_perfil{
+  cursor: pointer;
+}
+
+.imagen_perfil img {
+  width: 5rem;
+  height: 5rem;
+  margin-top: 2rem;
+  margin-left: 2rem;
+}
+
+.imagen_perfil h4{
+  margin-left: 2rem;
+  color: white;
+}

@@ -1,5 +1,13 @@
 <mat-sidenav-container class="container" *ngIf="this.cloudService.change === 'change-right'">
   <mat-sidenav opened mode="side" class="sidenav">
+
+    <div class="imagen_perfil" routerLink='/perfil'>
+      <img [src]="this.cloudService.userInfo.Foto">
+      <h4>{{ this.cloudService.userInfo.Nombre }}</h4>
+    </div>
+
+    <hr width="95%" color="#D1C4E9">
+
     <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
       <div class="search">
         <input type="text" formControlName="titulo" class="searchTerm" placeholder="¿Qué canción estas buscando?">
@@ -8,6 +16,7 @@
      </button>
       </div>
     </form>
+
     <mat-nav-list>
       <a mat-list-item routerLink='/initial-screen' [routerLinkActive]="['is-active']">
         <mat-icon mat-list-icon>music_note</mat-icon>

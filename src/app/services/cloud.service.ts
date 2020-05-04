@@ -47,9 +47,9 @@ export class CloudService {
   }
 
   getToken() {
-    if(this.cookies.check("TuneIT")) {
+    /*if(this.cookies.check("TuneIT")) {
       return JSON.parse(this.decrypt(this.cookies.get("TuneIT")));
-    }
+    }*/
     return "false";
   }
 

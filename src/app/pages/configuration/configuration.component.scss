@@ -104,3 +104,7 @@ button {
     padding: 1rem;
     box-shadow: 0 3px 10px rgba(0,0,0,.23),0 3px 10px rgba(0,0,0,.16);
 }
+
+button:hover {
+    cursor: pointer;
+}
