@@ -19,12 +19,14 @@ export class ListComponent implements OnInit {
   private orderTitle: Boolean = false;
   list;
   filter;
+  searchSongs = [];
   queue: Boolean;
   search: Boolean;
   song;
   add: Boolean;
   category: Boolean;
   checkoutForm;
+  searchList;
 
   constructor(
     public cloudService: CloudService,
@@ -36,6 +38,9 @@ export class ListComponent implements OnInit {
     private router: Router
   ) {
     this.checkoutForm = this.formBuilder.group({
+      titulo: ''
+    });
+    this.searchList = this.formBuilder.group({
       titulo: ''
     });
     this.queue = this.route.snapshot.data['queue'];
@@ -203,17 +208,32 @@ export class ListComponent implements OnInit {
     return file.ID;
   }
 
+  onSearch(title) {
+    this.searchSongs = [];
+    for(let song of this.list.Canciones) {
+      if(song.Nombre.toLowerCase().includes(title.titulo.toLowerCase())) {
+        this.searchSongs.push(song);
+      }
+    }
+    if(this.searchSongs.length === 0) {
+      this.alertService.showAlert(2, "", "No se ha encontrado ninguna canción");
+    }
+  }
+
   clean() {
     this.orderArtist = false;
     this.orderTitle = false;
-    console.log(this.filter);
-    console.log(this.list.Canciones);
+    this.searchSongs = [];
+    this.searchList.reset();
     delete this.filter;
   }
 
   isFilter() {
     if(this.filter != undefined) {
       return this.filter;
+    }
+    if(this.searchSongs.length != 0) {
+      return this.searchSongs;
     }
     return this.list.Canciones;
   }
@@ -239,8 +259,14 @@ export class ListComponent implements OnInit {
   }
 
   private orderByKey(key) {
-    var aux = new Array(this.list.Canciones.length);
-    aux = Array.from(this.list.Canciones);
+    var aux;
+    if(this.searchSongs.length != 0) {
+      aux = new Array(this.searchSongs.length);
+      aux = Array.from(this.searchSongs);
+    } else {
+      aux = new Array(this.list.Canciones.length);
+      aux = Array.from(this.list.Canciones);
+    }
     return aux.sort(function(a, b) {
       var x = a[key]; var y = b[key];
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
