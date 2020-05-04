@@ -37,7 +37,7 @@
 }
 
 .fade {
-  transition: visibility 0s 1s, opacity 1s linear;
+  transition: visibility 0s 0.6s, opacity 0.6s linear;
   opacity: 0;
   visibility: hidden;
 }

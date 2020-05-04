@@ -22,7 +22,7 @@ export class CloudService {
 
   async initApp() {
     const token = this.getToken();
-    if(token.email) {
+    if(token != "false") {
       const msg = await this.signIn(token.email, token.password, false);
       if(msg === "Success") {
         this.userInfo = await this.infoUser();
@@ -47,9 +47,9 @@ export class CloudService {
   }
 
   getToken() {
-    /*if(this.cookies.check("TuneIT")) {
+    if(this.cookies.check("TuneIT")) {
       return JSON.parse(this.decrypt(this.cookies.get("TuneIT")));
-    }*/
+    }
     return "false";
   }
 

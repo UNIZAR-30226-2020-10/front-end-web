@@ -15,8 +15,4 @@ export class AlertsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  close() {
-    this.alertService.alert = this.alertService.alert + " fade";
-  }
-
 }
