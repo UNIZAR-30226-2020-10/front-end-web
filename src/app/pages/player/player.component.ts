@@ -9,7 +9,8 @@ import { CloudService } from 'src/app/services/cloud.service';
 })
 
 export class PlayerComponent implements OnInit {
-  volumeShow: Boolean = false;
+  volumeShow: String = "hide";
+  timer;
 
   constructor(
     public audioService: AudioService,
@@ -49,6 +50,15 @@ export class PlayerComponent implements OnInit {
         this.audioService.dropFav(this.audioService.currentFile.index);
       }
     }
+  }
+
+  show() {
+    this.volumeShow = "show";
+    this.timer = setTimeout(() => { this.volumeShow = "show hide" }, 3000);
+  }
+
+  clear() {
+    clearTimeout(this.timer);
   }
 
   async ngOnInit() {

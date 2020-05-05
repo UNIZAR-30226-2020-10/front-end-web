@@ -49,10 +49,10 @@
     </button>
   </div>
   <div class="media-action-3">
-    <button mat-button (click)="this.audioService.changeVol(0)">
+    <button mat-button (click)="this.audioService.mute()">
       <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">volume_down</mat-icon>
       <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() <= 1.00 && this.audioService.checkVol() > 0.50">volume_up</mat-icon>
-      <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() === 0.00">volume_mute</mat-icon>
+      <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() === 0.00">volume_off</mat-icon>
     </button>
     <mat-slider class="vol-slider" min="0.00" [max]="1.00" step="0.01" [value]="this.audioService.checkVol()" (input)="changeVolume($event)"></mat-slider>
   </div>

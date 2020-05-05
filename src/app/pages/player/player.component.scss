@@ -5,12 +5,20 @@
   bottom: 0;
   width: 100% !important;
   .volume-slider {
-    .vol-slider {
+    .show {
       background-color: #3f51b5;
       position: absolute;
       display: block;
+      border-radius: 25px;
       right: 25px;
       bottom: 64px;
+      opacity: 1;
+      transition: opacity 0.6s;
+    }
+    .hide {
+      transition: visibility 0s 0.6s, opacity 0.6s linear;
+      opacity: 0;
+      visibility: hidden;
     }
   }
   .reprofooter {

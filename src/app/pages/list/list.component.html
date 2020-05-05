@@ -11,7 +11,7 @@
     </button>
     <form [formGroup]="searchList" (ngSubmit)="onSearch(searchList.value)" class = "input-2" *ngIf="!this.search">
       <label for="titulo">
-        Buscar canciones por su nombre
+        Buscar canciones
       </label>
       <input type="text" placeholder="Buscar canciones..." formControlName="titulo">
 

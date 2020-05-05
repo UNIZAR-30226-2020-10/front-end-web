@@ -213,6 +213,13 @@ export class ListComponent implements OnInit {
     for(let song of this.list.Canciones) {
       if(song.Nombre.toLowerCase().includes(title.titulo.toLowerCase())) {
         this.searchSongs.push(song);
+      } else {
+        for(let artist of song.Artistas) {
+          if(artist.toLowerCase().includes(title.titulo.toLowerCase())) {
+            this.searchSongs.push(song);
+            break;
+          }
+        }
       }
     }
     if(this.searchSongs.length === 0) {

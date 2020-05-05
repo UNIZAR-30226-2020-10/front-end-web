@@ -18,6 +18,7 @@ export class AudioService {
   private audioObj = new Audio();
   private start: Boolean = false;
   passSong;
+  volume;
   useEqualizer: Boolean = false;
   showSong: Boolean = false;
   loop: Boolean = false;
@@ -245,6 +246,15 @@ export class AudioService {
 
   checkVol() {
     return checkVolume(this.audioObj);
+  }
+
+  mute() {
+    if(this.checkVol() === 0) {
+      this.changeVol(this.volume);
+    } else {
+      this.volume = this.checkVol();
+      this.changeVol(0);
+    }
   }
 
   random() {
