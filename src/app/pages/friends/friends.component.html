@@ -1,17 +1,50 @@
-<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-  <div class="search">
-    <input type="text" formControlName="titulo" class="searchTerm" placeholder="Nombre del usuario...">
-  <button type="submit" class="searchButton">
-      <i class="material-icons">search</i>
- </button>
-  </div>
-</form>
+<div>  
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+    <div class="search">
+      <input type="text" formControlName="titulo" class="searchTerm" placeholder="Buscar un amigo">
+      <button type="submit" class="searchButton">
+        <i class="material-icons">search</i>
+      </button>
+    </div>
+  </form>
+</div>
 
+<button class="notification" routerLink='/solicitudes'>
+  Solicitudes de amistad pendientes
+  <!--- BADGE HAY QUE MOSTRARLO CUANDO HAYA NOTIFICACIONES -->
+  <span class="badge">3</span>
+</button>
+
+<!--
 <div *ngIf="this.users != undefined && this.users.length > 0">
   <ul *ngFor="let user of this.users">
-    <li class="imagen_perfil">
+    <li>
       <img [src]="user.Imagen">
-      <h4>{{ user.Nombre }}</h4>
+      <div class="texto">
+        <h3>{{ user.Nombre }}</h3>
+        <button>
+          <span class="material-icons">
+            delete
+          </span>
+        </button>
+      </div>
     </li>
   </ul>
 </div>
+-->
+
+<h3>Amigos</h3>
+
+<ul>
+  <li>
+    <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
+    <div class="texto">
+      <h3>Amigo</h3>
+      <button class="boton">
+        <span class="material-icons">
+          delete
+        </span>
+      </button>
+    </div>
+  </li>
+</ul>

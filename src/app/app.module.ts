@@ -35,7 +35,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { AccessGuardService } from './services/access-guard.service';
 import { ArtistComponent } from './pages/artist/artist.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
-import { FriendsComponent } from './pages/friends/friends.component'
+import { FriendsComponent } from './pages/friends/friends.component';
+import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component'
 
 export function appInit(cloudService: CloudService): () => Promise<any> {
   return () => cloudService.initApp();
@@ -66,6 +67,7 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
     ArtistComponent,
     PerfilComponent,
     FriendsComponent,
+    SolicitudesComponent,
   ],
   imports: [
     BrowserModule,
