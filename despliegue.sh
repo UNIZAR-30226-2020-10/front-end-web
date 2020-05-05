@@ -24,7 +24,7 @@ production)
   heroku container:login
   heroku container:push web --app $app
   heroku container:release web --app $app
-  heroku logs --tail --app psoftware
+  heroku logs --tail --app $app
   ;;
 *)
   echo "Usage: $(basename $0) <development|production>" && exit 1
