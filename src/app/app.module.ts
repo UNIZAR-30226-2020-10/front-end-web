@@ -34,7 +34,8 @@ import { ConfigurationComponent } from './pages/configuration/configuration.comp
 import { CookieService } from 'ngx-cookie-service';
 import { AccessGuardService } from './services/access-guard.service';
 import { ArtistComponent } from './pages/artist/artist.component';
-import { PerfilComponent } from './pages/perfil/perfil.component'
+import { PerfilComponent } from './pages/perfil/perfil.component';
+import { FriendsComponent } from './pages/friends/friends.component'
 
 export function appInit(cloudService: CloudService): () => Promise<any> {
   return () => cloudService.initApp();
@@ -64,6 +65,7 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
     ConfigurationComponent,
     ArtistComponent,
     PerfilComponent,
+    FriendsComponent,
   ],
   imports: [
     BrowserModule,

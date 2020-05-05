@@ -1,7 +1,7 @@
 <mat-sidenav-container class="container" *ngIf="this.cloudService.change === 'change-right'">
   <mat-sidenav opened mode="side" class="sidenav">
 
-    <div class="imagen_perfil" routerLink='/perfil'>
+    <div class="imagen_perfil" routerLink='/profile'>
       <img [src]="this.cloudService.userInfo.Foto">
       <h4>{{ this.cloudService.userInfo.Nombre }}</h4>
     </div>
@@ -30,11 +30,11 @@
         <mat-icon mat-list-icon>list</mat-icon>
         Listas de reproducción
       </a>
-      <a mat-list-item routerLink='/perfil' [routerLinkActive]="['is-active']">
+      <a mat-list-item routerLink='/profile' [routerLinkActive]="['is-active']">
         <mat-icon mat-list-icon>person</mat-icon>
         Perfil
       </a>
-      <a mat-list-item routerLink='/amigos' [routerLinkActive]="['is-active']">
+      <a mat-list-item routerLink='/friends' [routerLinkActive]="['is-active']">
         <mat-icon mat-list-icon>people</mat-icon>
         Amigos
       </a>

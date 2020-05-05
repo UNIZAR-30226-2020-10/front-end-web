@@ -10,7 +10,6 @@ import { AudioService } from 'src/app/services/audio.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  session: boolean;
 
   constructor(
     private router: Router,
@@ -24,6 +23,7 @@ export class LoginComponent implements OnInit {
 
   async sign() {
     const email = (<HTMLInputElement> document.getElementById("email")).value;
+    const session = (<HTMLInputElement> document.getElementById("session")).checked;
     const pass = (<HTMLInputElement> document.getElementById("password")).value;
     if(email.length === 0) {
       this.alertService.showAlert(0, "", "Introduce un usuario");
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       this.alertService.showAlert(0, "", "Introduce una contraseña");
     } else {
       const newpass = this.cloudService.encrypt(pass);
-      let msg = await this.cloudService.signIn(email, newpass, this.session);
+      let msg = await this.cloudService.signIn(email, newpass, session);
       console.log(msg);
       if(msg === "Contraseña incorrecta") {
         console.log("INCORRECT");
@@ -43,10 +43,11 @@ export class LoginComponent implements OnInit {
         console.log("ERROR");
         this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
       } else {
-        this.cloudService.userInfo = await this.cloudService.infoUser();
+        this.cloudService.userInfo = await this.cloudService.infoUser(this.cloudService.user);
         this.audioService.lists = await this.cloudService.getPlaylists();
         this.audioService.favList(await this.cloudService.getList(this.audioService.lists[0].ID));
         this.audioService.favoriteID = this.audioService.lists[0].ID;
+        this.audioService.categories = await this.cloudService.allCategories();
         this.router.navigateByUrl('/initial-screen');
         this.alertService.showAlert(1, "", "¡Bienvenido de nuevo!");
       }

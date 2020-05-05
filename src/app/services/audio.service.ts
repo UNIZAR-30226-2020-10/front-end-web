@@ -17,6 +17,7 @@ export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
   private start: Boolean = false;
+  categories;
   passSong;
   volume;
   useEqualizer: Boolean = false;

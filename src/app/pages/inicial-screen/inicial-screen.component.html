@@ -21,13 +21,9 @@
     <h2>Listas de reproduccion de categorías</h2>
 
     <div class="listas">
-        <div class="lista" [routerLink]="['/category', 'Rock']">
+        <div class="lista" *ngFor="let cat of this.audioService.categories" [routerLink]="['/category', cat]">
             <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-            <h3>Rock</h3>
-        </div>
-        <div class="lista" [routerLink]="['/category', 'Pop']">
-            <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-            <h3>Pop</h3>
+            <h3>{{ cat }}</h3>
         </div>
     </div>
 </div>

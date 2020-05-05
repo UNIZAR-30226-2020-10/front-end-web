@@ -14,6 +14,7 @@ import { ConfigurationComponent } from './pages/configuration/configuration.comp
 import { AccessGuardService } from './services/access-guard.service';
 import { ArtistComponent } from './pages/artist/artist.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { FriendsComponent } from './pages/friends/friends.component';
 
 const routes: Routes = [
   { path: 'album/:id', component: AlbumComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
@@ -32,7 +33,8 @@ const routes: Routes = [
   { path: 'podcasts/:id', component: PodcastsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'conf', component: ConfigurationComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'artist/:id', component: ArtistComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'perfil', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'profile', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'friends', component: FriendsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: '**', component: InicialScreenComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
 ];
 

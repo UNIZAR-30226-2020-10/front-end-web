@@ -61,6 +61,12 @@ export class PlayerComponent implements OnInit {
     clearTimeout(this.timer);
   }
 
+  mute() {
+    this.clear();
+    this.audioService.mute();
+    this.timer = setTimeout(() => { this.volumeShow = "show hide" }, 3000);
+  }
+
   async ngOnInit() {
     if(this.cloudService.user != undefined) {
       this.audioService.lists = await this.cloudService.getPlaylists();

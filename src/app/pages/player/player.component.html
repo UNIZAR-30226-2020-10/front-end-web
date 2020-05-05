@@ -31,7 +31,7 @@
               <mat-icon mat-list-icon *ngIf="this.audioService.songFav">favorite</mat-icon>
               <mat-icon mat-list-icon *ngIf="!this.audioService.songFav">favorite_border</mat-icon>
             </button>
-            <button  mat-button (click)="this.volumeShow = 'hide'; this.audioService.mute()" (mouseenter)="show()">
+            <button  mat-button (click)="mute()" (mouseenter)="show()">
               <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() != 0.00 && this.audioService.checkVol() <= 0.50">volume_down</mat-icon>
               <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() <= 1.00 && this.audioService.checkVol() > 0.50">volume_up</mat-icon>
               <mat-icon mat-list-icon *ngIf="this.audioService.checkVol() === 0.00">volume_off</mat-icon>
