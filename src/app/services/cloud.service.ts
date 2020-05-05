@@ -86,7 +86,7 @@ export class CloudService {
 
   private url = "https://psoftware.herokuapp.com/";
   private askPlaylists: string = "list_lists";
-  private askList: string = "list_data";
+  private askList: string = "list_lists_data";
   private addToList: string = "add_to_list";
   private deleteFromList: string = "delete_from_list";
   private search: string = "search";
