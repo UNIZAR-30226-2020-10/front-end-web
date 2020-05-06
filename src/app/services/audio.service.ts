@@ -18,6 +18,7 @@ export class AudioService {
   private audioObj = new Audio();
   private start: Boolean = false;
   categories;
+  subscribeArtists;
   passSong;
   volume;
   useEqualizer: Boolean = false;
@@ -327,6 +328,17 @@ export class AudioService {
       }
     }
     return false;
+  }
+
+  artistSubscribed(artist) {
+    let i = 0;
+    for(let art of this.subscribeArtists) {
+      if(art.Nombre === artist.Nombre) {
+        return i;
+      }
+      ++i;
+    }
+    return -1;
   }
 
   addToFav(song) {

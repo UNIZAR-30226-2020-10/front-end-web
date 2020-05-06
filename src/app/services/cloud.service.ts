@@ -30,6 +30,7 @@ export class CloudService {
         this.audioService.favList(await this.getList(this.audioService.lists[0].ID));
         this.audioService.favoriteID = this.audioService.lists[0].ID;
         this.audioService.categories = await this.allCategories();
+        this.audioService.subscribeArtists = await this.suscriptions();
       } else {
         this.cookies.delete("TuneIT");
       }
@@ -239,11 +240,11 @@ export class CloudService {
     return msg;
   }
 
-  async modify(pass, name, country) {
+  async modify(pass, newpass, name, country) {
     console.log(this.url+this.modifyUser);
-    var params = {'email': this.user};
-    if(pass.length != 0) {
-      params['password'] = pass;
+    var params = {'email': this.user, 'password': pass};
+    if(newpass.length != 0) {
+      params['new_password'] = newpass;
     }
     if(name.length != 0) {
       params['nombre'] = name;
