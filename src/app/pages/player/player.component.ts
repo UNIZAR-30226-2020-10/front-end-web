@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { CloudService } from 'src/app/services/cloud.service';
 
@@ -15,7 +15,16 @@ export class PlayerComponent implements OnInit {
   constructor(
     public audioService: AudioService,
     public cloudService: CloudService
-  ) { }
+  ) {
+    window.onbeforeunload = () => {
+      if(this.audioService.currentFile.song && this.cloudService.user) {
+        console.log("TIEMPO FINAL " + Math.floor(this.audioService.checkState().currentTime));
+        this.cloudService.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
+      } else if(this.cloudService.user) {
+        this.cloudService.setLast(null, null);
+      }
+    }
+  }
 
   changeVolume(change){
     this.audioService.changeVol(change.value);

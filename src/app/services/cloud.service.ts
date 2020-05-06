@@ -31,6 +31,7 @@ export class CloudService {
         this.audioService.favoriteID = this.audioService.lists[0].ID;
         this.audioService.categories = await this.allCategories();
         this.audioService.subscribeArtists = await this.suscriptions();
+        this.audioService.loadList(await this.getLast(), 0, 'g');
       } else {
         this.cookies.delete("TuneIT");
       }
@@ -41,11 +42,12 @@ export class CloudService {
   public user;
   public change;
   private key = CryptoJS.enc.Utf8.parse("KarenSparckJonesProyectoSoftware");
+  private session: Boolean = false;
 
-  setToken(token) {
+  setToken(name, token) {
     const dateNow = new Date();
     dateNow.setDate(dateNow.getDate() + 15);
-    this.cookies.set("TuneIT", this.encrypt(JSON.stringify(token)), dateNow);
+    this.cookies.set(name, this.encrypt(JSON.stringify(token)), dateNow);
   }
 
   getToken() {
@@ -55,12 +57,17 @@ export class CloudService {
     return "false";
   }
 
-  closeSession() {
-    this.user = undefined;
+  async closeSession() {
     this.change = 'nothing';
     if(this.cookies.check("TuneIT")) {
       this.cookies.delete("TuneIT");
     }
+    if(this.audioService.currentFile.song && this.user) {
+      await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
+    } else if(this.user) {
+      await this.setLast(null, null);
+    }
+    this.user = undefined;
     this.audioService.maxIndex = 0;
     this.audioService.audioList = [];
     this.audioService.pause();
@@ -119,6 +126,8 @@ export class CloudService {
   private friend: string = "solicitud_amistad";
   private noFriend: string = "delete_friend";
   private acceptFriend: string = "responder_peticion";
+  private sLastSong: string = "set_last_song";
+  private gLastSong: string = "get_last_song";
 
   async getPlaylists() {
     console.log(this.url+this.askPlaylists);
@@ -207,9 +216,11 @@ export class CloudService {
     await this.http.post(this.url+this.sign, params).toPromise().catch(
       error => { msg = error.error.text; }
     );
-    if(msg === "Success" && this.user === undefined) {
+    console.log(msg);
+    if(msg === "Success" && !this.user) {
+      this.session = session;
       if(session) {
-        this.setToken(params);
+        this.setToken("TuneIT", params);
       }
       this.user = email;
       this.change = 'change-right';
@@ -235,6 +246,7 @@ export class CloudService {
       error => { msg = error.error.text }
     );
     if(msg === "Success") {
+      this.user = undefined;
       this.closeSession();
     }
     return msg;
@@ -256,7 +268,14 @@ export class CloudService {
     await this.http.post(this.url+this.modifyUser, params).toPromise().catch(
       error => { msg = error.error.text }
     );
-    return msg;
+    if(msg === "Success" && this.session && newpass.length != 0) {
+      if(this.cookies.check("TuneIT")) {
+        this.cookies.delete("TuneIT");
+      }
+      const token = {'email': this.user, 'password': newpass};
+      this.setToken("TuneIT", token);
+    }
+     return msg;
   }
 
   async searchUsers(name) {
@@ -437,6 +456,24 @@ export class CloudService {
       error => { msg = error.error.text }
     );
     return msg;
+  }
+
+  async setLast(id, seg) {
+    console.log(this.url+this.sLastSong);
+    var params = {'email': this.user, 'cancion': id, 'segundo': seg};
+    var msg = "";
+    await this.http.post(this.url+this.sLastSong, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async getLast() {
+    console.log(this.url+this.gLastSong);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.gLastSong, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
   }
 
 }

@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
         this.audioService.favoriteID = this.audioService.lists[0].ID;
         this.audioService.categories = await this.cloudService.allCategories();
         this.audioService.subscribeArtists = await this.cloudService.suscriptions();
+        this.audioService.loadList(await this.cloudService.getLast(), 0, 'g');
         this.router.navigateByUrl('/initial-screen');
         this.alertService.showAlert(1, "", "¡Bienvenido de nuevo!");
       }
