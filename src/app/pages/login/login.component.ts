@@ -42,6 +42,8 @@ export class LoginComponent implements OnInit {
       } else if(msg === "Error") {
         console.log("ERROR");
         this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
+      } else if(msg === "Sin confirmar") {
+        this.alertService.showAlert(0, "", "Revisa tu correo y confirma el correo de confirmación");
       } else {
         this.cloudService.userInfo = await this.cloudService.infoUser(this.cloudService.user);
         this.audioService.lists = await this.cloudService.getPlaylists();

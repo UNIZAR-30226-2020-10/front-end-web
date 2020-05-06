@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
     const date = (<HTMLInputElement> document.getElementById("date")).value;
     const name = (<HTMLInputElement> document.getElementById("text")).value;
     const country = (<HTMLSelectElement> document.getElementById("country")).value;
-    if(!email.includes('@')) {
+    if(!email.includes('@') || email.length > 50) {
       this.alertService.showAlert(2, "", "Introduce un email válido");
     } else if(name.length < 3 || name.length > 50) {
       this.alertService.showAlert(2, "", "El nombre debe estar entre 3 y 50 carácteres");

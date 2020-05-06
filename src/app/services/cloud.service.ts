@@ -109,6 +109,15 @@ export class CloudService {
   private filterCategory: string = "filter_category_in_list";
   private categoryList: string = "filter_category";
   private displayCategories: string = "list_categories";
+  private listSuscriptions: string = "list_suscriptions";
+  private subscribeArtist: string = "suscription";
+  private unsubscribeArtist: string = "unsuscribe";
+  private allFriends: string = "list_friends";
+  private allPetitionSend: string = "list_peticiones_enviadas";
+  private allPetitionReceive: string = "list_peticiones_recibidas";
+  private friend: string = "solicitud_amistad";
+  private noFriend: string = "delete_friend";
+  private acceptFriend: string = "responder_peticion";
 
   async getPlaylists() {
     console.log(this.url+this.askPlaylists);
@@ -345,6 +354,88 @@ export class CloudService {
     return await this.http.get(this.url+this.displayCategories).toPromise().catch(
       error => { console.log(error.error.text) }
     );
+  }
+
+  async suscriptions() {
+    console.log(this.url+this.listSuscriptions);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.listSuscriptions, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async subscribe(artist) {
+    console.log(this.url+this.subscribeArtist);
+    var params = {'email': this.user, 'artista': artist};
+    var msg = "";
+    await this.http.post(this.url+this.subscribeArtist, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async unsubscribe(artist) {
+    console.log(this.url+this.unsubscribeArtist);
+    var params = {'email': this.user, 'artista': artist};
+    var msg = "";
+    await this.http.post(this.url+this.unsubscribeArtist, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async friends() {
+    console.log(this.url+this.allFriends);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.allFriends, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async petitionsSend() {
+    console.log(this.url+this.allPetitionSend);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.allPetitionSend, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async petitionsReceive() {
+    console.log(this.url+this.allPetitionReceive);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.allPetitionReceive, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async newFriend(friend) {
+    console.log(this.url+this.friend);
+    var params = {'emisor': this.user, 'receptor': friend};
+    var msg = "";
+    await this.http.post(this.url+this.friend, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async deleteFriend(friend) {
+    console.log(this.url+this.noFriend);
+    var params = {'email': this.user, 'amigo': friend};
+    var msg = "";
+    await this.http.post(this.url+this.noFriend, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async accept(id, res) {
+    console.log(this.url+this.acceptFriend);
+    var params = {'id': id, 'respuesta': res};
+    var msg = "";
+    await this.http.post(this.url+this.acceptFriend, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
   }
 
 }
