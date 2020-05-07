@@ -1,3 +1,4 @@
+
 h3{
     margin-top: 1rem;
     margin-left: 1rem;
@@ -95,6 +96,34 @@ h2 {
     margin-left: 1rem;
 }
 
+.selected {
+  background-color: #D1C4E9;
+    color: black;
+    text-decoration: none;
+    padding: 15px 26px;
+    position: relative;
+    display: inline-block;
+    border-radius: 4px;
+    border: none;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.selected:hover {
+  background: #69a1ff;
+  cursor: pointer;
+}
+
+.selected .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
 .notification {
     background-color: #448AFF;
     color: white;
@@ -114,34 +143,6 @@ h2 {
   }
   
   .notification .badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-  }
-
-  .selected {
-    background-color: #D1C4E9;
-      color: black;
-      text-decoration: none;
-      padding: 15px 26px;
-      position: relative;
-      display: inline-block;
-      border-radius: 4px;
-      border: none;
-      margin-top: 1rem;
-      margin-left: 1rem;
-  }
-  
-  .selected:hover {
-    background: #69a1ff;
-    cursor: pointer;
-  }
-  
-  .selected .badge {
     position: absolute;
     top: -10px;
     right: -10px;
