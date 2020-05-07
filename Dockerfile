@@ -20,5 +20,7 @@ RUN rm -rf /usr/share/nginx/html/*
 
 ## From 'builder' copy website to default nginx public folder
 COPY --from=builder /app/dist/TuneIT /usr/share/nginx/html
+COPY --from=builder /app/dist/TuneIT /usr/share/nginx/html
+COPY --from=builder /app/nginx /etc/nginx/conf.d
 EXPOSE 80
 CMD sed -i -e 's/80/'"$PORT"'/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
