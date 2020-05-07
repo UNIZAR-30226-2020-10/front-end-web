@@ -9,9 +9,14 @@
     </h3>
 
     <h2>Últimas canciones añadidas</h2>
-    <button class="addAll" (click)="addToQueue()">
-      Añadir todas a la cola
-    </button>
+    <div class="align">
+      <button class="addAll" (click)="addToQueue()">
+        <span class="material-icons">
+          playlist_add
+        </span>
+        <p>Reproducir todas</p>
+      </button>
+    </div>
     <div class="listas">
       <div class="lista" *ngFor="let song of this.songs" (click)="this.audioService.loadList([song], 0, 'l')">
         <img class="albumArt" [src]="song.Imagen">

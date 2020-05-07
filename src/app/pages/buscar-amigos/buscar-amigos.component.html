@@ -14,8 +14,9 @@
 
 <h2>Buscar amigos</h2>
 
-<div>  
-    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+<div> 
+  <!-- <[formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" --> 
+    <form>
       <div class="search">
         <input type="text" formControlName="titulo" class="searchTerm" placeholder="Buscar amigos">
         <button type="submit" class="searchButton">

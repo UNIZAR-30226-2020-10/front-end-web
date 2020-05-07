@@ -11,11 +11,15 @@
     </form>
 
   <div *ngIf="podcasts || favPodcasts" class="uff">
-    <div class="searched" *ngIf="title_string != undefined"><strong>Podcast buscado: </strong>{{ title_string }}</div>
-    <div class="searched" *ngIf="title_string === undefined"><strong>Podcasts favoritos: </strong></div>
-    <button (click)="podcasts = undefined; title_string = undefined" *ngIf="title_string != undefined">
-      Eliminar búsqueda
-    </button>
+    <div class="buscado">
+      <div class="searched" *ngIf="title_string != undefined"><strong>Podcast buscado: </strong>{{ title_string }}</div>
+      <div class="searched" *ngIf="title_string === undefined"><strong>Podcasts favoritos: </strong></div>
+      <button class="eliminarBusqueda" (click)="podcasts = undefined; title_string = undefined" *ngIf="title_string != undefined">
+        <span class="material-icons">
+          clear
+        </span>
+      </button>
+    </div>
     <!-- LISTA DE PODCASTS -->
     <ul class="podcasts">
       <!-- GUARDAR PODCAST SELECCIONADO EN UN SERVICIO -->
