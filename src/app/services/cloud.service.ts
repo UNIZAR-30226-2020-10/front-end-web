@@ -30,6 +30,8 @@ export class CloudService {
         this.audioService.favList(await this.getList(this.audioService.lists[0].ID));
         this.audioService.favoriteID = this.audioService.lists[0].ID;
         this.audioService.categories = await this.allCategories();
+        this.audioService.subscribeArtists = await this.suscriptions();
+        this.audioService.loadList(await this.getLast(), 0, 'g');
       } else {
         this.cookies.delete("TuneIT");
       }
@@ -40,11 +42,12 @@ export class CloudService {
   public user;
   public change;
   private key = CryptoJS.enc.Utf8.parse("KarenSparckJonesProyectoSoftware");
+  private session: Boolean = false;
 
-  setToken(token) {
+  setToken(name, token) {
     const dateNow = new Date();
     dateNow.setDate(dateNow.getDate() + 15);
-    this.cookies.set("TuneIT", this.encrypt(JSON.stringify(token)), dateNow);
+    this.cookies.set(name, this.encrypt(JSON.stringify(token)), dateNow);
   }
 
   getToken() {
@@ -54,12 +57,17 @@ export class CloudService {
     return "false";
   }
 
-  closeSession() {
-    this.user = undefined;
+  async closeSession() {
     this.change = 'nothing';
     if(this.cookies.check("TuneIT")) {
       this.cookies.delete("TuneIT");
     }
+    if(this.audioService.currentFile.song && this.user) {
+      await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
+    } else if(this.user) {
+      await this.setLast(null, null);
+    }
+    this.user = undefined;
     this.audioService.maxIndex = 0;
     this.audioService.audioList = [];
     this.audioService.pause();
@@ -109,6 +117,17 @@ export class CloudService {
   private filterCategory: string = "filter_category_in_list";
   private categoryList: string = "filter_category";
   private displayCategories: string = "list_categories";
+  private listSuscriptions: string = "list_suscriptions";
+  private subscribeArtist: string = "suscription";
+  private unsubscribeArtist: string = "unsuscribe";
+  private allFriends: string = "list_friends";
+  private allPetitionSend: string = "list_peticiones_enviadas";
+  private allPetitionReceive: string = "list_peticiones_recibidas";
+  private friend: string = "solicitud_amistad";
+  private noFriend: string = "delete_friend";
+  private acceptFriend: string = "responder_peticion";
+  private sLastSong: string = "set_last_song";
+  private gLastSong: string = "get_last_song";
 
   async getPlaylists() {
     console.log(this.url+this.askPlaylists);
@@ -197,9 +216,11 @@ export class CloudService {
     await this.http.post(this.url+this.sign, params).toPromise().catch(
       error => { msg = error.error.text; }
     );
-    if(msg === "Success" && this.user === undefined) {
+    console.log(msg);
+    if(msg === "Success" && !this.user) {
+      this.session = session;
       if(session) {
-        this.setToken(params);
+        this.setToken("TuneIT", params);
       }
       this.user = email;
       this.change = 'change-right';
@@ -225,16 +246,17 @@ export class CloudService {
       error => { msg = error.error.text }
     );
     if(msg === "Success") {
+      this.user = undefined;
       this.closeSession();
     }
     return msg;
   }
 
-  async modify(pass, name, country) {
+  async modify(pass, newpass, name, country) {
     console.log(this.url+this.modifyUser);
-    var params = {'email': this.user};
-    if(pass.length != 0) {
-      params['password'] = pass;
+    var params = {'email': this.user, 'password': pass};
+    if(newpass.length != 0) {
+      params['new_password'] = newpass;
     }
     if(name.length != 0) {
       params['nombre'] = name;
@@ -246,7 +268,14 @@ export class CloudService {
     await this.http.post(this.url+this.modifyUser, params).toPromise().catch(
       error => { msg = error.error.text }
     );
-    return msg;
+    if(msg === "Success" && this.session && newpass.length != 0) {
+      if(this.cookies.check("TuneIT")) {
+        this.cookies.delete("TuneIT");
+      }
+      const token = {'email': this.user, 'password': newpass};
+      this.setToken("TuneIT", token);
+    }
+     return msg;
   }
 
   async searchUsers(name) {
@@ -343,6 +372,106 @@ export class CloudService {
   async allCategories() {
     console.log(this.url+this.displayCategories);
     return await this.http.get(this.url+this.displayCategories).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async suscriptions() {
+    console.log(this.url+this.listSuscriptions);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.listSuscriptions, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async subscribe(artist) {
+    console.log(this.url+this.subscribeArtist);
+    var params = {'email': this.user, 'artista': artist};
+    var msg = "";
+    await this.http.post(this.url+this.subscribeArtist, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async unsubscribe(artist) {
+    console.log(this.url+this.unsubscribeArtist);
+    var params = {'email': this.user, 'artista': artist};
+    var msg = "";
+    await this.http.post(this.url+this.unsubscribeArtist, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async friends() {
+    console.log(this.url+this.allFriends);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.allFriends, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async petitionsSend() {
+    console.log(this.url+this.allPetitionSend);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.allPetitionSend, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async petitionsReceive() {
+    console.log(this.url+this.allPetitionReceive);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.allPetitionReceive, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async newFriend(friend) {
+    console.log(this.url+this.friend);
+    var params = {'emisor': this.user, 'receptor': friend};
+    var msg = "";
+    await this.http.post(this.url+this.friend, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async deleteFriend(friend) {
+    console.log(this.url+this.noFriend);
+    var params = {'email': this.user, 'amigo': friend};
+    var msg = "";
+    await this.http.post(this.url+this.noFriend, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async accept(id, res) {
+    console.log(this.url+this.acceptFriend);
+    var params = {'id': id, 'respuesta': res};
+    var msg = "";
+    await this.http.post(this.url+this.acceptFriend, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async setLast(id, seg) {
+    console.log(this.url+this.sLastSong);
+    var params = {'email': this.user, 'cancion': id, 'segundo': seg};
+    var msg = "";
+    await this.http.post(this.url+this.sLastSong, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async getLast() {
+    console.log(this.url+this.gLastSong);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.gLastSong, params).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }

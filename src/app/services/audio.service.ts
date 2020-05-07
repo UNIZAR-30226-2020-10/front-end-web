@@ -18,6 +18,7 @@ export class AudioService {
   private audioObj = new Audio();
   private start: Boolean = false;
   categories;
+  subscribeArtists;
   passSong;
   volume;
   useEqualizer: Boolean = false;
@@ -233,7 +234,18 @@ export class AudioService {
   }
 
   loadList(files, index, load) {
-    if(load != 'c') {
+    if(load === 'g') {
+      console.log(files.Cancion);
+      console.log("TIempo peti: " + files.Segundo);
+      if(files.Cancion != null) {
+        this.audioList = Array.from(files.Cancion);
+        this.maxIndex = 1;
+        this.start = true;
+        this.openFile(this.audioList[0], 0);
+        this.seekTo(files.Segundo);
+      }
+      return;
+    } else if(load != 'c') {
       this.loop = false;
       this.audioList = Array.from(files);
       this.maxIndex = this.audioList.length;
@@ -315,6 +327,7 @@ export class AudioService {
     this.maxIndex--;
     if(this.maxIndex == 0) {
       this.pause();
+      this.currentFile = {};
     } else if(actual) {
       this.openFile(this.audioList[index], index);
     }
@@ -327,6 +340,17 @@ export class AudioService {
       }
     }
     return false;
+  }
+
+  artistSubscribed(artist) {
+    let i = 0;
+    for(let art of this.subscribeArtists) {
+      if(art.Nombre === artist.Nombre) {
+        return i;
+      }
+      ++i;
+    }
+    return -1;
   }
 
   addToFav(song) {

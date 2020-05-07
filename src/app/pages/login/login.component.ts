@@ -42,12 +42,16 @@ export class LoginComponent implements OnInit {
       } else if(msg === "Error") {
         console.log("ERROR");
         this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
+      } else if(msg === "Sin confirmar") {
+        this.alertService.showAlert(0, "", "Revisa tu correo y confirma el correo de confirmación");
       } else {
         this.cloudService.userInfo = await this.cloudService.infoUser(this.cloudService.user);
         this.audioService.lists = await this.cloudService.getPlaylists();
         this.audioService.favList(await this.cloudService.getList(this.audioService.lists[0].ID));
         this.audioService.favoriteID = this.audioService.lists[0].ID;
         this.audioService.categories = await this.cloudService.allCategories();
+        this.audioService.subscribeArtists = await this.cloudService.suscriptions();
+        this.audioService.loadList(await this.cloudService.getLast(), 0, 'g');
         this.router.navigateByUrl('/initial-screen');
         this.alertService.showAlert(1, "", "¡Bienvenido de nuevo!");
       }

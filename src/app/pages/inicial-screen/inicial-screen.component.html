@@ -9,13 +9,29 @@
     </h3>
 
     <h2>Últimas canciones añadidas</h2>
-    <button class="addAll" (click)="addToQueue()">
-      Añadir todas a la cola
-    </button>
-    <div *ngFor="let song of this.songs" class="lastSongs" (click)="this.audioService.loadList([song], 0, 'l')">
-      <img class="albumArt" [src]="song.Imagen">
-      <h4 mat-line>{{ song.Nombre }}</h4>
-      <h5 mat-line>{{ song.Artistas }}</h5>
+    <div class="align">
+      <button class="addAll" (click)="addToQueue()">
+        <span class="material-icons">
+          playlist_add
+        </span>
+        <p>Reproducir todas</p>
+      </button>
+    </div>
+    <div class="listas">
+      <div class="lista" *ngFor="let song of this.songs" (click)="this.audioService.loadList([song], 0, 'l')">
+        <img class="albumArt" [src]="song.Imagen">
+        <h4 mat-line>{{ song.Nombre }}</h4>
+        <h5 mat-line>{{ song.Artistas }}</h5>
+      </div>
+    </div>
+
+    <h2>Artistas suscritos</h2>
+
+    <div class="listas">
+      <div class="lista" *ngFor="let artist of this.audioService.subscribeArtists" [routerLink]="['/artist', artist.Nombre]">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
+        <h3>{{ artist.Nombre }}</h3>
+      </div>
     </div>
 
     <h2>Listas de reproduccion de categorías</h2>

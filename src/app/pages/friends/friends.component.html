@@ -1,18 +1,15 @@
-<div>  
-  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-    <div class="search">
-      <input type="text" formControlName="titulo" class="searchTerm" placeholder="Buscar un amigo">
-      <button type="submit" class="searchButton">
-        <i class="material-icons">search</i>
-      </button>
-    </div>
-  </form>
-</div>
+<button class="selected" routerLink='/friends'>
+  Amigos
+</button>
 
-<button class="notification" routerLink='/solicitudes'>
-  Solicitudes de amistad pendientes
+<button class="notification" routerLink='/friends/solicitudes'>
+  Solicitudes de amistad
   <!--- BADGE HAY QUE MOSTRARLO CUANDO HAYA NOTIFICACIONES -->
   <span class="badge">3</span>
+</button>
+
+<button class="notification" routerLink='/friends/buscarAmigos'>
+  Buscar amigos
 </button>
 
 <!--
@@ -33,7 +30,7 @@
 </div>
 -->
 
-<h3>Amigos</h3>
+<h2>Amigos</h2>
 
 <ul>
   <li>

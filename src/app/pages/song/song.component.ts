@@ -67,7 +67,7 @@ export class SongComponent implements OnDestroy, OnInit {
     } else {
       if(this.audioService.songFav) {
         this.cloudService.addSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);
-        this.audioService.addToQueue(this.audioService.currentFile.song);
+        this.audioService.addToFav(this.audioService.currentFile.song);
       } else {
         this.cloudService.deleteSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);
         this.audioService.dropFav(this.audioService.currentFile.index);
