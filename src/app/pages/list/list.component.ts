@@ -6,7 +6,6 @@ import { Location } from '@angular/common';
 import { FormBuilder } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AlertsService } from 'src/app/services/alerts.service';
-import { List } from 'src/app/list';
 import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
@@ -18,9 +17,9 @@ import { LoaderService } from 'src/app/services/loader.service';
 export class ListComponent implements OnInit {
   private orderArtist: Boolean = false;
   private orderTitle: Boolean = false;
+  private orderCategory: Boolean = false;
   list;
   filter;
-  searchSongs = [];
   queue: Boolean;
   search: Boolean;
   song;
@@ -28,6 +27,7 @@ export class ListComponent implements OnInit {
   category: Boolean;
   checkoutForm;
   searchList;
+  categories;
 
   constructor(
     public cloudService: CloudService,
@@ -39,6 +39,10 @@ export class ListComponent implements OnInit {
     private router: Router,
     private loader: LoaderService
   ) {
+    this.categories = [];
+    for(let cat of this.audioService.categories) {
+      this.categories.push({name: cat, checked: false });
+    }
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });
@@ -122,12 +126,11 @@ export class ListComponent implements OnInit {
       await this.cloudService.deleteSong(song.ID, list);
       if(list === this.audioService.favoriteID) {
         this.audioService.dropFav(index);
-        this.list.Canciones.splice(index,1);
         if(song.ID === this.audioService.currentFile.song.ID) {
           this.audioService.songFav = false;
         }
       } else {
-        this.list = await this.cloudService.getList(list);
+        this.list = this.list.splice(index, 1);
       }
       pr = "lista " + this.list.Nombre;
     } else {
@@ -137,7 +140,7 @@ export class ListComponent implements OnInit {
         this.router.navigateByUrl('/initial-screen');
       }
     }
-    this.alertService.showAlert(1, "", "Canción eliminada de la " + pr);
+    this.alertService.showAlert(1, "", song.Nombre + " ha sido eliminada de la " + pr);
   }
 
   addToPlaylist(song) {
@@ -200,51 +203,74 @@ export class ListComponent implements OnInit {
       console.log(this.list.Canciones);
       if(this.list.ID === this.audioService.favoriteID) {
         moveItemInArray(this.audioService.favoriteSongs, event.previousIndex, event.currentIndex);
+      } else {
+        moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
       }
-      moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
       this.loader.necessary = false;
       await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
       this.loader.necessary = true;
     }
   }
 
-  trackByFn(index, file) {
-    return file.ID;
-  }
-
   onSearch(title) {
-    this.searchSongs = [];
-    for(let song of this.list.Canciones) {
+    var chosen;
+    if(this.audioService.favoriteID != this.list.ID) {
+      chosen = new Array(this.list.Canciones.length);
+      chosen = Array.from(this.list.Canciones);
+    } else {
+      chosen = new Array(this.audioService.favoriteSongs.length);
+      chosen = Array.from(this.audioService.favoriteSongs);
+    }
+    this.filter = [];
+    for(let song of chosen) {
       if(song.Nombre.toLowerCase().includes(title.titulo.toLowerCase())) {
-        this.searchSongs.push(song);
+        this.filter.push(song);
       } else {
         for(let artist of song.Artistas) {
           if(artist.toLowerCase().includes(title.titulo.toLowerCase())) {
-            this.searchSongs.push(song);
+            this.filter.push(song);
             break;
           }
         }
       }
     }
-    if(this.searchSongs.length === 0) {
+    if(this.filter.length === 0) {
       this.alertService.showAlert(2, "", "No se ha encontrado ninguna canción");
+    } else {
+      if(this.orderCategory) {
+        this.byCategory(this.filter);
+      }
+      if(this.orderTitle) {
+        this.filter = Array.from(this.orderByKey('Nombre'));
+      }
+      if(this.orderArtist) {
+        this.filter = Array.from(this.orderByKey('Artistas'));
+      }
     }
   }
 
   clean() {
     this.orderArtist = false;
     this.orderTitle = false;
-    this.searchSongs = [];
+    this.orderCategory = false;
     this.searchList.reset();
+    this.categories = [];
+    for(let cat of this.audioService.categories) {
+      this.categories.push({name: cat, checked: false });
+    }
     delete this.filter;
   }
 
   isFilter() {
-    if(this.filter != undefined) {
+    if(this.filter) {
       return this.filter;
     }
-    if(this.searchSongs.length != 0) {
-      return this.searchSongs;
+    return this.isFavorite();
+  }
+
+  isFavorite() {
+    if(this.list.ID === this.audioService.favoriteID) {
+      return this.audioService.favoriteSongs;
     }
     return this.list.Canciones;
   }
@@ -254,8 +280,7 @@ export class ListComponent implements OnInit {
     if(!this.orderArtist) {
       this.filter = this.filter.reverse();
     } else {
-      const aux = Array.from(this.orderByKey('Artistas'));
-      this.filter = aux;
+      this.filter = Array.from(this.orderByKey('Artistas'));
     }
   }
 
@@ -264,16 +289,18 @@ export class ListComponent implements OnInit {
     if(!this.orderTitle) {
       this.filter = this.filter.reverse();
     } else {
-      const aux = Array.from(this.orderByKey('Nombre'));
-      this.filter = aux;
+      this.filter = Array.from(this.orderByKey('Nombre'));
     }
   }
 
   private orderByKey(key) {
     var aux;
-    if(this.searchSongs.length != 0) {
-      aux = new Array(this.searchSongs.length);
-      aux = Array.from(this.searchSongs);
+    if(this.filter && this.filter.length > 0) {
+      aux = new Array(this.filter.length);
+      aux = Array.from(this.filter);
+    } else if(this.list.ID === this.audioService.favoriteID) {
+      aux = new Array(this.audioService.favoriteSongs.length);
+      aux = Array.from(this.audioService.favoriteSongs);
     } else {
       aux = new Array(this.list.Canciones.length);
       aux = Array.from(this.list.Canciones);
@@ -284,13 +311,54 @@ export class ListComponent implements OnInit {
     });
   }
 
-  async byCategory() {
-    const aux = await this.cloudService.listCategory(["Rock"], this.list.ID);
-    console.log(aux);
-    if(aux === undefined) {
-      this.alertService.showAlert(3, "", "No se ha encontrado ninguna canción de la categoría introducida");
+  async byCategory(arr) {
+    var aux;
+    if(arr && arr.length > 0) {
+      aux = new Array(arr.length);
+      aux = Array.from(arr);
+    } else if(this.list.ID === this.audioService.favoriteID) {
+      aux = new Array(this.audioService.favoriteSongs.length);
+      aux = Array.from(this.audioService.favoriteSongs);
     } else {
-      this.filter = aux;
+      aux = new Array(this.list.Canciones.length);
+      aux = Array.from(this.list.Canciones);
+    }
+    const filt = this.categories.filter(opt => opt.checked).map(opt => opt.name);
+    if(!filt || filt.length === 0) {
+      if(this.orderCategory) {
+        this.filter = aux;
+        this.orderCategory = false;
+        if(this.orderTitle) {
+          this.filter = Array.from(this.orderByKey('Nombre'));
+        }
+        if(this.orderArtist) {
+          this.filter = Array.from(this.orderByKey('Artistas'));
+        }
+      }
+      return;
+    }
+    this.orderCategory = true;
+    this.filter = [];
+    for(let song of aux) {
+      var added = false;
+      for(let cat of filt) {
+        for(let songCat of song.Categorias) {
+          if(songCat === cat) {
+            added = true;
+            break;
+          }
+        }
+        if(added) {
+          this.filter.push(song);
+          break;
+        }
+      }
+    }
+    if(this.orderTitle) {
+      this.filter = Array.from(this.orderByKey('Nombre'));
+    }
+    if(this.orderArtist) {
+      this.filter = Array.from(this.orderByKey('Artistas'));
     }
   }
 

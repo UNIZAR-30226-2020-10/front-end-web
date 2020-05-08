@@ -6,10 +6,17 @@
     <button (click)="byArtist()">
       Filtrar por artista
     </button>
-    <button *ngIf="!this.queue && !this.add && !this.search && !this.category && this.filter === undefined && this.searchSongs.length === 0" (click)="byCategory()">
+    <button *ngIf="!this.category" (click)="byCategory()">
       Filtrar por categoría
     </button>
-    <form [formGroup]="searchList" (ngSubmit)="onSearch(searchList.value)" class = "input-2" *ngIf="!this.search">
+    <form class = "input-1">
+      <div *ngFor="let cat of this.categories">
+        <input type="checkbox" [(ngModel)]="cat.checked" name="{{ cat.name }}" id="{{ cat.name }}" value="{{ cat.name }}">
+        <label for="{{ cat.name }}">{{ cat.name }}</label><br>
+      </div>
+      <button type="submit" class="button" (click)="byCategory(undefined)">Filtrar</button>
+    </form>
+    <form [formGroup]="searchList" (ngSubmit)="onSearch(searchList.value)" class = "input-2">
       <label for="titulo">
         Buscar canciones
       </label>
@@ -17,11 +24,11 @@
 
       <button class="button" type="submit">Buscar</button>
     </form>
-    <button *ngIf="this.filter != undefined || this.searchSongs.length != 0" (click)="clean()">
+    <button *ngIf="this.filter" (click)="clean()">
       Eliminar filtro
     </button>
   </div>
-  <div class="logo" *ngIf="!this.add && !this.search && this.list != undefined">
+  <div class="logo" *ngIf="!this.add && !this.search && this.list">
     <img class="listArt" *ngIf="this.list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
     <img class="listArt" *ngIf="this.list.Imagen != 'default'" [src]="this.list.Imagen" alt="listart">
     <h3 mat-header>{{ list.Nombre }}</h3>
@@ -29,12 +36,12 @@
   <mat-list color="primary">
   <h3 mat-subheader *ngIf="!this.add">Canciones</h3>
   <h3 mat-subheader *ngIf="this.add">Listas de reproducción</h3>
-  <div class="listDrag" *ngIf="!this.add && this.list != undefined && (this.search || this.filter != undefined || this.category || this.searchSongs.length != 0)">
-    <div class="drag" *ngFor="let file of isFilter(); let i = index; trackBy: trackByFn">
+  <div class="listDrag" *ngIf="!this.add && this.list && (this.search || this.filter || this.category)">
+    <div class="drag" *ngFor="let file of isFilter(); let i = index">
       <mat-list-item class="info-song" (click)="loadList(i, file)" >
         <img class="albumArt" [src]="file.Imagen" alt="albumart">
         <h4 mat-line>{{ file.Nombre }}</h4>
-        <h5 mat-line>{{ file.Artistas }}</h5>
+        <h5 mat-line>{{ file.Artistas }} Categorías: {{ file.Categorias }}</h5>
       </mat-list-item>
       <div class="button-list">
         <button mat-button (click)="addToPlaylist(file)">
@@ -45,13 +52,13 @@
       <mat-divider></mat-divider>
     </div>
   </div>
-  <div cdkDropList class="listDrag" *ngIf="!this.add && this.list != undefined && !this.search && this.filter === undefined && !this.category && this.searchSongs.length === 0" (cdkDropListDropped)="drop($event)">
-    <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of this.list.Canciones; let i = index; trackBy: trackByFn" cdkDrag>
+  <div cdkDropList class="listDrag" *ngIf="!this.add && this.list && !this.search && !this.filter && !this.category" (cdkDropListDropped)="drop($event)">
+    <div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of isFavorite(); let i = index" cdkDrag>
       <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
       <mat-list-item class="info-song" (click)="loadList(i, file)" >
         <img class="albumArt" [src]="file.Imagen" alt="albumart">
         <h4 mat-line>{{ file.Nombre }}</h4>
-        <h5 mat-line>{{ file.Artistas }}</h5>
+        <h5 mat-line>{{ file.Artistas }} Categorías: {{ file.Categorias }}</h5>
       </mat-list-item>
       <div class="button-list">
         <button mat-button (click)="addToPlaylist(file)">
