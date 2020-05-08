@@ -1,17 +1,21 @@
-<button class="selected" routerLink='/friends'>
+<button [ngClass]="[isActual(0)]" (click)="this.petitions = false; this.search = false">
   Amigos
 </button>
 
-<button class="notification" routerLink='/friends/solicitudes'>
+<button [ngClass]="[isActual(1)]" (click)="this.search = false; this.petitions = true">
   Solicitudes de amistad
   <!--- BADGE HAY QUE MOSTRARLO CUANDO HAYA NOTIFICACIONES -->
-  <span class="badge">3</span>
+  <span class="badge" *ngIf="this.friendService.petitions && this.friendService.petitions.length > 0">
+    {{ this.friendService.petitions.length }}
+  </span>
 </button>
 
-<button class="notification" routerLink='/friends/buscarAmigos'>
+<button [ngClass]="[isActual(2)]" (click)="this.petitions = false; this.search = true">
   Buscar amigos
 </button>
 
+<app-buscar-amigos *ngIf="this.search"></app-buscar-amigos>
+<app-solicitudes *ngIf="this.petitions"></app-solicitudes>
 <!--
 <div *ngIf="this.users != undefined && this.users.length > 0">
   <ul *ngFor="let user of this.users">
@@ -29,19 +33,27 @@
   </ul>
 </div>
 -->
+<div *ngIf="!this.search && !this.petitions">
+  <h2>Amigos</h2>
 
-<h2>Amigos</h2>
-
-<ul>
-  <li>
-    <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-    <div class="texto">
-      <h3>Amigo</h3>
-      <button class="boton">
-        <span class="material-icons">
-          delete
-        </span>
-      </button>
-    </div>
-  </li>
-</ul>
+  <div *ngIf="this.friendService.friends && this.friendService.friends.length > 0">
+    <ul *ngFor="let friend of this.friendService.friends; let i = index">
+      <li>
+        <img [src]="friend.Imagen">
+        <div class="texto">
+          <h3>{{ friend.Nombre }}</h3>
+          <button class="boton">
+            <span class="material-icons" (click)="deleteFriend(friend, i)">
+              delete
+            </span>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!this.friendService.friends || this.friendService.friends.length === 0">
+    <h3>No tienes ningún amigo todavía</h3>
+    <h3>Utiliza el buscador y empieza a añadir amigos</h3>
+    <h3 style="cursor: pointer;" (click)="this.petitions = false; this.search = true">Buscador</h3>
+  </div>
+</div>

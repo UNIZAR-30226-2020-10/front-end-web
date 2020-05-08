@@ -6,18 +6,23 @@ import { Router } from '@angular/router';
 import { AlertsService } from './alerts.service';
 import { AudioService } from './audio.service';
 import * as CryptoJS from 'crypto-js';
+import { interval, Subscription } from 'rxjs';
+import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CloudService {
+  subscription: Subscription;
+  private pause: Boolean = true;
 
   constructor(
     private http: HttpClient,
     public cookies: CookieService,
     private router: Router,
     private alertService: AlertsService,
-    private audioService: AudioService
+    private audioService: AudioService,
+    private loader: LoaderService
   ) { }
 
   async initApp() {
@@ -35,6 +40,22 @@ export class CloudService {
       } else {
         this.cookies.delete("TuneIT");
       }
+    }
+  }
+
+  async actualize() {
+    if((!this.audioService.checkState().playing && !this.pause) ||
+         this.audioService.checkState().playing && this.user) {
+      console.log("ACTUALIZAR SONG");
+      this.pause = !this.audioService.checkState().playing;
+      this.loader.necessary = false;
+      if(this.audioService.currentFile.song) {
+        await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
+      } else {
+        await this.setLast(null, null);
+      }
+      this.loader.necessary = true;
+      console.log("FIN SONG");
     }
   }
 
@@ -62,12 +83,14 @@ export class CloudService {
     if(this.cookies.check("TuneIT")) {
       this.cookies.delete("TuneIT");
     }
-    if(this.audioService.currentFile.song && this.user) {
+    this.subscription.unsubscribe();
+    if(!this.pause && this.audioService.currentFile.song) {
       await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
-    } else if(this.user) {
+    } else {
       await this.setLast(null, null);
     }
     this.user = undefined;
+    this.userInfo = undefined;
     this.audioService.maxIndex = 0;
     this.audioService.audioList = [];
     this.audioService.pause();
@@ -219,6 +242,8 @@ export class CloudService {
     console.log(msg);
     if(msg === "Success" && !this.user) {
       this.session = session;
+      const source = interval(5000);
+      this.subscription = source.subscribe(() => this.actualize());
       if(session) {
         this.setToken("TuneIT", params);
       }

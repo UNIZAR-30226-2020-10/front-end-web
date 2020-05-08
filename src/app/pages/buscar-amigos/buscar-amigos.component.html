@@ -1,22 +1,7 @@
-<button class="notification" routerLink='/friends'>
-  Amigos
-</button>
-
-<button class="notification" routerLink='/friends/solicitudes'>
-  Solicitudes de amistad
-  <!--- BADGE HAY QUE MOSTRARLO CUANDO HAYA NOTIFICACIONES -->
-  <span class="badge">3</span>
-</button>
-
-<button class="selected" routerLink='/friends/buscarAmigos'>
-  Buscar amigos
-</button>
-
 <h2>Buscar amigos</h2>
 
-<div> 
-  <!-- <[formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" --> 
-    <form>
+<div>
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
       <div class="search">
         <input type="text" formControlName="titulo" class="searchTerm" placeholder="Buscar amigos">
         <button type="submit" class="searchButton">
@@ -26,38 +11,18 @@
     </form>
 </div>
 
-<ul>
+<div *ngIf="this.users != undefined && this.users.length > 0">
+  <ul *ngFor="let user of this.users">
     <li>
-      <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
+      <img [src]="user.Imagen">
       <div class="texto">
-        <h3>Amigo</h3>
+        <h3>{{ user.Nombre }}</h3>
         <button class="boton">
-          <span class="material-icons">
-            person_add
-          </span>
-        </button>
-      </div>
-    </li>
-    <li>
-      <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-      <div class="texto">
-        <h3>Amigo</h3>
-        <button class="boton">
-          <span class="material-icons">
-            person_add
-          </span>
-        </button>
-      </div>
-    </li>
-    <li>
-      <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-      <div class="texto">
-        <h3>Amigo</h3>
-        <button class="boton">
-          <span class="material-icons">
+          <span class="material-icons" (click)="addFriend(user)">
             person_add
           </span>
         </button>
       </div>
     </li>
   </ul>
+</div>

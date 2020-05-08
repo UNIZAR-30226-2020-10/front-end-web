@@ -35,6 +35,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AccessGuardService } from './services/access-guard.service';
 import { ArtistComponent } from './pages/artist/artist.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { FriendsService } from './services/friends.service';
 import { FriendsComponent } from './pages/friends/friends.component';
 import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component';
 import { BuscarAmigosComponent } from './pages/buscar-amigos/buscar-amigos.component'
@@ -83,7 +84,7 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
     DragDropModule
   ],
   providers: [AudioService, CloudService, LoaderService, AlertsService,
-    CookieService, AccessGuardService,
+    CookieService, AccessGuardService, FriendsService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     { provide: APP_INITIALIZER, useFactory: appInit, deps: [CloudService], multi: true }],
   bootstrap: [AppComponent]

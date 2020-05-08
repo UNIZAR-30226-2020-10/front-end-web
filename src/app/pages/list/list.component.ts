@@ -7,6 +7,7 @@ import { FormBuilder } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { List } from 'src/app/list';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-list',
@@ -35,7 +36,8 @@ export class ListComponent implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location,
     public alertService: AlertsService,
-    private router: Router
+    private router: Router,
+    private loader: LoaderService
   ) {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
@@ -200,7 +202,9 @@ export class ListComponent implements OnInit {
         moveItemInArray(this.audioService.favoriteSongs, event.previousIndex, event.currentIndex);
       }
       moveItemInArray(this.list.Canciones, event.previousIndex, event.currentIndex);
+      this.loader.necessary = false;
       await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
+      this.loader.necessary = true;
     }
   }
 

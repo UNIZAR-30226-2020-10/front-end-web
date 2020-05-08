@@ -7,25 +7,25 @@ ul{
     list-style-type:none;
     margin-left: -1.5rem;
   }
-  
+
   ul li{
     border: 1px solid #ddd;
   }
-  
+
   ul li:last-child {
     border-bottom: none;
   }
-  
+
   ul li:hover{
     cursor: pointer;
   }
-  
+
 li img {
     float: left;
     width: 7.35rem;
     height: 7.35rem ;
 }
-  
+
   li .texto{
     //width: 66%;
     height: 100px;
@@ -41,7 +41,7 @@ li img {
     display: flex;
     align-items: center;
   }
-  
+
   .boton:hover{
     cursor: pointer;
   }
@@ -58,7 +58,7 @@ li img {
     margin-left: 1rem;
     display: flex;
   }
-  
+
   .searchTerm {
     width: 100%;
     border: 3px solid #448AFF;
@@ -69,11 +69,11 @@ li img {
     outline: none;
     color: #9DBFAF;
   }
-  
+
   .searchTerm:focus{
     color: fff;
   }
-  
+
   .searchButton {
     width: 40px;
     height: 36px;
@@ -84,7 +84,7 @@ li img {
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     font-size: 20px;
-  
+
     .material-icons{
       margin-top: 5px;
     }
@@ -94,59 +94,3 @@ h2 {
     margin-top: 1rem;
     margin-left: 1rem;
 }
-
-.notification {
-    background-color: #448AFF;
-    color: white;
-    text-decoration: none;
-    padding: 15px 26px;
-    position: relative;
-    display: inline-block;
-    border-radius: 4px;
-    border: none;
-    margin-top: 1rem;
-    margin-left: 1rem;
-  }
-  
-  .notification:hover {
-    background: #69a1ff;
-    cursor: pointer;
-  }
-  
-  .notification .badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-  }
-
-  .selected {
-    background-color: #D1C4E9;
-      color: black;
-      text-decoration: none;
-      padding: 15px 26px;
-      position: relative;
-      display: inline-block;
-      border-radius: 4px;
-      border: none;
-      margin-top: 1rem;
-      margin-left: 1rem;
-  }
-  
-  .selected:hover {
-    background: #69a1ff;
-    cursor: pointer;
-  }
-  
-  .selected .badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-  }

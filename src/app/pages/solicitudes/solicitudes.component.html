@@ -1,51 +1,22 @@
-<button class="notification" routerLink='/friends'>
-  Amigos
-</button>
-
-<button class="selected" routerLink='/friends/solicitudes'>
-  Solicitudes de amistad
-  <!--- BADGE HAY QUE MOSTRARLO CUANDO HAYA NOTIFICACIONES -->
-  <span class="badge">3</span>
-</button>
-
-<button class="notification" routerLink='/friends/buscarAmigos'>
-  Buscar amigos
-</button>
-
 <h2>Solicitudes de amistad</h2>
 
-<ul>
+<div *ngIf="this.friendService.petitions && this.friendService.petitions.length > 0">
+  <ul *ngFor="let friend of this.friendService.petitions; let i = index">
     <li>
-      <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
+      <img [src]="friend.Emisor[0].Imagen">
       <div class="texto">
-        <h3>Amigo</h3>
-        <button class="boton">
+        <h3>{{ friend.Emisor[0].Nombre }}</h3>
+        <button class="boton" (click)="accept(friend, i)">
           <span class="material-icons">
             person_add
           </span>
         </button>
-      </div>
-    </li>
-    <li>
-      <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-      <div class="texto">
-        <h3>Amigo</h3>
-        <button class="boton">
+        <button class="boton" (click)="denegate(friend, i)">
           <span class="material-icons">
-            person_add
-          </span>
-        </button>
-      </div>
-    </li>
-    <li>
-      <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-      <div class="texto">
-        <h3>Amigo</h3>
-        <button class="boton">
-          <span class="material-icons">
-            person_add
+            person_add_disabled
           </span>
         </button>
       </div>
     </li>
   </ul>
+</div>

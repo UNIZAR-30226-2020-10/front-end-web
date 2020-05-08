@@ -8,23 +8,14 @@ import { CloudService } from 'src/app/services/cloud.service';
   styleUrls: ['./player.component.scss']
 })
 
-export class PlayerComponent implements OnInit {
+export class PlayerComponent implements OnInit, OnDestroy {
   volumeShow: String = "hide";
   timer;
 
   constructor(
     public audioService: AudioService,
     public cloudService: CloudService
-  ) {
-    window.onbeforeunload = () => {
-      if(this.audioService.currentFile.song && this.cloudService.user) {
-        console.log("TIEMPO FINAL " + Math.floor(this.audioService.checkState().currentTime));
-        this.cloudService.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
-      } else if(this.cloudService.user) {
-        this.cloudService.setLast(null, null);
-      }
-    }
-  }
+  ) { }
 
   changeVolume(change){
     this.audioService.changeVol(change.value);
@@ -77,11 +68,15 @@ export class PlayerComponent implements OnInit {
   }
 
   async ngOnInit() {
-    if(this.cloudService.user != undefined) {
+    if(this.cloudService.user) {
       this.audioService.lists = await this.cloudService.getPlaylists();
       this.audioService.favoriteID = this.audioService.lists[0].ID;
       this.audioService.favList(await this.cloudService.getList(this.audioService.lists[0].ID));
     }
+  }
+
+  ngOnDestroy() {
+    this.cloudService.subscription.unsubscribe();
   }
 
 }
