@@ -1,20 +1,23 @@
 <div class="container">
-  <div class="media-footer" *ngIf="this.audioService.maxIndex > 0 && !this.audioService.showSong">
-    <div class="volume-slider" (mouseleave)="this.volumeShow = 'show hide'" (mouseenter)="clear()">
+  <div class="media-footer" *ngIf="this.cloudService.user && !this.audioService.showSong">
+    <div class="volume-slider" *ngIf="this.audioService.maxIndex > 0" (mouseleave)="this.volumeShow = 'show hide'" (mouseenter)="clear()">
       <mat-slider vertical [ngClass]="[this.volumeShow]" min="0.00" [max]="1.00" step="0.01" [value]="this.audioService.checkVol()" (input)="changeVolume($event)"></mat-slider>
     </div>
     <div class="reprofooter">
       <mat-toolbar color="primary">
         <mat-toolbar-row>
-          <div class="info" (click)="this.audioService.showSong = true" [routerLink]="['/song']">
+          <h2 style="text-align: center; width: 100%;" *ngIf="this.audioService.maxIndex === 0">
+            Selecciona una canción para reproducirla
+          </h2>
+          <div class="info" (click)="this.audioService.showSong = true" [routerLink]="['/song']" *ngIf="this.audioService.maxIndex > 0">
             <img class="albumArt" [src]="this.audioService.currentFile.song.Imagen" alt="albumart">
             <h4>{{ this.audioService.currentFile.song.Nombre }}</h4>
             <h5>{{ this.audioService.currentFile.song.Artistas }}</h5>
           </div>
-          <div class="line">
+          <div class="line" *ngIf="this.audioService.maxIndex > 0">
             <mat-slider class="time-slider" min="0" [max]="this.audioService.checkState().duration" step="1" [value]="this.audioService.checkState().currentTime" (input)="onSliderChangeEnd($event)" [disabled]="this.audioService.checkState().error || this.audioService.currentFile.index === undefined"></mat-slider>
           </div>
-          <div class="media-action-bar">
+          <div class="media-action-bar" *ngIf="this.audioService.maxIndex > 0">
             <button mat-button (click)="this.audioService.previous()">
               <mat-icon mat-list-icon>skip_previous</mat-icon>
             </button>

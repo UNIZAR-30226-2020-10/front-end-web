@@ -39,13 +39,17 @@ export class FriendsComponent implements OnInit, OnDestroy {
   async actualize() {
     console.log("ACTUALIZAR FRIEND");
     this.loader.necessary = false;
-    this.friendService.petitions = await this.cloudService.petitionsReceive();
+    const aux = await this.cloudService.petitionsReceive();
     this.loader.necessary = true;
+    this.friendService.actualizePetitions(aux);
   }
 
   async ngOnInit() {
     this.friendService.friends = await this.cloudService.friends();
-    this.friendService.petitions = await this.cloudService.petitionsReceive();
+    this.loader.necessary = false;
+    const aux = await this.cloudService.petitionsReceive();
+    this.loader.necessary = true;
+    this.friendService.actualizePetitions(aux);
     const source = interval(15000);
     this.subscription = source.subscribe(() => this.actualize());
   }

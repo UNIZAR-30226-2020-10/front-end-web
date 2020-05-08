@@ -19,4 +19,25 @@ export class FriendsService {
     return false;
   }
 
+  addedPetition(pet) {
+    for(let friend of this.petitions) {
+      if(pet.ID === friend.ID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  actualizePetitions(newPet) {
+    if(!this.petitions) {
+      this.petitions = newPet;
+    } else {
+      for(let pet of newPet) {
+        if(!this.addedPetition(pet)) {
+          this.petitions.push(pet);
+        }
+      }
+    }
+  }
+
 }

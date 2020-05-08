@@ -1,29 +1,29 @@
 <div class="user">
-    <img class="imagenUsuario" [src]="this.cloudService.userInfo.Foto">
+    <img class="imagenUsuario" [src]="this.user.Foto">
     <div>
         <h2>
             Usuario:
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{ this.cloudService.userInfo.Nombre }}
+            {{ this.user.Nombre }}
         </h2>
         <h2>
             Correo electrónico:
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{ this.cloudService.user }}
+            {{ this.user.Email }}
         </h2>
         <h2>
             Fecha de nacimiento:
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{ this.cloudService.userInfo.fecha }}
+            {{ this.user.fecha }}
         </h2>
         <h2>
             País:
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{ this.cloudService.userInfo.Pais }}
+            {{ this.user.Pais }}
         </h2>
         <a href="" [routerLink]="['/conf']">Editar perfil</a>
     </div>

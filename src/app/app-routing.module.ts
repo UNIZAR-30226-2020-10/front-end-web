@@ -35,10 +35,8 @@ const routes: Routes = [
   { path: 'podcasts/:id', component: PodcastsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'conf', component: ConfigurationComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'artist/:id', component: ArtistComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'profile', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'profile/:id', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'friends', component: FriendsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'friends/solicitudes', component: SolicitudesComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'friends/buscarAmigos', component: BuscarAmigosComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: '**', component: InicialScreenComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
 ];
 

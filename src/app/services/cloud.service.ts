@@ -475,7 +475,7 @@ export class CloudService {
 
   async accept(id, res) {
     console.log(this.url+this.acceptFriend);
-    var params = {'id': id, 'respuesta': res};
+    var params = {'peticion': id, 'respuesta': res};
     var msg = "";
     await this.http.post(this.url+this.acceptFriend, params).toPromise().catch(
       error => { msg = error.error.text }

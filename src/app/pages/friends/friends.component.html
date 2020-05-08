@@ -16,30 +16,14 @@
 
 <app-buscar-amigos *ngIf="this.search"></app-buscar-amigos>
 <app-solicitudes *ngIf="this.petitions"></app-solicitudes>
-<!--
-<div *ngIf="this.users != undefined && this.users.length > 0">
-  <ul *ngFor="let user of this.users">
-    <li>
-      <img [src]="user.Imagen">
-      <div class="texto">
-        <h3>{{ user.Nombre }}</h3>
-        <button>
-          <span class="material-icons">
-            delete
-          </span>
-        </button>
-      </div>
-    </li>
-  </ul>
-</div>
--->
+
 <div *ngIf="!this.search && !this.petitions">
   <h2>Amigos</h2>
 
   <div *ngIf="this.friendService.friends && this.friendService.friends.length > 0">
     <ul *ngFor="let friend of this.friendService.friends; let i = index">
       <li>
-        <img [src]="friend.Imagen">
+        <img [src]="friend.Imagen" [routerLink]="['/profile', this.cloudService.encrypt(friend.Email)]">
         <div class="texto">
           <h3>{{ friend.Nombre }}</h3>
           <button class="boton">
