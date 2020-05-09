@@ -91,6 +91,7 @@ button {
 
 .buscado {
   margin-top: 1rem;
+  margin-left: 1rem;
 }
 
 .eliminarBusqueda {
@@ -101,10 +102,11 @@ button {
   color: #ffffff;
   margin-left: 1rem;
   //display: flex;
-  align-items: center;
+  //align-items: center;
 }
 
 .eliminarBusqueda:hover{
   cursor: pointer;
   background-color: #69a1ff;
 }
+

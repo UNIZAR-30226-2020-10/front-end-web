@@ -12,26 +12,42 @@
 
   <div *ngIf="podcasts || favPodcasts" class="uff">
     <div class="buscado">
-      <div class="searched" *ngIf="title_string != undefined"><strong>Podcast buscado: </strong>{{ title_string }}</div>
-      <div class="searched" *ngIf="title_string === undefined"><strong>Podcasts favoritos: </strong></div>
-      <button class="eliminarBusqueda" (click)="podcasts = undefined; title_string = undefined" *ngIf="title_string != undefined">
-        <span class="material-icons">
-          clear
-        </span>
-      </button>
+      <div *ngIf="title_string != 'undefined'; else elseBlock">
+        <strong>Podcast buscado: </strong>
+        {{ title_string }}
+        <button class="eliminarBusqueda" (click)="podcasts = undefined; title_string = 'undefined'">
+          <span class="material-icons">
+            clear
+          </span>
+        </button>
+      </div>
+      <ng-template #elseBlock><strong>Podcasts favoritos</strong></ng-template>
     </div>
     <!-- LISTA DE PODCASTS -->
     <ul class="podcasts">
       <!-- GUARDAR PODCAST SELECCIONADO EN UN SERVICIO -->
-      <li *ngFor="let result of isFavorite()" [routerLink]="['/podcasts', result.title_original]" (click)="onSelect(result)">
+      <div *ngIf="this.title_string != 'undefined'; else elsee">
+        <li *ngFor="let result of isFavorite()" [routerLink]="['/podcasts', result.title_original]" (click)="onSelect(result)">
           <div class="separar">
-            <img src='{{result.image}}'/>
+          <img src='{{result.image}}'/>
             <div class="texto">
               <h2>{{result.title_original}}</h2>
               <h4><strong>Publicado por: </strong>{{result.publisher_original}}</h4>
             </div>
           </div>
-      </li>
+        </li>
+      </div>
+      <ng-template #elsee>
+          <li *ngFor="let result of isFavorite()" [routerLink]="['/podcasts', result.title_original]" (click)="onSelect(result)">
+            <div class="separar">
+            <img src='{{result.image}}'/>
+              <div class="texto">
+                <h2>{{result.title}}</h2>
+                <h4><strong>Publicado por: </strong>{{result.publisher}}</h4>
+              </div>
+            </div>
+          </li>
+      </ng-template>
     </ul>
   </div>
 </div>

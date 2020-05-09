@@ -39,6 +39,7 @@ export class SearchPodcastComponent implements OnInit {
    }
 
   async ngOnInit() {
+    this.title_string = "undefined";
     this.podcasts = this.savePodcast.restoreState();
     this.ids = await this.cloudService.listPodcast();
     if(this.ids.length > 0) {
@@ -46,7 +47,9 @@ export class SearchPodcastComponent implements OnInit {
       for(let id of this.ids) {
         ids += "," + id;
       }
-      this.podcastService.getPodcastsPost(ids).subscribe(podcasts => this.favPodcasts = podcasts);
+      this.ids.shift();
+      this.ids.shift();
+      this.podcastService.getPodcastsPost(ids).subscribe(favPodcasts => this.favPodcasts = favPodcasts);
     }
   }
 
@@ -83,8 +86,8 @@ export class SearchPodcastComponent implements OnInit {
   }
 
   isFavorite() {
-    if(this.title_string === undefined) {
-      return this.favPodcasts.results;
+    if(this.title_string === 'undefined') {
+      return this.favPodcasts.podcasts;
     } else {
       return this.podcasts.results;
     }
