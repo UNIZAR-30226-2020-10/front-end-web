@@ -14,7 +14,7 @@ import { LoaderService } from './loader.service';
 })
 export class CloudService {
   subscription: Subscription;
-  private pause: Boolean = true;
+  private pause: Boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -30,23 +30,27 @@ export class CloudService {
     if(token.email) {
       const msg = await this.signIn(token.email, token.password, false);
       if(msg === "Success") {
-        this.userInfo = await this.infoUser(this.user);
-        this.audioService.lists = await this.getPlaylists();
-        this.audioService.favList(await this.getList(this.audioService.lists[0].ID));
-        this.audioService.favoriteID = this.audioService.lists[0].ID;
-        this.audioService.categories = await this.allCategories();
-        this.audioService.subscribeArtists = await this.suscriptions();
-        this.audioService.loadList(await this.getLast(), 0, 'g');
+        await this.init();
       } else {
         this.cookies.delete("TuneIT");
       }
     }
   }
 
+  async init() {
+    this.userInfo = await this.infoUser(this.user);
+    this.audioService.lists = await this.getPlaylists();
+    this.audioService.favList(await this.getList(this.audioService.lists[0].ID));
+    this.audioService.favoriteID = this.audioService.lists[0].ID;
+    this.audioService.categories = await this.allCategories();
+    this.audioService.subscribeArtists = await this.suscriptions();
+    this.audioService.loadList(await this.getLast(), 0, 'g');
+    this.audioService.idsPodcasts(await this.listPodcast());
+  }
+
   async actualize() {
     if((!this.audioService.checkState().playing && !this.pause) ||
          this.audioService.checkState().playing && this.user) {
-      console.log("ACTUALIZAR SONG");
       this.pause = !this.audioService.checkState().playing;
       this.loader.necessary = false;
       if(this.audioService.currentFile.song) {
@@ -55,7 +59,6 @@ export class CloudService {
         await this.setLast(null, null);
       }
       this.loader.necessary = true;
-      console.log("FIN SONG");
     }
   }
 

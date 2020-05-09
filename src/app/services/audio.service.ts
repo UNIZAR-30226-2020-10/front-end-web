@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { StreamState } from '../stream-state';
 import * as moment from 'moment';
+import { PodcastService } from './podcast.service';
 declare const changeVolume: any;
 declare const checkVolume: any;
 declare const equalizerLoad: any;
@@ -26,6 +27,7 @@ export class AudioService {
   loop: Boolean = false;
   lists: any = [];
   favoriteID;
+  favoritePodcasts;
   favoriteSongs: Array<any> = [];
   songFav: Boolean;
   maxIndex:  number = 0;
@@ -42,6 +44,10 @@ export class AudioService {
     'loadedmetadata',
     'loadstart'
   ];
+
+  constructor(
+    private podcastService: PodcastService
+  ) { }
 
   private state: StreamState = {
     playing: false,
@@ -197,6 +203,7 @@ export class AudioService {
     this.audioList = [];
     this.audioList[0] = song;
     this.loadSong(song, 0);
+    this.songFav = this.songFavorite(this.currentFile.song);
     this.playStream(song.URL).subscribe(events => { });
   }
 
@@ -334,9 +341,17 @@ export class AudioService {
   }
 
   songFavorite(fav) {
-    for(let song of this.favoriteSongs) {
-      if(song.ID === fav.ID) {
-        return true;
+    if(fav.title) {
+      for(let song of this.favoritePodcasts.podcasts) {
+        if(song.title === fav.title) {
+          return true;
+        }
+      }
+    } else {
+      for(let song of this.favoriteSongs) {
+        if(song.ID === fav.ID) {
+          return true;
+        }
       }
     }
     return false;
@@ -375,6 +390,22 @@ export class AudioService {
       }
     }
     return true;
+  }
+
+  idsPodcasts(ids) {
+    ids.shift();
+    ids.shift();
+    var aux = "";
+    if(ids.length > 0) {
+      aux = ids[0];
+      ids.shift();
+      for(let id of ids) {
+        aux += "," + id;
+      }
+    }
+    if(aux.length > 0) {
+      this.podcastService.getPodcastsPost(aux).subscribe(favPodcasts => this.favoritePodcasts = favPodcasts);
+    }
   }
 
   private addEvents(obj, events, handler) {

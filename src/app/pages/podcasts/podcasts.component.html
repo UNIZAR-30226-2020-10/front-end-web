@@ -2,7 +2,6 @@
   <div *ngIf="podcasts">
     <!-- Presentar el podcast buscado -->
     <div class="absoluteCenter">
-      {{ isSaved() }}
       <h2>
         {{ podcasts.title }}
         <!-- {{pod.publisher_original }} -->
@@ -14,7 +13,8 @@
             <span class="material-icons" *ngIf="this.saved">
             bookmark
             </span>
-            <p>Agregar a favoritos</p>
+            <p *ngIf="!this.saved">Agregar a favoritos</p>
+            <p *ngIf="this.saved">Eliminar de favoritos</p>
           </button>
 
           <!-- PASAMOS LISTA DE PODCASTS A LA COLA DE REPRODUCCIÓN -->
@@ -47,5 +47,5 @@
 
 <!-- (click)="onSelect(podcast) -->
 <div *ngIf="selectedPodcast">
-  <app-podcast-detail [result]="[selectedPodcast, pod.publisher_original, this.title, pod.id]"></app-podcast-detail>
+  <app-podcast-detail [result]="[selectedPodcast, pod.publisher_original || pod.publisher, this.title, pod.id]"></app-podcast-detail>
 </div>

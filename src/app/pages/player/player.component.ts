@@ -37,10 +37,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.audioService.songFav = !this.audioService.songFav;
     if(this.audioService.currentFile.song.title) {
       if(this.audioService.songFav) {
-        await this.cloudService.addPodcast(this.audioService.currentFile.song.id, this.audioService.currentFile.song.title);
+        await this.cloudService.addPodcast(this.audioService.currentFile.song.ID, this.audioService.currentFile.song.title);
       } else {
-        await this.cloudService.deletePodcast(this.audioService.currentFile.song.id);
+        await this.cloudService.deletePodcast(this.audioService.currentFile.song.ID);
       }
+      this.audioService.idsPodcasts(await this.cloudService.listPodcast());
     } else {
       if(this.audioService.songFav) {
         await this.cloudService.addSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);

@@ -6,6 +6,8 @@ import { FormBuilder } from '@angular/forms';
 import { SavePodcastService } from 'src/app/services/save-podcast.service';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CloudService } from 'src/app/services/cloud.service';
+import { AudioService } from 'src/app/services/audio.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-podcast',
@@ -23,15 +25,15 @@ export class SearchPodcastComponent implements OnInit {
   showFirst;
   publisher_original: string;
   icon: boolean;
-  ids;
-  favPodcasts;
 
   constructor(
     private podcastService: PodcastService,
     private formBuilder: FormBuilder,
     private savePodcast: SavePodcastService,
     public alertService: AlertsService,
-    public cloudService: CloudService
+    public cloudService: CloudService,
+    public audioService: AudioService,
+    private router: Router
     ) {
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
@@ -39,18 +41,7 @@ export class SearchPodcastComponent implements OnInit {
    }
 
   async ngOnInit() {
-    this.title_string = "undefined";
     this.podcasts = this.savePodcast.restoreState();
-    this.ids = await this.cloudService.listPodcast();
-    if(this.ids.length > 0) {
-      var ids = this.ids[0];
-      for(let id of this.ids) {
-        ids += "," + id;
-      }
-      this.ids.shift();
-      this.ids.shift();
-      this.podcastService.getPodcastsPost(ids).subscribe(favPodcasts => this.favPodcasts = favPodcasts);
-    }
   }
 
   // Para el podcast seleccionado
@@ -58,6 +49,7 @@ export class SearchPodcastComponent implements OnInit {
     // Guardar podcast en un servicio.
     this.savePodcast.save(podcast);
     this.savePodcast.saveState(this.podcasts);
+    this.router.navigate(['/podcasts', podcast.title_original || podcast.title]);
   }
 
   onSubmit(title){
@@ -86,8 +78,8 @@ export class SearchPodcastComponent implements OnInit {
   }
 
   isFavorite() {
-    if(this.title_string === 'undefined') {
-      return this.favPodcasts.podcasts;
+    if(!this.title_string) {
+      return this.audioService.favoritePodcasts.podcasts;
     } else {
       return this.podcasts.results;
     }

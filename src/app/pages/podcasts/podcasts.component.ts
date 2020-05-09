@@ -39,6 +39,7 @@ export class PodcastsComponent implements OnInit {
     });
     this.pod = this.savePodcast.get();
     this.saved = await this.cloudService.isPodcastFavorite(this.pod.id);
+    console.log(this.pod.publisher_original)
     console.log(this.saved);
     this.getPodcasts();
   }
@@ -60,33 +61,28 @@ export class PodcastsComponent implements OnInit {
     return this.temp.replace(/\n/gm, ' ');
   }
 
-  // Check if saved podcast
-  isSaved(): void {
-    //whatever
-    this.saved = false;
-  }
-
   // To save a podcast
   async toggleIcon() {
     this.saved = !this.saved;
+    console.log(this.pod.id + " title: " + this.title);
     if(!this.saved) {
       await this.cloudService.deletePodcast(this.pod.id);
     } else {
       await this.cloudService.addPodcast(this.pod.id, this.title);
     }
+    this.audioService.idsPodcasts(await this.cloudService.listPodcast());
   }
 
   addToPlayList(): void {
     this.added = true;
 
     // Comprobar que no haya algo ya reproduciendose
-    console.log(this.audioService.checkState());
-    if (this.audioService.checkState().playing){
+    if(this.audioService.checkState().playing){
       for(let i=0; i<this.podcasts.episodes.length; i++){
         var song = {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
-          Artistas: this.pod.publisher_original,
+          Artistas: this.pod.publisher_original || this.pod.publisher,
           Imagen: this.podcasts.episodes[i].image,
           ID: this.pod.id,
           Album: undefined,
@@ -101,7 +97,7 @@ export class PodcastsComponent implements OnInit {
         var song = {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
-          Artistas: this.pod.publisher_original,
+          Artistas: this.pod.publisher_original || this.pod.publisher,
           Imagen: this.podcasts.episodes[i].image,
           ID: this.pod.id,
           Album: undefined,
