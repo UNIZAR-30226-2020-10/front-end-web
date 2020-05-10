@@ -38,7 +38,8 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { FriendsService } from './services/friends.service';
 import { FriendsComponent } from './pages/friends/friends.component';
 import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component';
-import { BuscarAmigosComponent } from './pages/buscar-amigos/buscar-amigos.component'
+import { BuscarAmigosComponent } from './pages/buscar-amigos/buscar-amigos.component';
+import { InfoComponent } from './pages/info/info.component'
 
 export function appInit(cloudService: CloudService): () => Promise<any> {
   return () => cloudService.initApp();
@@ -71,6 +72,7 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
     FriendsComponent,
     SolicitudesComponent,
     BuscarAmigosComponent,
+    InfoComponent,
   ],
   imports: [
     BrowserModule,

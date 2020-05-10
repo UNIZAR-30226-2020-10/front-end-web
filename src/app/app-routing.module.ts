@@ -17,6 +17,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { FriendsComponent } from './pages/friends/friends.component';
 import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component';
 import { BuscarAmigosComponent } from './pages/buscar-amigos/buscar-amigos.component';
+import { InfoComponent } from './pages/info/info.component';
 
 const routes: Routes = [
   { path: 'album/:id', component: AlbumComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'artist/:id', component: ArtistComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'profile/:id', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'friends', component: FriendsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: '', component: InfoComponent, data: {requiresLogin: false}, canActivate: [ AccessGuardService ] },
   { path: '**', component: InicialScreenComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
 ];
 
