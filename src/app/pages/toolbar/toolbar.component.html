@@ -1,5 +1,5 @@
 <mat-toolbar class="toolbar">
-    <span><a [routerLink]="['initial-screen']">TuneIt</a></span>
+    <span><a style="cursor: pointer;" (click)="goTo()">TuneIt</a></span>
     <span class="empty_spaces"></span>
     <div class="opciones" *ngIf="this.cloudService.user != undefined">
         <span><a routerLink='/notifications' aria-label="Notificaciones">Notificaciones</a></span>
