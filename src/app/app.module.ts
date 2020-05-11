@@ -17,7 +17,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessagesComponent } from './pages/messages/messages.component';
 import { PodcastsComponent } from './pages/podcasts/podcasts.component';
 import { PodcastDetailComponent } from './pages/podcast-detail/podcast-detail.component';
-import { EqualizerComponent } from './pages/equalizer/equalizer.component';
 import { SongComponent } from './pages/song/song.component';
 import { SearchPodcastComponent } from './pages/search-podcast/search-podcast.component';
 import { AlbumComponent } from './pages/album/album.component';
@@ -57,7 +56,6 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
     MessagesComponent,
     PodcastsComponent,
     PodcastDetailComponent,
-    EqualizerComponent,
     SongComponent,
     SearchPodcastComponent,
     AlbumComponent,

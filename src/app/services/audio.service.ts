@@ -6,10 +6,6 @@ import * as moment from 'moment';
 import { PodcastService } from './podcast.service';
 declare const changeVolume: any;
 declare const checkVolume: any;
-declare const equalizerLoad: any;
-declare const equalizer: any;
-declare const valEqualizer: any;
-declare const quitEqualizer: any;
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +18,6 @@ export class AudioService {
   subscribeArtists;
   passSong;
   volume;
-  useEqualizer: Boolean = false;
   showSong: Boolean = false;
   loop: Boolean = false;
   lists: any = [];
@@ -131,9 +126,6 @@ export class AudioService {
         this.start = false;
       } else {
         this.audioObj.play();
-      }
-      if(this.useEqualizer && !this.currentFile.song.title) {
-        equalizerLoad(this.audioObj);
       }
       const handler = (event: Event) => {
         this.updateStateEvents(event);
@@ -295,25 +287,6 @@ export class AudioService {
       }
     }
     this.loadSongNoStop(this.audioList[0], 0);
-  }
-
-  loadEqualizer(){
-    if(!this.currentFile.song.title) {
-      this.useEqualizer = true;
-      equalizerLoad(this.audioObj);
-    }
-  }
-
-  stateEqualizer(index) {
-    return valEqualizer(index);
-  }
-
-  changeEqualizer(val, index) {
-    equalizer(val, index);
-  }
-
-  exitEqualizer() {
-    quitEqualizer();
   }
 
   addToQueue(song) {

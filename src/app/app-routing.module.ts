@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EqualizerComponent } from './pages/equalizer/equalizer.component';
 import { PlaylistsComponent } from './pages/playlists/playlists.component';
 import { ListComponent } from './pages/list/list.component';
 import { SongComponent } from './pages/song/song.component';
@@ -15,8 +14,6 @@ import { AccessGuardService } from './services/access-guard.service';
 import { ArtistComponent } from './pages/artist/artist.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { FriendsComponent } from './pages/friends/friends.component';
-import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component';
-import { BuscarAmigosComponent } from './pages/buscar-amigos/buscar-amigos.component';
 import { InfoComponent } from './pages/info/info.component';
 
 const routes: Routes = [
@@ -24,7 +21,6 @@ const routes: Routes = [
   { path: 'lists', component: PlaylistsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'lists/:id', component: ListComponent, data: {queue: false, search: false, add: false, category: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'podcasts', component: SearchPodcastComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'equalizer', component: EqualizerComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'song', component: SongComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'category/:id', component: ListComponent, data: {queue: false, search: false, add: false, category: true, requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'queue', component: ListComponent, data: {queue: true, search: false, add: false, category: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },

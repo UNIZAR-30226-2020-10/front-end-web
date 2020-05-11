@@ -8,9 +8,6 @@
         <span><a routerLink='/help' aria-label="Ayuda">Ayuda</a></span>
     </div>
     <div class="opciones" *ngIf="this.cloudService.user != undefined">
-        <span><a routerLink='/conf' aria-label="Configuracion">Configuración</a></span>
-    </div>
-    <div class="opciones" *ngIf="this.cloudService.user != undefined">
       <span><a (click)="this.cloudService.closeSession()" class="close" aria-label="Cerrar sesión">Cerrar sesión</a></span>
     </div>
 </mat-toolbar>
