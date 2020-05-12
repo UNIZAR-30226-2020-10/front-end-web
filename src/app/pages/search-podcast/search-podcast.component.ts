@@ -43,9 +43,6 @@ export class SearchPodcastComponent implements OnInit {
   ngOnInit() {
     this.podcasts = this.savePodcast.restoreState();
     this.title_string = this.savePodcast.restoreTitle();
-    console.log("NGONITNIT");
-    console.log(this.title_string);
-    console.log(this.podcasts);
   }
 
   // Para el podcast seleccionado
@@ -55,12 +52,12 @@ export class SearchPodcastComponent implements OnInit {
     this.router.navigate(['/podcasts', podcast.title_original || podcast.title]);
   }
 
-  onSubmit(title){
+  async onSubmit(title){
     // Tratar los datos aqui
     if(title.titulo.length > 2) {
       this.title_string = title.titulo;
       this.selectedPodcast = null;
-      this.getPodcasts(this.title_string);
+      this.podcasts = await this.podcastService.getPodcasts(this.title_string);
       this.savePodcast.saveState(this.podcasts, this.title_string);
       this.checkoutForm.reset();
     } else {
@@ -68,13 +65,7 @@ export class SearchPodcastComponent implements OnInit {
     }
   }
 
-  // Llama a la funcion "getPodcasts" del servicio.
-  // Pone una lista de podcasts en @podcasts
-  getPodcasts(search): void {
-    this.podcastService.getPodcasts(search).subscribe(podcasts => this.podcasts = podcasts);
-  }
-
-  // Para saver si un podcast esta guardado o no
+  // Para saber si un podcast esta guardado o no
   isSaved(title: string) {
     // PREGUNTAR A BACK END SI EL PODCAST @TITLE ESTA GUARDADO
     this.icon = true;
@@ -83,6 +74,7 @@ export class SearchPodcastComponent implements OnInit {
   clean() {
     delete this.podcasts;
     delete this.title_string;
+    this.savePodcast.saveState(null, null);
   }
 
   isFavorite() {

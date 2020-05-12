@@ -27,9 +27,9 @@ export class PodcastService {
   constructor(private messageService: MessageService, private http: HttpClient) { }
 
   // Coje la lista de podcasts de MOCK-PODCASTS
-  getPodcasts(title: String): Observable<Podcast> {
+  async getPodcasts(title: String) {
     // Para mandar los mensajes
-    return this.http.get<Podcast>(`${this.podcast_url_1}${title}${this.podcast_url_2}`, this.httpOptions);
+    return await this.http.get<Podcast>(`${this.podcast_url_1}${title}${this.podcast_url_2}`, this.httpOptions).toPromise();
   }
 
   getEpisodes(title: String): Observable<Podcast> {

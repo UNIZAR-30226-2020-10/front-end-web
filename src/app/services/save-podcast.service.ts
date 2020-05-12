@@ -33,8 +33,5 @@ export class SavePodcastService {
   saveState(state, title){
     this.last_state = state;
     this.title_string = title;
-    console.log("SAVE_PODCAST");
-    console.log(this.title_string);
-    console.log(this.last_state);
   }
 }
