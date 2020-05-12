@@ -366,8 +366,6 @@ export class AudioService {
   }
 
   idsPodcasts(ids) {
-    ids.shift();
-    ids.shift();
     var aux = "";
     if(ids.length > 0) {
       aux = ids[0];
@@ -378,6 +376,8 @@ export class AudioService {
     }
     if(aux.length > 0) {
       this.podcastService.getPodcastsPost(aux).subscribe(favPodcasts => this.favoritePodcasts = favPodcasts);
+    } else {
+      this.favoritePodcasts = undefined;
     }
   }
 

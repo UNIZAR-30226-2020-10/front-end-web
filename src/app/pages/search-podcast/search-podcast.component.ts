@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 export class SearchPodcastComponent implements OnInit {
 
   //Variables
-  podcasts: Podcast;
+  podcasts;
   selectedPodcast;
   checkoutForm;
   title_string: string;
@@ -40,15 +40,18 @@ export class SearchPodcastComponent implements OnInit {
     });
    }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.podcasts = this.savePodcast.restoreState();
+    this.title_string = this.savePodcast.restoreTitle();
+    console.log("NGONITNIT");
+    console.log(this.title_string);
+    console.log(this.podcasts);
   }
 
   // Para el podcast seleccionado
   onSelect(podcast): void {
     // Guardar podcast en un servicio.
     this.savePodcast.save(podcast);
-    this.savePodcast.saveState(this.podcasts);
     this.router.navigate(['/podcasts', podcast.title_original || podcast.title]);
   }
 
@@ -58,7 +61,7 @@ export class SearchPodcastComponent implements OnInit {
       this.title_string = title.titulo;
       this.selectedPodcast = null;
       this.getPodcasts(this.title_string);
-
+      this.savePodcast.saveState(this.podcasts, this.title_string);
       this.checkoutForm.reset();
     } else {
       this.alertService.showAlert(2, "", "La búsqueda requiere un mínimo de 3 carácteres");
@@ -75,6 +78,11 @@ export class SearchPodcastComponent implements OnInit {
   isSaved(title: string) {
     // PREGUNTAR A BACK END SI EL PODCAST @TITLE ESTA GUARDADO
     this.icon = true;
+  }
+
+  clean() {
+    delete this.podcasts;
+    delete this.title_string;
   }
 
   isFavorite() {

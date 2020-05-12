@@ -6,8 +6,9 @@ import { ThrowStmt } from '@angular/compiler';
 })
 export class SavePodcastService {
 
-  podcast; 
-  last_state;
+  private podcast;
+  private last_state;
+  private title_string
 
   constructor() { }
 
@@ -25,7 +26,15 @@ export class SavePodcastService {
     }
   }
 
-  saveState(state){
+  restoreTitle(){
+    return this.title_string;
+  }
+
+  saveState(state, title){
     this.last_state = state;
+    this.title_string = title;
+    console.log("SAVE_PODCAST");
+    console.log(this.title_string);
+    console.log(this.last_state);
   }
 }

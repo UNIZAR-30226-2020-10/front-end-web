@@ -10,12 +10,12 @@
       </div>
     </form>
 
-  <div *ngIf="podcasts || this.audioService.favoritePodcasts" class="uff">
+  <div *ngIf="(title_string && title_string.length > 0) || (this.audioService.favoritePodcasts && this.audioService.favoritePodcasts.podcasts)" class="uff">
     <div class="buscado">
       <div *ngIf="title_string; else elseBlock">
         <strong>Podcast buscado: </strong>
         {{ title_string }}
-        <button class="eliminarBusqueda" (click)="podcasts = undefined; title_string = undefined">
+        <button class="eliminarBusqueda" (click)="clean()">
           <span class="material-icons">
             clear
           </span>
@@ -26,28 +26,17 @@
     <!-- LISTA DE PODCASTS -->
     <ul class="podcasts">
       <!-- GUARDAR PODCAST SELECCIONADO EN UN SERVICIO -->
-      <div *ngIf="title_string; else elsee">
+      <div>
         <li *ngFor="let result of isFavorite()" (click)="onSelect(result)">
           <div class="separar">
           <img src='{{result.image}}'/>
             <div class="texto">
-              <h2>{{result.title_original}}</h2>
-              <h4><strong>Publicado por: </strong>{{result.publisher_original}}</h4>
+              <h2>{{result.title_original || result.title}}</h2>
+              <h4><strong>Publicado por: </strong>{{result.publisher_original || result.publisher}}</h4>
             </div>
           </div>
         </li>
       </div>
-      <ng-template #elsee>
-          <li *ngFor="let result of isFavorite()" (click)="onSelect(result)">
-            <div class="separar">
-            <img src='{{result.image}}'/>
-              <div class="texto">
-                <h2>{{result.title}}</h2>
-                <h4><strong>Publicado por: </strong>{{result.publisher}}</h4>
-              </div>
-            </div>
-          </li>
-      </ng-template>
     </ul>
   </div>
 </div>

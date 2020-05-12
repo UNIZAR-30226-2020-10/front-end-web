@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
         this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
       } else {
         this.router.navigateByUrl('/login');
-        this.alertService.showAlert(1, "Usuario registrado", "");
+        this.alertService.showAlert(1, "", "Revisa tu correo para confirmar la cuenta");
       }
     } else {
       this.alertService.showAlert(0, "", "Las contraseñas no coinciden");

@@ -56,7 +56,7 @@ export class ConfigurationComponent implements OnInit {
         } else {
           var encnewpass = title.newpass;
           if(title.newpass.length > 0) {
-            encnewpass = this.cloudService.encrypt(title.repass);
+            encnewpass = this.cloudService.encrypt(title.newpass);
           }
           msg = await this.cloudService.modify(encrepass, encnewpass, title.name, title.country);
           if(msg === "Success") {
