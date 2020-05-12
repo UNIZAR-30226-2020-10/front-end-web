@@ -1,6 +1,6 @@
 .container{
-    position: fixed;
     width: 100%;
+    height: 100%;
 }
 
 h1 {
@@ -10,19 +10,16 @@ h1 {
 }
 
 .right{
-    //display: flex;
-    //align-items:center;
-    display: inline-flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    height: 757px;
-    justify-content: center;
+    display: flex;
+    align-items:center;
+}
+
+img{
+    width: 60%;
 }
 
 .text{
-    //text-align: left;
-    margin-top: -6rem;
-    margin-left: 4rem;
+    width: 40%;
 }
 
 .text p {
