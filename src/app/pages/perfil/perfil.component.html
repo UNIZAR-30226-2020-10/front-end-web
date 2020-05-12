@@ -25,14 +25,23 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             {{ this.user.Pais }}
         </h2>
-        <a href="" [routerLink]="['/conf']">Editar perfil</a>
+        <a href="" [routerLink]="['/conf']" *ngIf="this.user.Email === this.cloudService.user">
+          <mat-icon>build</mat-icon> Editar perfil
+        </a>
     </div>
 </div>
 <hr width="95%" color="#dddddd">
 <div>
-    <h3>Álbumes guardados</h3>
+    <h3>Listas de reproducción</h3>
 </div>
-<div class="albums">
+<div *ngFor="let list of this.playlists" class="box">
+  <div [routerLink]="['/lists', this.cloudService.encrypt(list.ID.toString())]">
+    <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+    <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
+    <h3>{{ list.Nombre }}</h3>
+  </div>
+</div>
+<!--<div class="albums">
     <ul>
         <li>
             <img class="album_image" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
@@ -41,33 +50,5 @@
                 <p>Paquirrín</p>
             </div>
         </li>
-        <li>
-            <img class="album_image" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-            <div class="album_details">
-                <h3>Sangre Caliente</h3>
-                <p>Paquirrín</p>
-            </div>
-        </li>
-        <li>
-            <img class="album_image" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-            <div class="album_details">
-                <h3>Sangre Caliente</h3>
-                <p>Paquirrín</p>
-            </div>
-        </li>
-        <li>
-            <img class="album_image" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-            <div class="album_details">
-                <h3>Sangre Caliente</h3>
-                <p>Paquirrín</p>
-            </div>
-        </li>
-        <li>
-            <img class="album_image" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-            <div class="album_details">
-                <h3>Sangre Caliente</h3>
-                <p>Paquirrín</p>
-            </div>
-        </li>
     </ul>
-</div>
+</div>-->

@@ -36,7 +36,7 @@ export class PlaylistsComponent implements OnInit {
     } else if(msg === "Error") {
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
-      this.audioService.lists = await this.cloudService.getPlaylists();
+      this.audioService.lists = await this.cloudService.getPlaylists(this.cloudService.user);
       this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo);
     }
   }
@@ -67,12 +67,13 @@ export class PlaylistsComponent implements OnInit {
     return "";
   }
 
-  async deleteList(id, name) {
+  async deleteList(id, name, i) {
     const msg = await this.cloudService.deleteList(id);
     if(msg === "Error") {
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
-      this.audioService.lists = await this.cloudService.getPlaylists();
+      this.audioService.lists.splice(i, 1);
+      //this.audioService.lists = await this.cloudService.getPlaylists();
       this.alertService.showAlert(1, "", "La lista " + name + " se ha eliminado");
     }
   }

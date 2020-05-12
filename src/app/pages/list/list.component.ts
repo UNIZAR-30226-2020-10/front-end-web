@@ -63,9 +63,7 @@ export class ListComponent implements OnInit {
       } else if(this.search) {
         this.list = {"Canciones": [],
                      "Nombre":"Búsqueda", "ID":'', "Desc":"Búsqueda", "Imagen":"default"};
-        console.log(params.get('id'));
         this.list.Canciones = await this.cloudService.searchSong(params.get('id'));
-        console.log(this.list);
         if(this.list.Canciones.length === 0) {
           this.alertService.showAlert(3, "", "No se han encontrado canciones");
         } else {
@@ -79,13 +77,13 @@ export class ListComponent implements OnInit {
       } else if(this.add) {
         this.list = undefined;
         this.song = this.audioService.passSong;
-        //this.audioService.lists = await this.cloudService.getPlaylists();
       } else if(this.category) {
         this.list = {"Canciones": await this.cloudService.categories([params.get('id')]),
                      "Nombre":params.get('id'), "ID":'', "Desc":params.get('id'), "Imagen":"default"};
       } else {
-        this.list = await this.cloudService.getList(params.get('id'));
-        if(params.get('id') === this.audioService.favoriteID) {
+        const id = parseInt(this.cloudService.decrypt(params.get('id')));
+        this.list = await this.cloudService.getList(id);
+        if(id === this.audioService.favoriteID) {
           this.list.Canciones = this.audioService.favoriteSongs;
         }
         if(this.list.Canciones.length === 0) {
@@ -182,7 +180,7 @@ export class ListComponent implements OnInit {
     } else if(msg === "Error") {
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
-      this.audioService.lists = await this.cloudService.getPlaylists();
+      this.audioService.lists = await this.cloudService.getPlaylists(this.cloudService.user);
       this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo);
     }
   }

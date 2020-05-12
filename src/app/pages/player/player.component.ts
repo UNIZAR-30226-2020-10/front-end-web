@@ -68,13 +68,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.timer = setTimeout(() => { this.volumeShow = "show hide" }, 3000);
   }
 
-  async ngOnInit() {
-    if(this.cloudService.user) {
-      this.audioService.lists = await this.cloudService.getPlaylists();
-      this.audioService.favoriteID = this.audioService.lists[0].ID;
-      this.audioService.favList(await this.cloudService.getList(this.audioService.lists[0].ID));
-    }
-  }
+  ngOnInit() { }
 
   ngOnDestroy() {
     this.cloudService.subscription.unsubscribe();

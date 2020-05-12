@@ -26,7 +26,7 @@ a {
     margin-left: 1rem;
 }
 
-.albums {
+/*.albums {
     margin-top: 1rem;
     margin-left: 1rem;
 }
@@ -76,4 +76,27 @@ a {
 
 .album_details p {
     margin-left: 1rem;
+}*/
+
+.box {
+  cursor: pointer;
+  float: left;
+  margin: 40px;
+  width: 281px;
+  height: 370px;
+  border-radius: 0px 0px 0px 0px;
+  -moz-border-radius: 0px 0px 0px 0px;
+  -webkit-border-radius: 0px 0px 0px 0px;
+  border: 4px inset #000000;
+  .albumArt {
+    height: 281px !important;
+    width: 281px !important;
+  }
+  h3 {
+    margin-left: 0;
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 31px;
+    padding-bottom: 41px;
+  }
 }

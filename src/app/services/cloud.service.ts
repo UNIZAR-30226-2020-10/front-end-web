@@ -39,7 +39,7 @@ export class CloudService {
 
   async init() {
     this.userInfo = await this.infoUser(this.user);
-    this.audioService.lists = await this.getPlaylists();
+    this.audioService.lists = await this.getPlaylists(this.user);
     this.audioService.favList(await this.getList(this.audioService.lists[0].ID));
     this.audioService.favoriteID = this.audioService.lists[0].ID;
     this.audioService.categories = await this.allCategories();
@@ -155,9 +155,9 @@ export class CloudService {
   private sLastSong: string = "set_last_song";
   private gLastSong: string = "get_last_song";
 
-  async getPlaylists() {
+  async getPlaylists(user) {
     console.log(this.url+this.askPlaylists);
-    var params = {'usuario': this.user};
+    var params = {'usuario': user};
     return await this.http.get<Playlists>(this.url+this.askPlaylists, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );

@@ -5,12 +5,25 @@
   </div>
 </button>
 <div class="song" *ngIf="this.audioService.maxIndex > 0 && this.audioService.showSong">
-  <h2>{{ this.audioService.currentFile.song.Nombre }}</h2>
-  <h3 *ngIf="this.audioService.currentFile.song.title">{{ this.audioService.currentFile.song.Artistas }}</h3>
-  <h3 *ngIf="!this.audioService.currentFile.song.title" class="linkArtist" [routerLink]="['/artist', this.audioService.currentFile.song.Artistas[0]]">{{ this.audioService.currentFile.song.Artistas }}</h3>
+  <div *ngIf="!this.audioService.currentFile.song.title" class="category">
+    <h3 *ngFor="let cat of this.audioService.currentFile.song.Categorias" [routerLink]="['/category', cat]" class="cat">
+      <span *ngIf="this.audioService.currentFile.song.Categorias[0] != cat">, </span>
+      {{ cat }}
+    </h3>
+    <br/>
+  </div>
   <a (click)="album()" style="cursor: pointer;">
     <img class="albumArt" [src]="this.audioService.currentFile.song.Imagen" alt="albumart">
   </a>
+  <h2>{{ this.audioService.currentFile.song.Nombre }}</h2>
+  <h3 *ngIf="this.audioService.currentFile.song.title; else song">{{ this.audioService.currentFile.song.Artistas }}</h3>
+  <ng-template #song>
+    <h3 *ngFor="let artist of this.audioService.currentFile.song.Artistas" [routerLink]="['/artist', artist]" class="artists">
+      <span *ngIf="this.audioService.currentFile.song.Artistas[0] != artist">, </span>
+      {{ artist }}
+    </h3>
+    <br/>
+  </ng-template>
   <div class="line">
     {{ this.audioService.checkState().readableCurrentTime }}
     <mat-slider class="time-slider" min="0" [max]="this.audioService.checkState().duration" step="1" [value]="this.audioService.checkState().currentTime" (input)="onSliderChangeEnd($event)" [disabled]="this.audioService.checkState().error || this.audioService.currentFile.index === undefined"></mat-slider>
