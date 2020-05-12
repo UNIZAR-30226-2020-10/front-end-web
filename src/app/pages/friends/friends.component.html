@@ -36,8 +36,8 @@
     </ul>
   </div>
   <div *ngIf="!this.friendService.friends || this.friendService.friends.length === 0">
-    <h3>No tienes ningún amigo todavía</h3>
-    <h3>Utiliza el buscador y empieza a añadir amigos</h3>
-    <h3 style="cursor: pointer;" (click)="this.petitions = false; this.search = true">Buscador</h3>
+    <p>No tienes ningún amigo todavía</p>
+    <p>Utiliza el buscador y empieza a añadir amigos</p>
+    <a (click)="this.petitions = false; this.search = true">Buscar amigos</a>
   </div>
 </div>
