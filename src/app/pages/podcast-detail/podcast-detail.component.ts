@@ -56,8 +56,8 @@ export class PodcastDetailComponent implements OnInit {
         Imagen: this.result[0].image,
         ID: this.result[3],
         Album: undefined,
-        title: this.result[2]
-
+        title: this.result[2],
+        Categorias: ["Podcast"]
       };
       this.audioService.addToQueue(song);
     } else {

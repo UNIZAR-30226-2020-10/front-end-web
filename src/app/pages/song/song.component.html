@@ -5,19 +5,20 @@
   </div>
 </button>
 <div class="song" *ngIf="this.audioService.maxIndex > 0 && this.audioService.showSong">
-  <div *ngIf="!this.audioService.currentFile.song.title" class="category">
+  <h3 *ngIf="this.audioService.currentFile.song.Categorias[0] === 'Podcast'; else song">Podcast</h3>
+  <ng-template #song>
     <h3 *ngFor="let cat of this.audioService.currentFile.song.Categorias" [routerLink]="['/category', cat]" class="cat">
       <span *ngIf="this.audioService.currentFile.song.Categorias[0] != cat">, </span>
       {{ cat }}
     </h3>
     <br/>
-  </div>
+  </ng-template>
   <a (click)="album()" style="cursor: pointer;">
     <img class="albumArt" [src]="this.audioService.currentFile.song.Imagen" alt="albumart">
   </a>
   <h2>{{ this.audioService.currentFile.song.Nombre }}</h2>
-  <h3 *ngIf="this.audioService.currentFile.song.title; else song">{{ this.audioService.currentFile.song.Artistas }}</h3>
-  <ng-template #song>
+  <h3 *ngIf="this.audioService.currentFile.song.Categorias[0] === 'Podcast'; else art">Podcast</h3>
+  <ng-template #art>
     <h3 *ngFor="let artist of this.audioService.currentFile.song.Artistas" [routerLink]="['/artist', artist]" class="artists">
       <span *ngIf="this.audioService.currentFile.song.Artistas[0] != artist">, </span>
       {{ artist }}

@@ -34,12 +34,10 @@
 <div>
     <h3>Listas de reproducción</h3>
 </div>
-<div *ngFor="let list of this.playlists" class="box">
-  <div [routerLink]="['/lists', this.cloudService.encrypt(list.ID.toString())]">
-    <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-    <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
-    <h3>{{ list.Nombre }}</h3>
-  </div>
+<div *ngFor="let list of this.playlists" class="box" [routerLink]="['/lists', this.cloudService.encrypt(list.ID.toString())]">
+  <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+  <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
+  <h3>{{ list.Nombre }}</h3>
 </div>
 <!--<div class="albums">
     <ul>

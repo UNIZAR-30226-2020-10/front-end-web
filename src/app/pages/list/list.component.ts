@@ -18,7 +18,10 @@ export class ListComponent implements OnInit {
   private orderArtist: Boolean = false;
   private orderTitle: Boolean = false;
   private orderCategory: Boolean = false;
+  tableColumns: string[] = ['Imagen', 'Nombre', 'Artista', 'Categoría', 'Botones'];
+  tableAdd: string[] = ['Imagen', 'Nombre'];
   list;
+  playlists;
   filter;
   queue: Boolean;
   search: Boolean;
@@ -28,6 +31,7 @@ export class ListComponent implements OnInit {
   checkoutForm;
   searchList;
   categories;
+  hover = "";
 
   constructor(
     public cloudService: CloudService,
@@ -76,6 +80,7 @@ export class ListComponent implements OnInit {
         }
       } else if(this.add) {
         this.list = undefined;
+        this.newAdd();
         this.song = this.audioService.passSong;
       } else if(this.category) {
         this.list = {"Canciones": await this.cloudService.categories([params.get('id')]),
@@ -118,20 +123,23 @@ export class ListComponent implements OnInit {
     this.backToList();
   }
 
-  async removeFromList(song, index, list) {
-    var pr = "";
+  async removeFromList(song, list) {
+    var pr = "", index;
     if(list != 'c') {
       await this.cloudService.deleteSong(song.ID, list);
       if(list === this.audioService.favoriteID) {
+        index = this.audioService.favoriteSongs.map(function(el) { return el.ID; }).indexOf(song.ID);
         this.audioService.dropFav(index);
         if(song.ID === this.audioService.currentFile.song.ID) {
           this.audioService.songFav = false;
         }
       } else {
+        index = this.list.Canciones.map(function(el) { return el.ID; }).indexOf(song.ID);
         this.list = this.list.splice(index, 1);
       }
       pr = "lista " + this.list.Nombre;
     } else {
+      index = this.audioService.audioList.map(function(el) { return el.ID; }).indexOf(song.ID);
       this.audioService.deleteFromQueue(index);
       pr = "cola";
       if(this.audioService.maxIndex === 0) {
@@ -141,14 +149,22 @@ export class ListComponent implements OnInit {
     this.alertService.showAlert(1, "", song.Nombre + " ha sido eliminada de la " + pr);
   }
 
+  newAdd() {
+    this.playlists = Array.from(this.audioService.lists);
+    this.playlists.unshift({"Canciones":'',"Nombre":"Cola de reprodución", "ID":'c', "Desc":"Cola de reproducción", "Imagen":"default"});
+  }
+
   addToPlaylist(song) {
+    this.newAdd();
     this.song = song;
     this.add = true;
   }
 
   backToList() {
+    console.log("back");
     this.song = undefined;
     this.add = false;
+    delete this.playlists;
     if(this.list === undefined) {
       this.audioService.passSong = undefined;
       this.audioService.showSong = true;
@@ -157,7 +173,7 @@ export class ListComponent implements OnInit {
   }
 
   loadList(index, song) {
-    if(this.search) {
+    if(this.search && song != "all") {
       this.audioService.loadList([song], 0, undefined);
     } else {
       this.audioService.loadList(this.isFilter(), index, this.list.ID);

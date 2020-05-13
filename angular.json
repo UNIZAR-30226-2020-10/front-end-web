@@ -35,7 +35,8 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/app/volumeControl.js",
-              "src/app/search.js"
+              "src/app/search.js",
+              "node_modules/hammerjs/hammer.min.js"
             ]
           },
           "configurations": {

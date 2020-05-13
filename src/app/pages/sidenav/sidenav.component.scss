@@ -26,7 +26,7 @@
     margin-right: 4px;
   }
 
-  a{
+  a, span {
     color: #ffffff;
   }
 
@@ -38,11 +38,13 @@
 
 .change-left, .change-right {
   .change {
+    cursor: pointer;
     .mat-nav-list {
       position: absolute;
       top: 40%;
     }
-    .a {
+    span {
+      margin-left: 20px;
       text-align: center;
       font-size: 20px;
     }
@@ -57,10 +59,10 @@
     }
   }
   .router {
-    transform: translateX(300px);
-    margin-right: 19%;
+    margin-left: 300px;
+    margin-right: 2%;
     left: 30px;
-    margin-bottom: 64px;
+    margin-bottom: 75px;
   }
 }
 
@@ -71,9 +73,9 @@
     }
   }
   .router {
-    margin-right: 3%;
+    margin-right: 2%;
     left: 30px;
-    margin-bottom: 64px;
+    margin-bottom: 75px;
   }
 }
 

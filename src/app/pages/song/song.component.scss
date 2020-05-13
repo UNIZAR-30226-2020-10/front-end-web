@@ -3,7 +3,7 @@
   margin-right: 2.5rem;
   margin-left: 2.5rem;
   text-align: center;
-  .category h3 {
+  .cat {
     margin-bottom: 0;
   }
   .albumArt {
@@ -84,7 +84,7 @@
   }
 }
 
-.artists {
+.artists, .cat {
   display: inline-block;
   cursor: pointer;
 }

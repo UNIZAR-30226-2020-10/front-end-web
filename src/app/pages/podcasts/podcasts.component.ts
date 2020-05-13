@@ -86,7 +86,8 @@ export class PodcastsComponent implements OnInit {
           Imagen: this.podcasts.episodes[i].image,
           ID: this.pod.id,
           Album: undefined,
-          title: this.title
+          title: this.title,
+          Categorias: ["Podcast"]
         };
         this.audioService.addToQueue(song);
       }
@@ -101,7 +102,8 @@ export class PodcastsComponent implements OnInit {
           Imagen: this.podcasts.episodes[i].image,
           ID: this.pod.id,
           Album: undefined,
-          title: this.title
+          title: this.title,
+          Categorias: ["Podcast"]
         };
         this.audioService.addToQueue(song);
       }

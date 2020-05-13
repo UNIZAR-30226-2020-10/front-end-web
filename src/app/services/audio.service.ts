@@ -190,7 +190,8 @@ export class AudioService {
       Imagen: img,
       ID: id,
       Album: undefined,
-      title: t
+      title: t,
+      Categorias: ["Podcast"]
     };
     this.audioList = [];
     this.audioList[0] = song;

@@ -157,7 +157,7 @@ export class CloudService {
 
   async getPlaylists(user) {
     console.log(this.url+this.askPlaylists);
-    var params = {'usuario': user};
+    var params = {'email': user};
     return await this.http.get<Playlists>(this.url+this.askPlaylists, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );
@@ -200,7 +200,7 @@ export class CloudService {
 
   async createList(title) {
     console.log(this.url+this.newList);
-    var params = {'lista': title, 'desc': "Lista añadida", 'usuario': this.user};
+    var params = {'lista': title, 'desc': "Lista añadida", 'email': this.user};
     var msg = "";
     await this.http.post(this.url+this.newList, params).toPromise().catch(
       error => { console.log(error.error.text); msg = error.error.text; }
@@ -221,7 +221,7 @@ export class CloudService {
   async searchSong(title) {
     console.log(this.url+this.search);
     var params = {'nombre': title};
-    return await this.http.get<Array<Song>>(this.url+this.search, {params: params}).toPromise().catch(
+    return await this.http.get(this.url+this.search, {params: params}).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }
