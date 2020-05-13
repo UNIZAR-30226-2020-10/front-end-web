@@ -15,8 +15,8 @@ import { LoaderService } from 'src/app/services/loader.service';
 })
 
 export class ListComponent implements OnInit {
-  private orderArtist: Boolean = false;
-  private orderTitle: Boolean = false;
+  orderArtist = 0;
+  orderTitle = 0;
   private orderCategory: Boolean = false;
   tableColumns: string[] = ['Imagen', 'Nombre', 'Artista', 'Categoría', 'Botones'];
   searchAlbum: string[] = ['Imagen', 'Nombre', 'Artista', 'Fecha'];
@@ -47,8 +47,9 @@ export class ListComponent implements OnInit {
   ) {
     this.categories = [];
     for(let cat of this.audioService.categories) {
-      this.categories.push({name: cat, checked: false });
+      this.categories.push({name: cat.Nombre, checked: false });
     }
+    this.categories.push({name: 'Podcast', checked: false });
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });
@@ -68,7 +69,6 @@ export class ListComponent implements OnInit {
         }
       } else if(this.search) {
         this.list = await this.cloudService.searchSong(params.get('id'));
-        console.log(this.list);
         if(this.list.Canciones.length === 0 && this.list.Albums.length === 0 && this.list.Artistas.length === 0) {
           this.alertService.showAlert(3, "", "No se ha encontrado ninguna coincidencia");
         }
@@ -173,14 +173,6 @@ export class ListComponent implements OnInit {
     }
   }
 
-  isActual(i) {
-    if(this.queue && this.audioService.currentFile.index === i &&
-       !this.audioService.checkState().error && this.filter === undefined) {
-      return "actual";
-    }
-    return "";
-  }
-
   async onSubmit(title) {
     this.checkoutForm.reset();
     const msg = await this.cloudService.createList(title.name);
@@ -247,18 +239,22 @@ export class ListComponent implements OnInit {
       if(this.orderCategory) {
         this.byCategory(this.filter);
       }
-      if(this.orderTitle) {
+      if(this.orderTitle === 2) {
+        this.filter.reverse();
+      } else if(this.orderTitle != 0) {
         this.filter = Array.from(this.orderByKey('Nombre'));
       }
-      if(this.orderArtist) {
+      if(this.orderArtist === 2) {
+        this.filter.reverse();
+      } else if(this.orderArtist != 0) {
         this.filter = Array.from(this.orderByKey('Artistas'));
       }
     }
   }
 
   clean() {
-    this.orderArtist = false;
-    this.orderTitle = false;
+    this.orderArtist = 0;
+    this.orderTitle = 0;
     this.orderCategory = false;
     this.searchList.reset();
     this.categories = [];
@@ -283,21 +279,24 @@ export class ListComponent implements OnInit {
   }
 
   byArtist() {
-    this.orderArtist = !this.orderArtist;
-    if(!this.orderArtist) {
-      this.filter = this.filter.reverse();
+    ++this.orderArtist;
+    if(this.orderArtist === 2) {
+      this.filter.reverse();
     } else {
+      this.orderArtist = 1;
       this.filter = Array.from(this.orderByKey('Artistas'));
     }
   }
 
   byTitle() {
-    this.orderTitle = !this.orderTitle;
-    if(!this.orderTitle) {
-      this.filter = this.filter.reverse();
+    ++this.orderTitle;
+    if(this.orderTitle === 2) {
+      this.filter.reverse();
     } else {
+      this.orderTitle = 1;
       this.filter = Array.from(this.orderByKey('Nombre'));
     }
+    console.log(this.filter);
   }
 
   private orderByKey(key) {
@@ -335,10 +334,14 @@ export class ListComponent implements OnInit {
       if(this.orderCategory) {
         this.filter = aux;
         this.orderCategory = false;
-        if(this.orderTitle) {
+        if(this.orderTitle === 2) {
+          this.filter.reverse();
+        } else if(this.orderTitle != 0) {
           this.filter = Array.from(this.orderByKey('Nombre'));
         }
-        if(this.orderArtist) {
+        if(this.orderArtist === 2) {
+          this.filter.reverse();
+        } else if(this.orderArtist != 0) {
           this.filter = Array.from(this.orderByKey('Artistas'));
         }
       }
@@ -361,10 +364,14 @@ export class ListComponent implements OnInit {
         }
       }
     }
-    if(this.orderTitle) {
+    if(this.orderTitle === 2) {
+      this.filter.reverse();
+    } else if(this.orderTitle != 0) {
       this.filter = Array.from(this.orderByKey('Nombre'));
     }
-    if(this.orderArtist) {
+    if(this.orderArtist === 2) {
+      this.filter.reverse();
+    } else if(this.orderArtist != 0) {
       this.filter = Array.from(this.orderByKey('Artistas'));
     }
   }

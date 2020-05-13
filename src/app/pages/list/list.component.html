@@ -50,12 +50,12 @@
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <th mat-header-cell *matHeaderCellDef (click)="byTitle()" style="cursor: pointer;"> Nombre </th>
         <td mat-cell *matCellDef="let element" class="elemName"> {{element.Nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Artista">
-        <th mat-header-cell *matHeaderCellDef> Artistas </th>
+        <th mat-header-cell *matHeaderCellDef (click)="byArtist()" style="cursor: pointer;"> Artistas </th>
         <td mat-cell *matCellDef="let element" class="elemArt">
           <div *ngFor="let artist of element.Artistas"  class="oneline">
             <span *ngIf="element.Artistas[0] != artist">, </span>
@@ -165,19 +165,19 @@
         <th mat-header-cell *matHeaderCellDef>
           <!--<mat-icon mat-list-icon (click)="loadList(0, 'all')" class="reproAll">play_circle_filled</mat-icon>-->
         </th>
-        <td mat-cell *matCellDef="let element" class="image">
+        <td mat-cell *matCellDef="let element" class="image" aria-sort="ascending">
           <mat-icon mat-list-icon *ngIf="element.ID === hover" class="play">play_circle_outline</mat-icon>
           <img class="albumArt" [src]="element.Imagen" alt="albumart">
         </td>
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <th mat-header-cell *matHeaderCellDef (click)="byTitle()" style="cursor: pointer;"> Nombre </th>
         <td mat-cell *matCellDef="let element" class="elemName"> {{element.Nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Artista">
-        <th mat-header-cell *matHeaderCellDef> Artistas </th>
+        <th mat-header-cell *matHeaderCellDef (click)="byArtist()" style="cursor: pointer;"> Artistas </th>
         <td mat-cell *matCellDef="let element" class="elemArt">
           <div *ngFor="let artist of element.Artistas"  class="oneline">
             <span *ngIf="element.Artistas[0] != artist">, </span>
@@ -219,7 +219,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
-      <tr mat-row cdkDrag *matRowDef="let row; columns: tableColumns; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover}" (dblclick)="loadList(i, row)" style="cursor: pointer"></tr>
+      <tr mat-row cdkDrag *matRowDef="let row; columns: tableColumns; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover, 'actual' : this.queue && i === this.audioService.currentFile.index}" (dblclick)="loadList(i, row.Nombre)" style="cursor: pointer"></tr>
     </table>
 
     <!--<div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of isFavorite(); let i = index" cdkDrag>
