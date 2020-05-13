@@ -34,7 +34,10 @@
     <h3 mat-header>{{ list.Nombre }}</h3>
   </div>
   <div class="listDrag" *ngIf="!this.add && this.list && (this.search || this.filter || this.category)">
-    <table mat-table [dataSource]="isFilter()" class="mat-elevation-z8">
+
+    <h4 *ngIf="this.search && this.list.Canciones.length > 0"> Canciones </h4>
+
+    <table mat-table [dataSource]="isFilter()" class="mat-elevation-z8" *ngIf="!this.search || this.list.Canciones.length > 0">
 
       <ng-container matColumnDef="Imagen">
         <th mat-header-cell *matHeaderCellDef>
@@ -80,12 +83,76 @@
             <button mat-button (click)="addToPlaylist(element)">
               <mat-icon color="primary">playlist_add</mat-icon>
             </button>
+            <button mat-button>
+              <mat-icon color="primary">share</mat-icon>
+            </button>
           </div>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: tableColumns; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover}" (dblclick)="loadList(i, row)" style="cursor: pointer"></tr>
+    </table>
+
+    <h4 *ngIf="this.search && this.list.Artistas.length > 0"> Artistas </h4>
+
+    <table mat-table [dataSource]="list.Artistas" class="mat-elevation-z8" *ngIf="this.search && this.list.Artistas.length > 0">
+
+      <ng-container matColumnDef="Imagen">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="image">
+          <img class="albumArt" [src]="element.Imagen" alt="albumart">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Pais">
+        <th mat-header-cell *matHeaderCellDef> Pais </th>
+        <td mat-cell *matCellDef="let element"> {{element.Pais}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="searchArtist"></tr>
+      <tr mat-row *matRowDef="let row; columns: searchArtist; let i = index" (mouseover)="this.hover = row.Nombre" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.Nombre == hover}" (dblclick)="this.router.navigate(['/artist', row.Nombre])" style="cursor: pointer"></tr>
+    </table>
+
+    <h4 *ngIf="this.search && this.list.Albums.length > 0"> Álbums </h4>
+
+    <table mat-table [dataSource]="list.Albums" class="mat-elevation-z8" *ngIf="this.search && this.list.Albums.length > 0">
+
+      <ng-container matColumnDef="Imagen">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="image">
+          <img class="albumArt" [src]="element.Imagen" alt="albumart">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Artista">
+        <th mat-header-cell *matHeaderCellDef> Artistas </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let artist of element.Artistas" class="oneline">
+            <span *ngIf="element.Artistas[0] != artist">, </span>
+            <span [routerLink]="['/artist', artist]" style="cursor: pointer;">{{ artist }}</span>
+          </div>
+          <br/>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Fecha">
+        <th mat-header-cell *matHeaderCellDef> Fecha de publicación </th>
+        <td mat-cell *matCellDef="let element"> {{element.Fecha}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="searchAlbum"></tr>
+      <tr mat-row *matRowDef="let row; columns: searchAlbum; let i = index" (mouseover)="this.hover = row.Nombre" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.Nombre == hover}" (dblclick)="this.router.navigate(['/album', row.Nombre])" style="cursor: pointer"></tr>
     </table>
 
   </div>
@@ -137,6 +204,9 @@
           <div class="button-list" *ngIf="element.ID === hover">
             <button mat-button (click)="addToPlaylist(element)">
               <mat-icon color="primary">playlist_add</mat-icon>
+            </button>
+            <button mat-button>
+              <mat-icon color="primary">share</mat-icon>
             </button>
             <button mat-button (click)="removeFromList(element, list.ID)">
               <mat-icon color="primary">delete</mat-icon>
@@ -196,36 +266,10 @@
 
       <tr mat-header-row *matHeaderRowDef="tableAdd"></tr>
       <tr mat-row *matRowDef="let row; columns: tableAdd; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover}" (dblclick)="addToList(row.ID, row.Nombre)" style="cursor: pointer"></tr>
-      <tr mat-row>
-        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-          <label mat-line for="titulo">
-            Nueva lista de reproducción
-          </label>
-          <div mat-line class="name">
-            <input type="text" placeholder="Nombre de la lista..." formControlName="titulo">
-            <button class="button" type="submit">Añadir</button>
-          </div>
-        </form>
-      </tr>
+
     </table>
-    <!--<mat-list-item class="info-song" (click)="addToList('c', 'Cola')">
-      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-      <h4 mat-line>Cola de reproducción</h4>
-      <h5 mat-line>Mi cola de reproducción</h5>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <div *ngFor="let list of this.audioService.lists">
-      <mat-list-item class="info-song" (click)="addToList(list.ID, list.Nombre)">
-        <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
-        <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-        <h4 mat-line>{{ list.Nombre }}</h4>
-        <h5 mat-line>{{ list.Desc }}</h5>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-    </div>
-    <mat-list-item class="info-song">
-      <img class="albumArt" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+
+      <!--<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
         <label mat-line for="titulo">
           Nueva lista de reproducción
         </label>

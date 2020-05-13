@@ -31,6 +31,7 @@ export class InicialScreenComponent implements OnInit {
   async ngOnInit() {
     this.songs = await this.cloudService.getSongs();
     this.songs.reverse().splice(this.showAdd);
+    console.log(this.songs);
   }
 
 }

@@ -19,6 +19,8 @@ export class ListComponent implements OnInit {
   private orderTitle: Boolean = false;
   private orderCategory: Boolean = false;
   tableColumns: string[] = ['Imagen', 'Nombre', 'Artista', 'Categoría', 'Botones'];
+  searchAlbum: string[] = ['Imagen', 'Nombre', 'Artista', 'Fecha'];
+  searchArtist: string[] = ['Imagen', 'Nombre', 'Pais'];
   tableAdd: string[] = ['Imagen', 'Nombre'];
   list;
   playlists;
@@ -40,7 +42,7 @@ export class ListComponent implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location,
     public alertService: AlertsService,
-    private router: Router,
+    public router: Router,
     private loader: LoaderService
   ) {
     this.categories = [];
@@ -65,18 +67,10 @@ export class ListComponent implements OnInit {
           this.alertService.showAlert(3, "", "Cola vacía");
         }
       } else if(this.search) {
-        this.list = {"Canciones": [],
-                     "Nombre":"Búsqueda", "ID":'', "Desc":"Búsqueda", "Imagen":"default"};
-        this.list.Canciones = await this.cloudService.searchSong(params.get('id'));
-        if(this.list.Canciones.length === 0) {
-          this.alertService.showAlert(3, "", "No se han encontrado canciones");
-        } else {
-          var n = this.list.Canciones.length;
-          if(n === 1) {
-            this.alertService.showAlert(1, "", "Se ha encontrado una canción");
-          } else {
-            this.alertService.showAlert(1, "", "Se han encontrado " + n + " canciones");
-          }
+        this.list = await this.cloudService.searchSong(params.get('id'));
+        console.log(this.list);
+        if(this.list.Canciones.length === 0 && this.list.Albums.length === 0 && this.list.Artistas.length === 0) {
+          this.alertService.showAlert(3, "", "No se ha encontrado ninguna coincidencia");
         }
       } else if(this.add) {
         this.list = undefined;
@@ -151,7 +145,7 @@ export class ListComponent implements OnInit {
 
   newAdd() {
     this.playlists = Array.from(this.audioService.lists);
-    this.playlists.unshift({"Canciones":'',"Nombre":"Cola de reprodución", "ID":'c', "Desc":"Cola de reproducción", "Imagen":"default"});
+    this.playlists.unshift({"Canciones":'',"Nombre":"Cola de reprodución", "ID":'c', "Desc":"Cola de reproducción", "Imagen":"https://psoftware.s3.amazonaws.com/LogoAppFondoEscalaGrises.png"});
   }
 
   addToPlaylist(song) {
@@ -161,7 +155,6 @@ export class ListComponent implements OnInit {
   }
 
   backToList() {
-    console.log("back");
     this.song = undefined;
     this.add = false;
     delete this.playlists;
@@ -190,7 +183,7 @@ export class ListComponent implements OnInit {
 
   async onSubmit(title) {
     this.checkoutForm.reset();
-    const msg = await this.cloudService.createList(title.titulo);
+    const msg = await this.cloudService.createList(title.name);
     if(msg === "No favoritos") {
       this.alertService.showAlert(0, "", "No se permite crear una lista con el nombre introducido");
     } else if(msg === "Error") {
