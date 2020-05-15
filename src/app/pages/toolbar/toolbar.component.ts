@@ -19,7 +19,7 @@ export class ToolbarComponent implements OnInit {
 
   goTo() {
     if(this.cloudService.user) {
-      this.router.navigateByUrl('/initial-screen');
+      this.router.navigateByUrl('/music');
     } else {
       this.router.navigateByUrl('');
     }

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { CloudService } from 'src/app/services/cloud.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-player',
@@ -50,6 +51,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
         await this.cloudService.deleteSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);
         this.audioService.dropFav(this.audioService.currentFile.index);
       }
+    }
+    if(this.audioService.showFavorite) {
+      this.audioService.dataSource = new MatTableDataSource(this.audioService.favoriteSongs);
     }
   }
 

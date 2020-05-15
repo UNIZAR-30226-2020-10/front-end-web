@@ -1,11 +1,5 @@
 <div class="content">
   <div class="filtro" *ngIf="!this.add">
-    <button (click)="byTitle()">
-      Filtrar por título
-    </button>
-    <button (click)="byArtist()">
-      Filtrar por artista
-    </button>
     <button *ngIf="!this.category" (click)="byCategory(undefined)">
       Filtrar por categoría
     </button>
@@ -24,9 +18,6 @@
 
       <button class="button" type="submit">Buscar</button>
     </form>
-    <button *ngIf="this.filter" (click)="clean()">
-      Eliminar filtro
-    </button>
   </div>
   <div class="logo" *ngIf="!this.add && !this.search && this.list">
     <img class="listArt" *ngIf="this.list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
@@ -37,25 +28,23 @@
 
     <h4 *ngIf="this.search && this.list.Canciones.length > 0"> Canciones </h4>
 
-    <table mat-table [dataSource]="isFilter()" class="mat-elevation-z8" *ngIf="!this.search || this.list.Canciones.length > 0">
+    <table mat-table [dataSource]="this.audioService.dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8" *ngIf="!this.search || this.list.Canciones.length > 0">
 
       <ng-container matColumnDef="Imagen">
-        <th mat-header-cell *matHeaderCellDef>
-          <!--<mat-icon mat-list-icon (click)="loadList(0, 'all')" class="reproAll">play_circle_filled</mat-icon>-->
-        </th>
-        <td mat-cell *matCellDef="let element" class="image">
-          <mat-icon mat-list-icon *ngIf="element.ID === hover" class="play">play_circle_outline</mat-icon>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = index" class="image">
+          <mat-icon mat-list-icon *ngIf="element.ID === hover" (click)="loadList(i, element)" class="play">play_circle_outline</mat-icon>
           <img class="albumArt" [src]="element.Imagen" alt="albumart">
         </td>
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
-        <th mat-header-cell *matHeaderCellDef (click)="byTitle()" style="cursor: pointer;"> Nombre </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Nombre"> Nombre </th>
         <td mat-cell *matCellDef="let element" class="elemName"> {{element.Nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Artista">
-        <th mat-header-cell *matHeaderCellDef (click)="byArtist()" style="cursor: pointer;"> Artistas </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Artistas"> Artistas </th>
         <td mat-cell *matCellDef="let element" class="elemArt">
           <div *ngFor="let artist of element.Artistas"  class="oneline">
             <span *ngIf="element.Artistas[0] != artist">, </span>
@@ -96,7 +85,7 @@
 
     <h4 *ngIf="this.search && this.list.Artistas.length > 0"> Artistas </h4>
 
-    <table mat-table [dataSource]="list.Artistas" class="mat-elevation-z8" *ngIf="this.search && this.list.Artistas.length > 0">
+    <table mat-table matSort [dataSource]="dataArtist" class="mat-elevation-z8" (matSortChange)="sortArtist($event)" *ngIf="this.search && this.list.Artistas.length > 0">
 
       <ng-container matColumnDef="Imagen">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -106,12 +95,12 @@
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Nombre"> Nombre </th>
         <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Pais">
-        <th mat-header-cell *matHeaderCellDef> Pais </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Pais"> Pais </th>
         <td mat-cell *matCellDef="let element"> {{element.Pais}} </td>
       </ng-container>
 
@@ -121,7 +110,7 @@
 
     <h4 *ngIf="this.search && this.list.Albums.length > 0"> Álbums </h4>
 
-    <table mat-table [dataSource]="list.Albums" class="mat-elevation-z8" *ngIf="this.search && this.list.Albums.length > 0">
+    <table mat-table matSort [dataSource]="dataAlbum" class="mat-elevation-z8" (matSortChange)="sortAlbum($event)" *ngIf="this.search && this.list.Albums.length > 0">
 
       <ng-container matColumnDef="Imagen">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -131,12 +120,12 @@
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Nombre"> Nombre </th>
         <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Artista">
-        <th mat-header-cell *matHeaderCellDef> Artistas </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Artistas"> Artistas </th>
         <td mat-cell *matCellDef="let element">
           <div *ngFor="let artist of element.Artistas" class="oneline">
             <span *ngIf="element.Artistas[0] != artist">, </span>
@@ -147,7 +136,7 @@
       </ng-container>
 
       <ng-container matColumnDef="Fecha">
-        <th mat-header-cell *matHeaderCellDef> Fecha de publicación </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Fecha"> Fecha de publicación </th>
         <td mat-cell *matCellDef="let element"> {{element.Fecha}} </td>
       </ng-container>
 
@@ -156,28 +145,25 @@
     </table>
 
   </div>
-  <div cdkDropList class="listDrag" *ngIf="!this.add && this.list && !this.search && !this.filter && !this.category" (cdkDropListDropped)="drop($event)">
+  <div class="listDrag" *ngIf="!this.add && this.list && !this.search && !this.filter && !this.category">
 
-    <table mat-table [dataSource]="isFavorite()" class="mat-elevation-z8">
-      <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+    <table mat-table matSort [dataSource]="this.audioService.dataSource" class="mat-elevation-z8" cdkDropList (matSortChange)="sortData($event)" (cdkDropListDropped)="drop($event)">
 
       <ng-container matColumnDef="Imagen">
-        <th mat-header-cell *matHeaderCellDef>
-          <!--<mat-icon mat-list-icon (click)="loadList(0, 'all')" class="reproAll">play_circle_filled</mat-icon>-->
-        </th>
-        <td mat-cell *matCellDef="let element" class="image" aria-sort="ascending">
-          <mat-icon mat-list-icon *ngIf="element.ID === hover" class="play">play_circle_outline</mat-icon>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = index" class="image">
+          <mat-icon mat-list-icon *ngIf="element.ID === hover" class="play" (click)="loadList(i, element)">play_circle_outline</mat-icon>
           <img class="albumArt" [src]="element.Imagen" alt="albumart">
         </td>
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
-        <th mat-header-cell *matHeaderCellDef (click)="byTitle()" style="cursor: pointer;"> Nombre </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Nombre"> Nombre </th>
         <td mat-cell *matCellDef="let element" class="elemName"> {{element.Nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Artista">
-        <th mat-header-cell *matHeaderCellDef (click)="byArtist()" style="cursor: pointer;"> Artistas </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="Artistas"> Artistas </th>
         <td mat-cell *matCellDef="let element" class="elemArt">
           <div *ngFor="let artist of element.Artistas"  class="oneline">
             <span *ngIf="element.Artistas[0] != artist">, </span>
@@ -200,7 +186,7 @@
 
       <ng-container matColumnDef="Botones">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="options">
+        <td mat-cell *matCellDef="let element; let i = index" class="options">
           <div class="button-list" *ngIf="element.ID === hover">
             <button mat-button (click)="addToPlaylist(element)">
               <mat-icon color="primary">playlist_add</mat-icon>
@@ -208,7 +194,7 @@
             <button mat-button>
               <mat-icon color="primary">share</mat-icon>
             </button>
-            <button mat-button (click)="removeFromList(element, list.ID)">
+            <button mat-button (click)="removeFromList(element, i, list.ID)">
               <mat-icon color="primary">delete</mat-icon>
             </button>
             <button mat-button cdkDragHandle>
@@ -219,7 +205,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
-      <tr mat-row cdkDrag *matRowDef="let row; columns: tableColumns; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover, 'actual' : this.queue && i === this.audioService.currentFile.index}" (dblclick)="loadList(i, row.Nombre)" style="cursor: pointer"></tr>
+      <tr mat-row cdkDrag *matRowDef="let row; columns: tableColumns; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover, 'actual' : this.queue && row.ID === this.audioService.currentFile.song.ID && this.audioService.equals(this.audioService.dataSource.filteredData)}" (dblclick)="loadList(i, row.Nombre)" style="cursor: pointer"></tr>
     </table>
 
     <!--<div class="drag" [ngClass]="[isActual(i)]" *ngFor="let file of isFavorite(); let i = index" cdkDrag>
@@ -249,7 +235,7 @@
     <button mat-button (click)="backToList()">
       <mat-icon color="primary">cancel</mat-icon>
     </button>
-    <table mat-table [dataSource]="this.playlists" class="mat-elevation-z8">
+    <table mat-table matSort [dataSource]="this.playlists" class="mat-elevation-z8">
 
       <ng-container matColumnDef="Imagen">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -260,7 +246,7 @@
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
         <td mat-cell *matCellDef="let element" class="addName"> {{element.Nombre}} </td>
       </ng-container>
 

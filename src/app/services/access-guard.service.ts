@@ -24,7 +24,7 @@ export class AccessGuardService implements CanActivate {
       console.log("access false");
       return false;
     } else if(!requiresLogin && this.cloudService.user) {
-      this.router.navigateByUrl('/initial-screen');
+      this.router.navigateByUrl('/music');
       console.log("access false");
       return false;
     }

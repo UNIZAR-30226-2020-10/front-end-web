@@ -1,5 +1,5 @@
 <div class="playlists">
-  <button class="back" routerLink='/initial-screen'>
+  <button class="back" routerLink='/music'>
     <span class="material-icons">
       keyboard_arrow_left
     </span>
@@ -29,7 +29,7 @@
   </div>
   <div class="listas">
     <div class="listas" *ngFor="let list of playlists(); let i = index" class="box">
-      <div [routerLink]="['/lists', this.cloudService.encrypt(list.ID.toString())]">
+      <div [routerLink]="['/music/lists', this.cloudService.encrypt(list.ID.toString())]">
         <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
         <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
         <h3 [ngClass]="[favorite(list.Nombre)]">

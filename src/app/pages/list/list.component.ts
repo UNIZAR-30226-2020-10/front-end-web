@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CloudService } from '../../services/cloud.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AudioService } from 'src/app/services/audio.service';
@@ -7,6 +7,8 @@ import { FormBuilder } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { LoaderService } from 'src/app/services/loader.service';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-list',
@@ -14,17 +16,14 @@ import { LoaderService } from 'src/app/services/loader.service';
   styleUrls: ['./list.component.scss']
 })
 
-export class ListComponent implements OnInit {
-  orderArtist = 0;
-  orderTitle = 0;
-  private orderCategory: Boolean = false;
+export class ListComponent implements OnInit, OnDestroy {
   tableColumns: string[] = ['Imagen', 'Nombre', 'Artista', 'Categoría', 'Botones'];
   searchAlbum: string[] = ['Imagen', 'Nombre', 'Artista', 'Fecha'];
   searchArtist: string[] = ['Imagen', 'Nombre', 'Pais'];
   tableAdd: string[] = ['Imagen', 'Nombre'];
   list;
   playlists;
-  filter;
+  filter: Boolean = false;
   queue: Boolean;
   search: Boolean;
   song;
@@ -34,6 +33,10 @@ export class ListComponent implements OnInit {
   searchList;
   categories;
   hover = "";
+  dataArtist;
+  dataAlbum;
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     public cloudService: CloudService,
@@ -61,6 +64,7 @@ export class ListComponent implements OnInit {
     this.add = this.route.snapshot.data['add'];
     this.category = this.route.snapshot.data['category'];
     this.route.paramMap.subscribe(async params => {
+      console.log(params.get('id'));
       if(this.queue) {
         this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
                       "ID":'c', "Desc":"Cola de reproducción", "Imagen":"default"};
@@ -72,6 +76,8 @@ export class ListComponent implements OnInit {
         if(this.list.Canciones.length === 0 && this.list.Albums.length === 0 && this.list.Artistas.length === 0) {
           this.alertService.showAlert(3, "", "No se ha encontrado ninguna coincidencia");
         }
+        this.dataArtist = new MatTableDataSource(this.list.Artistas);
+        this.dataAlbum = new MatTableDataSource(this.list.Albums);
       } else if(this.add) {
         this.list = undefined;
         this.newAdd();
@@ -81,14 +87,18 @@ export class ListComponent implements OnInit {
                      "Nombre":params.get('id'), "ID":'', "Desc":params.get('id'), "Imagen":"default"};
       } else {
         const id = parseInt(this.cloudService.decrypt(params.get('id')));
+        console.log(id);
         this.list = await this.cloudService.getList(id);
         if(id === this.audioService.favoriteID) {
+          this.audioService.showFavorite = true;
           this.list.Canciones = this.audioService.favoriteSongs;
         }
         if(this.list.Canciones.length === 0) {
           this.alertService.showAlert(3, "", "Lista vacía");
         }
       }
+      this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
+      console.log(this.audioService.dataSource);
     });
   }
 
@@ -117,27 +127,24 @@ export class ListComponent implements OnInit {
     this.backToList();
   }
 
-  async removeFromList(song, list) {
-    var pr = "", index;
+  async removeFromList(song, index, list) {
+    var pr = "";
     if(list != 'c') {
       await this.cloudService.deleteSong(song.ID, list);
       if(list === this.audioService.favoriteID) {
-        index = this.audioService.favoriteSongs.map(function(el) { return el.ID; }).indexOf(song.ID);
         this.audioService.dropFav(index);
         if(song.ID === this.audioService.currentFile.song.ID) {
           this.audioService.songFav = false;
         }
       } else {
-        index = this.list.Canciones.map(function(el) { return el.ID; }).indexOf(song.ID);
         this.list = this.list.splice(index, 1);
       }
       pr = "lista " + this.list.Nombre;
     } else {
-      index = this.audioService.audioList.map(function(el) { return el.ID; }).indexOf(song.ID);
       this.audioService.deleteFromQueue(index);
       pr = "cola";
       if(this.audioService.maxIndex === 0) {
-        this.router.navigateByUrl('/initial-screen');
+        this.router.navigateByUrl('/music');
       }
     }
     this.alertService.showAlert(1, "", song.Nombre + " ha sido eliminada de la " + pr);
@@ -169,7 +176,7 @@ export class ListComponent implements OnInit {
     if(this.search && song != "all") {
       this.audioService.loadList([song], 0, undefined);
     } else {
-      this.audioService.loadList(this.isFilter(), index, this.list.ID);
+      this.audioService.loadList(this.audioService.dataSource.filteredData, index, this.list.ID);
     }
   }
 
@@ -199,7 +206,6 @@ export class ListComponent implements OnInit {
         this.audioService.currentFile.index++;
       }
     } else if(!this.search && !this.add) {
-      console.log(this.list.Canciones);
       if(this.list.ID === this.audioService.favoriteID) {
         moveItemInArray(this.audioService.favoriteSongs, event.previousIndex, event.currentIndex);
       } else {
@@ -209,6 +215,7 @@ export class ListComponent implements OnInit {
       await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
       this.loader.necessary = true;
     }
+    this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
   }
 
   onSearch(title) {
@@ -220,51 +227,36 @@ export class ListComponent implements OnInit {
       chosen = new Array(this.audioService.favoriteSongs.length);
       chosen = Array.from(this.audioService.favoriteSongs);
     }
-    this.filter = [];
+    //this.filter = [];
     for(let song of chosen) {
       if(song.Nombre.toLowerCase().includes(title.titulo.toLowerCase())) {
-        this.filter.push(song);
+        //this.filter.push(song);
       } else {
         for(let artist of song.Artistas) {
           if(artist.toLowerCase().includes(title.titulo.toLowerCase())) {
-            this.filter.push(song);
+            //this.filter.push(song);
             break;
           }
         }
       }
     }
-    if(this.filter.length === 0) {
+    /*if(this.filter.length === 0) {
+      delete this.filter;
       this.alertService.showAlert(2, "", "No se ha encontrado ninguna canción");
-    } else {
-      if(this.orderCategory) {
-        this.byCategory(this.filter);
-      }
-      if(this.orderTitle === 2) {
-        this.filter.reverse();
-      } else if(this.orderTitle != 0) {
-        this.filter = Array.from(this.orderByKey('Nombre'));
-      }
-      if(this.orderArtist === 2) {
-        this.filter.reverse();
-      } else if(this.orderArtist != 0) {
-        this.filter = Array.from(this.orderByKey('Artistas'));
-      }
-    }
+    }*/
   }
 
   clean() {
-    this.orderArtist = 0;
-    this.orderTitle = 0;
-    this.orderCategory = false;
     this.searchList.reset();
     this.categories = [];
     for(let cat of this.audioService.categories) {
-      this.categories.push({name: cat, checked: false });
+      this.categories.push({name: cat.Nombre, checked: false });
     }
+    this.categories.push({name: 'Podcast', checked: false });
     delete this.filter;
   }
 
-  isFilter() {
+  /*isFilter() {
     if(this.filter) {
       return this.filter;
     }
@@ -276,27 +268,6 @@ export class ListComponent implements OnInit {
       return this.audioService.favoriteSongs;
     }
     return this.list.Canciones;
-  }
-
-  byArtist() {
-    ++this.orderArtist;
-    if(this.orderArtist === 2) {
-      this.filter.reverse();
-    } else {
-      this.orderArtist = 1;
-      this.filter = Array.from(this.orderByKey('Artistas'));
-    }
-  }
-
-  byTitle() {
-    ++this.orderTitle;
-    if(this.orderTitle === 2) {
-      this.filter.reverse();
-    } else {
-      this.orderTitle = 1;
-      this.filter = Array.from(this.orderByKey('Nombre'));
-    }
-    console.log(this.filter);
   }
 
   private orderByKey(key) {
@@ -315,7 +286,7 @@ export class ListComponent implements OnInit {
       var x = a[key]; var y = b[key];
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
-  }
+  }*/
 
   async byCategory(arr) {
     var aux;
@@ -331,24 +302,10 @@ export class ListComponent implements OnInit {
     }
     const filt = this.categories.filter(opt => opt.checked).map(opt => opt.name);
     if(!filt || filt.length === 0) {
-      if(this.orderCategory) {
-        this.filter = aux;
-        this.orderCategory = false;
-        if(this.orderTitle === 2) {
-          this.filter.reverse();
-        } else if(this.orderTitle != 0) {
-          this.filter = Array.from(this.orderByKey('Nombre'));
-        }
-        if(this.orderArtist === 2) {
-          this.filter.reverse();
-        } else if(this.orderArtist != 0) {
-          this.filter = Array.from(this.orderByKey('Artistas'));
-        }
-      }
+      this.filter = aux;
       return;
     }
-    this.orderCategory = true;
-    this.filter = [];
+    //this.filter = [];
     for(let song of aux) {
       var added = false;
       for(let cat of filt) {
@@ -359,23 +316,71 @@ export class ListComponent implements OnInit {
           }
         }
         if(added) {
-          this.filter.push(song);
+          //this.filter.push(song);
           break;
         }
       }
     }
-    if(this.orderTitle === 2) {
-      this.filter.reverse();
-    } else if(this.orderTitle != 0) {
-      this.filter = Array.from(this.orderByKey('Nombre'));
+  }
+
+  sortAlbum(sort: Sort) {
+    const data = this.list.Albums.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataAlbum = new MatTableDataSource(data);
+      return;
     }
-    if(this.orderArtist === 2) {
-      this.filter.reverse();
-    } else if(this.orderArtist != 0) {
-      this.filter = Array.from(this.orderByKey('Artistas'));
+    this.dataAlbum = new MatTableDataSource(data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'Nombre': return this.compare(a.Nombre, b.Nombre, isAsc);
+        case 'Artistas': return this.compare(a.Artistas, b.Artistas, isAsc);
+        case 'Fecha': return this.compare(a.Pais, b.Pais, isAsc);
+        default: return 0;
+      }
+    }));
+  }
+
+  sortArtist(sort: Sort) {
+    const data = this.list.Artistas.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataArtist = new MatTableDataSource(data);
+      return;
     }
+    this.dataArtist = new MatTableDataSource(data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'Nombre': return this.compare(a.Nombre, b.Nombre, isAsc);
+        case 'Artistas': return this.compare(a.Artistas, b.Artistas, isAsc);
+        case 'Pais': return this.compare(a.Pais, b.Pais, isAsc);
+        default: return 0;
+      }
+    }));
+  }
+
+  sortData(sort: Sort) {
+    const data = this.list.Canciones.slice();
+    if (!sort.active || sort.direction === '') {
+      this.audioService.dataSource = new MatTableDataSource(data);
+      return;
+    }
+    this.audioService.dataSource = new MatTableDataSource(data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'Nombre': return this.compare(a.Nombre, b.Nombre, isAsc);
+        case 'Artistas': return this.compare(a.Artistas, b.Artistas, isAsc);
+        default: return 0;
+      }
+    }));
+  }
+
+  private compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   ngOnInit() { }
+
+  ngOnDestroy() {
+    this.audioService.showFavorite = false;
+  }
 
 }

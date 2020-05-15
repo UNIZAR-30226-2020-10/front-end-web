@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { StreamState } from '../stream-state';
 import * as moment from 'moment';
 import { PodcastService } from './podcast.service';
+import { MatTableDataSource } from '@angular/material/table';
 declare const changeVolume: any;
 declare const checkVolume: any;
 
@@ -14,6 +15,7 @@ export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
   private start: Boolean = false;
+  showFavorite: Boolean = false;
   categories;
   subscribeArtists;
   passSong;
@@ -28,6 +30,7 @@ export class AudioService {
   maxIndex:  number = 0;
   currentFile: any = {};
   audioList: Array<any> = [];
+  dataSource;
   audioEvents = [
     'ended',
     'error',

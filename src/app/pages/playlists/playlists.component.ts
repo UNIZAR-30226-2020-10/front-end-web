@@ -29,6 +29,10 @@ export class PlaylistsComponent implements OnInit {
   }
 
   async onSubmit(title) {
+    if(title.titulo.length === 0) {
+      this.alertService.showAlert(2, "", "Introduce un nombre para la lista");
+      return;
+    }
     this.checkoutForm.reset();
     const msg = await this.cloudService.createList(title.titulo);
     if(msg === "No favoritos") {

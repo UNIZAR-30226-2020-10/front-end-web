@@ -39,6 +39,7 @@ import { FriendsComponent } from './pages/friends/friends.component';
 import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component';
 import { BuscarAmigosComponent } from './pages/buscar-amigos/buscar-amigos.component';
 import { InfoComponent } from './pages/info/info.component'
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export function appInit(cloudService: CloudService): () => Promise<any> {
   return () => cloudService.initApp();
@@ -86,7 +87,8 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
   providers: [AudioService, CloudService, LoaderService, AlertsService,
     CookieService, AccessGuardService, FriendsService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
-    { provide: APP_INITIALIZER, useFactory: appInit, deps: [CloudService], multi: true }],
+    { provide: APP_INITIALIZER, useFactory: appInit, deps: [CloudService], multi: true },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         this.alertService.showAlert(0, "", "Revisa tu correo y confirma el correo de confirmación");
       } else {
         await this.cloudService.init();
-        this.router.navigateByUrl('/initial-screen');
+        this.router.navigateByUrl('/music');
         this.alertService.showAlert(1, "", "¡Bienvenido de nuevo!");
       }
     }
