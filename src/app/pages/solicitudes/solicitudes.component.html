@@ -6,16 +6,18 @@
       <img [src]="friend.Emisor[0].Imagen">
       <div class="texto">
         <h3>{{ friend.Emisor[0].Nombre }}</h3>
-        <button class="boton" (click)="accept(friend, i)">
-          <span class="material-icons">
-            person_add
-          </span>
-        </button>
-        <button class="boton" (click)="denegate(friend, i)">
-          <span class="material-icons">
-            person_add_disabled
-          </span>
-        </button>
+        <div class="accion">
+          <button class="boton" (click)="accept(friend, i)">
+            <span class="material-icons">
+              person_add
+            </span>
+          </button>
+          <button class="boton" id="clear" (click)="denegate(friend, i)">
+            <span class="material-icons">
+              clear
+            </span>
+          </button>
+        </div>
       </div>
     </li>
   </ul>

@@ -10,6 +10,8 @@ ul{
 
   ul li{
     border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
   }
 
   ul li:last-child {
@@ -21,7 +23,6 @@ ul{
   }
 
 li img {
-    float: left;
     width: 7.35rem;
     height: 7.35rem ;
 }
@@ -40,6 +41,7 @@ li img {
     color: #ffffff;
     display: flex;
     align-items: center;
+    margin-left: 1rem;
   }
 
   .boton:hover{
@@ -93,4 +95,13 @@ li img {
 h2 {
     margin-top: 1rem;
     margin-left: 1rem;
+}
+
+.accion {
+  display: flex;
+  align-items: center;
+}
+
+#clear{
+  margin-left: 1rem;
 }

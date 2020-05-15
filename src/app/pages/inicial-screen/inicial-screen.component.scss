@@ -50,9 +50,8 @@ h1 {
   margin-bottom:10px;
 }
 
-.align{
-    //display: flex;
-    //align-items: baseline;
+.addAll p, .addAll .material-icons {
+    padding-top: 10px;
 }
 
 button {
@@ -61,7 +60,7 @@ button {
     border: none;
     border-color: #448AFF;
     color: #ffffff; 
-    padding-top: 10px;
+    //padding-top: 10px;
 }
 
 button:hover{
@@ -74,4 +73,8 @@ p{
 
 .material-icons{
     float:left;
+}
+
+.listas {
+    padding: 0.5rem;
 }

@@ -13,9 +13,21 @@
 
   a {
     color: #ffffff;
+    text-decoration: none;
+    padding: 1rem;
   }
 
   .close {
+    cursor: pointer;
+  }
+
+  img{
+    height: 90%;
+    cursor: pointer;
+  }
+
+  .logo {
+    height: 50%;
     cursor: pointer;
   }
 }

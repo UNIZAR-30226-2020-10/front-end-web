@@ -50,6 +50,8 @@ ul{
 ul li{
   border: 1px solid #ddd;
   margin-top: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 ul li:hover{
@@ -57,7 +59,7 @@ ul li:hover{
 }
 
 li img {
-  float: left;
+  //float: left;
   width: 7.35rem;
   height: 7.35rem ;
 }
@@ -76,6 +78,7 @@ li img {
   color: #ffffff;
   display: flex;
   align-items: center;
+  margin-left: 1rem;
 }
 
 .boton:hover{

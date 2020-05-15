@@ -18,8 +18,8 @@ import { InfoComponent } from './pages/info/info.component';
 
 const routes: Routes = [
   { path: 'album/:id', component: AlbumComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'lists', component: PlaylistsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'lists/:id', component: ListComponent, data: {queue: false, search: false, add: false, category: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'initial-screen/lists', component: PlaylistsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'initial-screen/lists/:id', component: ListComponent, data: {queue: false, search: false, add: false, category: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'podcasts', component: SearchPodcastComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'song', component: SongComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'category/:id', component: ListComponent, data: {queue: false, search: false, add: false, category: true, requiresLogin: true}, canActivate: [ AccessGuardService ] },

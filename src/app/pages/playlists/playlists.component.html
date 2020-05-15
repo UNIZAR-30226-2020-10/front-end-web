@@ -1,35 +1,44 @@
 <div class="playlists">
+  <button class="back" routerLink='/initial-screen'>
+    <span class="material-icons">
+      keyboard_arrow_left
+    </span>
+    <p>Volver</p>
+  </button>
   <div mat-line class = "inputs">
     <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" class = "input-1">
-      <label for="titulo">
-        Crear lista de reproducción
-      </label>
-      <input type="text" placeholder="Nombre de la lista..." formControlName="titulo">
-
-      <button class="button" type="submit">Añadir</button>
+      <div class="form-group">
+        <span>Crear nueva lista</span>
+        <input class="form-field" formControlName="titulo" type="text" placeholder="Nueva lista">
+      </div>
+      <button class="boton" type="submit">Añadir</button>
     </form>
     <form [formGroup]="searchList" (ngSubmit)="onSearch(searchList.value)" class = "input-2">
-      <label for="titulo">
-        Buscar listas de reproducción
-      </label>
-      <input type="text" placeholder="Buscar listas..." formControlName="titulo">
-
-      <button class="button" type="submit">Buscar</button>
+      <div class="form-group">
+        <span>Buscar lista</span>
+        <input class="form-field" formControlName="titulo" type="text" placeholder="Buscar listas...">
+      </div>
+      <button class="boton" type="submit">Buscar</button>
     </form>
     <button *ngIf="this.found.length != 0" mat-button (click)="this.found = []; this.searchList.reset();">
+      <span class="material-icons">
+        clear
+      </span>
       Eliminar búsqueda
     </button>
   </div>
-  <div *ngFor="let list of playlists(); let i = index" class="box">
-    <div [routerLink]="['/lists', this.cloudService.encrypt(list.ID.toString())]">
-      <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-      <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
-      <h3 [ngClass]="[favorite(list.Nombre)]">
-        {{ list.Nombre }}
-      </h3>
+  <div class="listas">
+    <div class="listas" *ngFor="let list of playlists(); let i = index" class="box">
+      <div [routerLink]="['/lists', this.cloudService.encrypt(list.ID.toString())]">
+        <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
+        <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
+        <h3 [ngClass]="[favorite(list.Nombre)]">
+          {{ list.Nombre }}
+        </h3>
+        <button class="borrar" *ngIf="list.Nombre!='Favoritos'" mat-button (click)="deleteList(list.ID, list.Nombre, i)">
+          <mat-icon mat-list-icon>delete</mat-icon>
+        </button>
+      </div>
     </div>
-    <button *ngIf="list.Nombre != 'Favoritos'" mat-button (click)="deleteList(list.ID, list.Nombre, i)">
-      <mat-icon mat-list-icon>delete</mat-icon>
-    </button>
   </div>
 </div>

@@ -1,8 +1,8 @@
-<button [ngClass]="[isActual(0)]" (click)="this.petitions = false; this.search = false">
+<button class="kk" [ngClass]="[isActual(0)]" (click)="this.petitions = false; this.search = false">
   Amigos
 </button>
 
-<button [ngClass]="[isActual(1)]" (click)="this.search = false; this.petitions = true">
+<button class="kk" [ngClass]="[isActual(1)]" (click)="this.search = false; this.petitions = true">
   Solicitudes de amistad
   <!--- BADGE HAY QUE MOSTRARLO CUANDO HAYA NOTIFICACIONES -->
   <span class="badge" *ngIf="this.friendService.petitions && this.friendService.petitions.length > 0">
@@ -10,7 +10,7 @@
   </span>
 </button>
 
-<button [ngClass]="[isActual(2)]" (click)="this.petitions = false; this.search = true">
+<button class="kk" [ngClass]="[isActual(2)]" (click)="this.petitions = false; this.search = true">
   Buscar amigos
 </button>
 

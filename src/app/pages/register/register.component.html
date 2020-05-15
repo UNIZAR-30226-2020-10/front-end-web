@@ -1,4 +1,5 @@
 <body>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <div class="session">
         <div class="left">
             <svg enable-background="new 0 0 300 302.5" version="1.1" viewBox="0 0 300 302.5" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
@@ -76,18 +77,26 @@
             </div>
 
             <!-- MENU PARA ELEGIR FECHA DE NACIMIENTO -->
-            <div>
-                <input matInput [matDatepicker]="picker" placeholder="Fecha de nacimiento" id="date" required>
+            <div style="margin-top: 1rem;">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <input style="pointer-events:none;" matInput [matDatepicker]="picker" placeholder="Fecha de nacimiento" id="date" required>
                 <mat-datepicker #picker></mat-datepicker>
             </div>
 
             <!-- MENU PARA ELEGIR PAIS -->
-            <p class="country"> País:
-                <select name="miselect" [(ngModel)]="seleccionado" id="country">
-                <option [value]="item" *ngFor="let item of lista">{{item}}</option>
-                </select>
-            </p>
+            <div class="floating-label" style="margin-top: 1rem;">
+                <div class="field" style="border-bottom: none; margin-top: -1rem;">
+                    <select required name="miselect" [(ngModel)]="seleccionado">
+                        <option value="undefined" disabled selected hidden>País de nacimiento</option>
+                        <option [value]="item" *ngFor="let item of lista">{{item}}</option>
+                    </select>
+                </div>
+                <div class="icon">
+                    <span class="material-icons" style="color: rgba(0,0,0,.1); margin-left: 0.5rem; margin-top: 1rem;">
+                        flag
+                    </span>
+                </div>
+            </div>
 
             <button type="submit" (click)="register()">Registrarse</button>
             <a routerLink="/login" routerLinkActive="active" class="discrete">¿Ya tienes una cuenta? Inicia sesión</a>

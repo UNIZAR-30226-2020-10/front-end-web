@@ -26,10 +26,6 @@
         <mat-icon mat-list-icon>mic</mat-icon>
         Podcasts
       </a>
-      <a mat-list-item routerLink='/lists' [routerLinkActive]="['is-active']">
-        <mat-icon mat-list-icon>list</mat-icon>
-        Listas de reproducción
-      </a>
       <a mat-list-item [routerLink]="['/profile', this.cloudService.encrypt(this.cloudService.user)]" [routerLinkActive]="['is-active']">
         <mat-icon mat-list-icon>person</mat-icon>
         Perfil

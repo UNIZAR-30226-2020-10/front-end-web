@@ -3,6 +3,18 @@
   width: 281px !important;
 }
 
+boton {
+  background-color: #448AFF;
+  border-radius: 4px;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 25px;
+  height: 2.5rem;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+}
+
 form {
   margin-top: 5px;
 }
@@ -13,31 +25,136 @@ form {
   margin-bottom: 100px;
 }
 
+.listas {
+  display: flex;
+  align-items: center;
+}
+
 .box {
   cursor: pointer;
-  float: left;
   margin: 40px;
   width: 281px;
   height: 370px;
-  border-radius: 0px 0px 0px 0px;
-  -moz-border-radius: 0px 0px 0px 0px;
-  -webkit-border-radius: 0px 0px 0px 0px;
-  border: 4px inset #000000;
+  border: 1px solid #CDD9ED;
   h3 {
     text-align: center;
-    margin-bottom: 0;
     margin-top: 6px;
-    padding-bottom: 10px;
   }
-  .favorite {
-    padding-bottom: 31px;
-    margin-top: 25px;
-  }
-  button {
-    width: 281px;
-    height: 40px;
+  .borrar {
+    width: 100%;
     background-color: #FF532E;
+    border-radius: 0rem;
   }
 }
 
+.back {
+  background-color: #448AFF;
+  border-radius: 4px;
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
 
+.back p {
+  margin-top: 0.6rem;
+}
+
+.back:hover {
+  cursor: pointer;
+}
+
+boton:hover{
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  align-items: center;
+}
+
+.form-field {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  line-height: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  color: var(--input-color);
+  border: 1px solid var(--input-border);
+  background: var(--input-background);
+  transition: border .3s ease;
+  &::placeholder {
+      color: var(--input-placeholder);
+  }
+  &:focus {
+      outline: none;
+      border-color: var(--input-border-focus);
+  }
+}
+
+.form-group {
+  margin-top: 1rem;
+  --input-color: #99A3BA;
+  --input-border: #CDD9ED;
+  --input-background: #fff;
+  --input-placeholder: #CBD1DC;
+
+  --input-border-focus: #275EFE;
+
+  --group-color: var(--input-color);
+  --group-border: var(--input-border);
+  --group-background: #EEF4FF;
+
+  --group-color-focus: #fff;
+  --group-border-focus: var(--input-border-focus);
+  --group-background-focus: #678EFE;
+  position: relative;
+  display: flex;
+  width: 100%;
+  & > span,
+  .form-field {
+      white-space: nowrap;
+      display: block;
+      &:not(:first-child):not(:last-child) {
+          border-radius: 0;
+      }
+      &:first-child {
+          border-radius: 6px 0 0 6px;
+      }
+      &:last-child {
+          border-radius: 0 6px 6px 0;
+      }
+      &:not(:first-child) {
+          margin-left: -1px;
+      }
+  }
+  .form-field {
+      position: relative;
+      z-index: 1;
+      flex: 1 1 auto;
+      width: 1%;
+      margin-top: 0;
+      margin-bottom: 0;
+  }
+  & > span {
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 14px;
+      line-height: 25px;
+      color: var(--group-color);
+      background: var(--group-background);
+      border: 1px solid var(--group-border);
+      transition: background .3s ease, border .3s ease, color .3s ease;
+  }
+  &:focus-within {
+      & > span {
+          color: var(--group-color-focus);
+          background: var(--group-background-focus);
+          border-color: var(--group-border-focus);
+      }
+  }
+}

@@ -1,5 +1,7 @@
 <mat-toolbar class="toolbar">
-    <span><a style="cursor: pointer;" (click)="goTo()">TuneIt</a></span>
+    <img (click)="goTo()" src="assets/images/logoGris.png">
+    <img class="logo" (click)="goTo()" src="assets/images/LogoAppName.png">
+    <!-- <span><a style="cursor: pointer;" (click)="goTo()">TuneIt</a></span> -->
     <span class="empty_spaces"></span>
     <div class="opciones" *ngIf="this.cloudService.user != undefined">
         <span><a routerLink='/notifications' aria-label="Notificaciones">Notificaciones</a></span>
