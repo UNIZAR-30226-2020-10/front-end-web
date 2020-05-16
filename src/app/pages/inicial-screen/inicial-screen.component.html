@@ -1,12 +1,12 @@
 <div class="main">
     <h1>¡Hola {{ this.cloudService.userInfo.Nombre }}!</h1>
 
-    <h3>Ultima cancion reproducida:
+    <!--<h3>Ultima cancion reproducida:
         <div class="last_song">
             <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
             La gozadera
         </div>
-    </h3>
+    </h3>-->
 
     <button class="listas" routerLink='/music/lists'>
       <span class="material-icons">
@@ -17,7 +17,7 @@
 
     <h2>Últimas canciones añadidas</h2>
     <div class="align">
-      <button class="addAll" (click)="addToQueue()">
+      <button class="addAll" (click)="this.audioService.loadList(this.songs, 0, 'l')">
         <span class="material-icons">
           playlist_add
         </span>

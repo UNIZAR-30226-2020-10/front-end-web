@@ -38,9 +38,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.audioService.songFav = !this.audioService.songFav;
     if(this.audioService.currentFile.song.title) {
       if(this.audioService.songFav) {
-        await this.cloudService.addPodcast(this.audioService.currentFile.song.ID, this.audioService.currentFile.song.title);
+        await this.cloudService.addPodcast(this.audioService.currentFile.song.PID, this.audioService.currentFile.song.title);
       } else {
-        await this.cloudService.deletePodcast(this.audioService.currentFile.song.ID);
+        await this.cloudService.deletePodcast(this.audioService.currentFile.song.PID);
       }
       this.audioService.idsPodcasts(await this.cloudService.listPodcast());
     } else {
@@ -49,7 +49,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
         this.audioService.addToFav(this.audioService.currentFile.song);
       } else {
         await this.cloudService.deleteSong(this.audioService.currentFile.song.ID, this.audioService.favoriteID);
-        this.audioService.dropFav(this.audioService.currentFile.index);
+        const aux = this.audioService.currentFile.song.ID;
+        var index = this.audioService.favoriteSongs.findIndex(function(item, i){
+          return item.ID === aux
+        });
+        this.audioService.dropFav(index);
       }
     }
     if(this.audioService.showFavorite) {

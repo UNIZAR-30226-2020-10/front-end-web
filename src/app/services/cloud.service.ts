@@ -53,10 +53,8 @@ export class CloudService {
          this.audioService.checkState().playing && this.user) {
       this.pause = !this.audioService.checkState().playing;
       this.loader.necessary = false;
-      if(this.audioService.currentFile.song) {
+      if(this.audioService.currentFile.song && !this.audioService.currentFile.song.title) {
         await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
-      } else {
-        await this.setLast(null, null);
       }
       this.loader.necessary = true;
     }

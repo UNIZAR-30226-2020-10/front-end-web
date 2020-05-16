@@ -64,15 +64,15 @@ export class ListComponent implements OnInit, OnDestroy {
     this.add = this.route.snapshot.data['add'];
     this.category = this.route.snapshot.data['category'];
     this.route.paramMap.subscribe(async params => {
-      console.log(params.get('id'));
       if(this.queue) {
-        this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reprodución",
+        this.list = {"Canciones":this.audioService.audioList,"Nombre":"Cola de reproducción",
                       "ID":'c', "Desc":"Cola de reproducción", "Imagen":"default"};
         if(this.list.Canciones === [] || this.list === undefined) {
           this.alertService.showAlert(3, "", "Cola vacía");
         }
       } else if(this.search) {
         this.list = await this.cloudService.searchSong(params.get('id'));
+        this.list.Nombre = "Resultados de la búsqueda"
         if(this.list.Canciones.length === 0 && this.list.Albums.length === 0 && this.list.Artistas.length === 0) {
           this.alertService.showAlert(3, "", "No se ha encontrado ninguna coincidencia");
         }
@@ -83,8 +83,13 @@ export class ListComponent implements OnInit, OnDestroy {
         this.newAdd();
         this.song = this.audioService.passSong;
       } else if(this.category) {
-        this.list = {"Canciones": await this.cloudService.categories([params.get('id')]),
-                     "Nombre":params.get('id'), "ID":'', "Desc":params.get('id'), "Imagen":"default"};
+        var data = this.audioService.categories.find(function(item){
+          if(item.Nombre === params.get('id')){
+            return item;
+          }
+        });
+        this.list = {"Canciones": await this.cloudService.categories([data.Nombre]),
+                     "Nombre": data.Nombre, "ID":'', "Desc": data.Nombre, "Imagen": data.Imagen};
       } else {
         const id = parseInt(this.cloudService.decrypt(params.get('id')));
         console.log(id);
@@ -137,7 +142,7 @@ export class ListComponent implements OnInit, OnDestroy {
           this.audioService.songFav = false;
         }
       } else {
-        this.list = this.list.splice(index, 1);
+        this.list.Canciones = this.list.Canciones.splice(index, 1);
       }
       pr = "lista " + this.list.Nombre;
     } else {
@@ -147,6 +152,7 @@ export class ListComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/music');
       }
     }
+    this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
     this.alertService.showAlert(1, "", song.Nombre + " ha sido eliminada de la " + pr);
   }
 

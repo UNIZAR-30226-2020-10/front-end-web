@@ -5,6 +5,7 @@ import { AudioService } from 'src/app/services/audio.service';
 import { ActivatedRoute } from '@angular/router';
 import { SavePodcastService } from 'src/app/services/save-podcast.service';
 import { CloudService } from 'src/app/services/cloud.service';
+import { AlertsService } from 'src/app/services/alerts.service';
 
 @Component({
   selector: 'app-podcasts',
@@ -30,8 +31,9 @@ export class PodcastsComponent implements OnInit {
     private route: ActivatedRoute,
     private podcastService: PodcastService,
     public audioService: AudioService,
-    public cloudService: CloudService) {
-  }
+    public cloudService: CloudService,
+    private alertService: AlertsService
+  ) { }
 
   async ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -74,39 +76,45 @@ export class PodcastsComponent implements OnInit {
   }
 
   addToPlayList(): void {
+    if(this.added) {
+      this.alertService.showAlert(2, "", "Ya se han añadido los episodios");
+      return;
+    }
     this.added = true;
 
     // Comprobar que no haya algo ya reproduciendose
-    if(this.audioService.checkState().playing){
+    if(this.audioService.maxIndex > 0){
       for(let i=0; i<this.podcasts.episodes.length; i++){
         var song = {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
-          Artistas: this.pod.publisher_original || this.pod.publisher,
+          Artistas: [this.pod.publisher_original || this.pod.publisher],
           Imagen: this.podcasts.episodes[i].image,
-          ID: this.pod.id,
+          ID: this.podcasts.episodes[i].id,
           Album: undefined,
           title: this.title,
-          Categorias: ["Podcast"]
+          Categorias: ["Podcast"],
+          PID: this.pod.id
         };
         this.audioService.addToQueue(song);
       }
     } else {
-      this.audioService.openPodcast(this.podcasts.episodes[0].audio,
-        this.podcasts.episodes[0].title, this.pod.publisher_original, this.title, this.podcasts.episodes[0].image, this.pod.id);
-      for(let i=1; i<this.podcasts.episodes.length; i++){
+      var list = [];
+      for(let i=0; i<this.podcasts.episodes.length; i++){
         var song = {
           URL: this.podcasts.episodes[i].audio,
           Nombre: this.podcasts.episodes[i].title,
-          Artistas: this.pod.publisher_original || this.pod.publisher,
+          Artistas: [this.pod.publisher_original || this.pod.publisher],
           Imagen: this.podcasts.episodes[i].image,
-          ID: this.pod.id,
+          ID: this.podcasts.episodes[i].id,
           Album: undefined,
           title: this.title,
-          Categorias: ["Podcast"]
+          Categorias: ["Podcast"],
+          PID: this.pod.id
         };
-        this.audioService.addToQueue(song);
+        list.push(song);
       }
+      this.audioService.loadList(list, 0, 'p');
     }
   }
 }

@@ -184,7 +184,7 @@ export class AudioService {
     this.playStream(song.URL).subscribe(events => { });
   }
 
-  openPodcast(url, name, creator, t, img, id) {
+  openPodcast(url, id, name, creator, t, img, pid) {
     this.maxIndex = 1;
     var song = {
       URL: url,
@@ -194,7 +194,8 @@ export class AudioService {
       ID: id,
       Album: undefined,
       title: t,
-      Categorias: ["Podcast"]
+      Categorias: ["Podcast"],
+      PID: pid
     };
     this.audioList = [];
     this.audioList[0] = song;
@@ -318,7 +319,7 @@ export class AudioService {
   }
 
   songFavorite(fav) {
-    if(fav.title) {
+    if(fav.title && this.favoritePodcasts) {
       for(let song of this.favoritePodcasts.podcasts) {
         if(song.title === fav.title) {
           return true;

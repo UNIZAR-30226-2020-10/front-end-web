@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
+import { AlertsService } from 'src/app/services/alerts.service';
 declare const search: any;
 
 @Component({
@@ -15,14 +16,15 @@ export class PodcastDetailComponent implements OnInit {
   added: boolean;
 
   constructor(
-    public audioService: AudioService
+    public audioService: AudioService,
+    private alertService: AlertsService
   ) { }
 
   ngOnInit(): void {
   }
 
   onPlay(): void {
-    this.audioService.openPodcast(this.result[0].audio, this.result[0].title, this.result[1], this.result[2], this.result[0].image, this.result[3]);
+    this.audioService.openPodcast(this.result[0].audio, this.result[0].id, this.result[0].title, this.result[1], this.result[2], this.result[0].image, this.result[3]);
   }
 
   stripHTML(text) {
@@ -44,25 +46,33 @@ export class PodcastDetailComponent implements OnInit {
   }
 
   addToPlayList(): void {
+    if(this.added) {
+      this.alertService.showAlert(2, "", "Ya se han añadido los episodios");
+      return;
+    }
+    console.log(this.result[0]);
+    console.log(this.result[1]);
+    console.log(this.result[2]);
+    console.log(this.result[3]);
     this.added = true;
+    var song = {
+      URL: this.result[0].audio,
+      Nombre: this.result[0].title,
+      Artistas: [this.result[1]],
+      Imagen: this.result[0].image,
+      ID: this.result[0].id,
+      Album: undefined,
+      title: this.result[2],
+      Categorias: ["Podcast"],
+      PID: this.result[3]
+    };
+    console.log(song);
 
     // Comprobar que no haya algo ya reproduciendose
-    console.log(this.audioService.checkState());
-    if (this.audioService.checkState().playing){
-      var song = {
-        URL: this.result[0].audio,
-        Nombre: this.result[0].title,
-        Artistas: this.result[1],
-        Imagen: this.result[0].image,
-        ID: this.result[3],
-        Album: undefined,
-        title: this.result[2],
-        Categorias: ["Podcast"]
-      };
+    if (this.audioService.maxIndex > 0){
       this.audioService.addToQueue(song);
     } else {
-      this.audioService.openPodcast(this.result[0].audio,
-        this.result[0].title, this.result[1], this.result[2], this.result[0].image, this.result[3]);
+      this.audioService.loadList([song], 0, 'p');
     }
   }
 }
