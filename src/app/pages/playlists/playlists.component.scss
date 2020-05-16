@@ -3,16 +3,15 @@
   width: 281px !important;
 }
 
-boton {
+button {
   background-color: #448AFF;
   border-radius: 4px;
   border: none;
+  border-color: #448AFF;
   color: #ffffff;
-  font-size: 14px;
-  line-height: 25px;
-  height: 2.5rem;
-  margin-top: 1rem;
-  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
 }
 
 form {
@@ -20,17 +19,12 @@ form {
 }
 
 .playlists {
-  position: absolute;
-  margin-top: -64px;
-  margin-bottom: 100px;
-}
-
-.listas {
-  display: flex;
-  align-items: center;
+  margin-left: 1rem;
+  margin-top: 1rem;
 }
 
 .box {
+  float: left;
   cursor: pointer;
   margin: 40px;
   width: 281px;
@@ -44,27 +38,13 @@ form {
     width: 100%;
     background-color: #FF532E;
     border-radius: 0rem;
+    display: inline-block;
+    text-align: center;
+    padding: 0rem;
   }
 }
 
-.back {
-  background-color: #448AFF;
-  border-radius: 4px;
-  border: none;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-}
-
-.back p {
-  margin-top: 0.6rem;
-}
-
-.back:hover {
-  cursor: pointer;
-}
-
-boton:hover{
+button:hover{
   cursor: pointer;
 }
 
@@ -114,7 +94,7 @@ form {
   --group-background-focus: #678EFE;
   position: relative;
   display: flex;
-  width: 100%;
+  width: 30%;
   & > span,
   .form-field {
       white-space: nowrap;
@@ -157,4 +137,13 @@ form {
           border-color: var(--group-border-focus);
       }
   }
+}
+
+.boton {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.clear{
+  margin-top: 1rem;
 }

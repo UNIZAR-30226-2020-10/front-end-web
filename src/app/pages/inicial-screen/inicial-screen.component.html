@@ -1,4 +1,21 @@
 <div class="main">
+
+  <div style="display: flex; align-items: center;">
+    <button class="musica" style="background-color: #D1C4E9; color: #262626;" routerLink='/music'>
+      <span class="material-icons">
+        music_note
+      </span>
+      Música
+    </button>
+
+    <button class="listas" routerLink='/music/lists'>
+      <span class="material-icons">
+        list
+      </span>
+      Listas de reproduccion
+    </button>
+  </div>
+
     <h1>¡Hola {{ this.cloudService.userInfo.Nombre }}!</h1>
 
     <!--<h3>Ultima cancion reproducida:
@@ -8,13 +25,7 @@
         </div>
     </h3>-->
 
-    <button class="listas" routerLink='/music/lists'>
-      <span class="material-icons">
-        list
-      </span>
-      Listas de reproduccion
-    </button>
-
+    <hr width="95%" color="#dddddd">
     <h2>Últimas canciones añadidas</h2>
     <div class="align">
       <button class="addAll" (click)="this.audioService.loadList(this.songs, 0, 'l')">
@@ -32,6 +43,7 @@
       </div>
     </div>
 
+    <hr width="95%" color="#dddddd">
     <h2>Artistas suscritos</h2>
 
     <div class="listas">
@@ -41,6 +53,7 @@
       </div>
     </div>
 
+    <hr width="95%" color="#dddddd">
     <h2>Listas de reproduccion de categorías</h2>
 
     <div class="listas">

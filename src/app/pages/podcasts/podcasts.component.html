@@ -11,7 +11,7 @@
             bookmark_border
             </span>
             <span class="material-icons" *ngIf="this.saved">
-            bookmark
+            delete
             </span>
             <p *ngIf="!this.saved">Agregar a favoritos</p>
             <p *ngIf="this.saved">Eliminar de favoritos</p>
@@ -37,7 +37,8 @@
             <img src='{{result.image}}'/>
             <div class="texto">
               <h2>{{ result.title }}</h2>
-              <pre>{{ stripHTML(result.description)  | slice:0:150}}...</pre>
+              <pre *ngIf="result.description.length > 140; else elseBlock">{{ stripHTML(result.description)  | slice:0:150}}...</pre>
+              <ng-template #elseBlock>{{ stripHTML(result.description) }}</ng-template>
             </div>
           </div>
       </li>

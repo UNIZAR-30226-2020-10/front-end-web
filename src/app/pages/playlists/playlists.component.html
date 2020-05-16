@@ -1,34 +1,54 @@
 <div class="playlists">
-  <button class="back" routerLink='/music'>
-    <span class="material-icons">
-      keyboard_arrow_left
-    </span>
-    <p>Volver</p>
-  </button>
+
+  <div style="display: flex; align-items: center;">
+    <button class="musica" routerLink='/music'>
+      <span class="material-icons">
+        music_note
+      </span>
+      Música
+    </button>
+
+    <button class="listas" style="background-color: #D1C4E9; color: #262626; margin-left: 1rem;" routerLink='/music/lists'>
+      <span class="material-icons">
+        list
+      </span>
+      Listas de reproduccion
+    </button>
+  </div>
+
   <div mat-line class = "inputs">
+
     <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)" class = "input-1">
       <div class="form-group">
         <span>Crear nueva lista</span>
         <input class="form-field" formControlName="titulo" type="text" placeholder="Nueva lista">
       </div>
-      <button class="boton" type="submit">Añadir</button>
+      <button class="boton" type="submit">
+        Añadir
+      </button>
     </form>
+
     <form [formGroup]="searchList" (ngSubmit)="onSearch(searchList.value)" class = "input-2">
       <div class="form-group">
         <span>Buscar lista</span>
         <input class="form-field" formControlName="titulo" type="text" placeholder="Buscar listas...">
       </div>
-      <button class="boton" type="submit">Buscar</button>
+      <button class="boton" type="submit">
+        Buscar
+      </button>
     </form>
-    <button *ngIf="this.found.length != 0" mat-button (click)="this.found = []; this.searchList.reset();">
+
+    <button class="clear" *ngIf="this.found.length != 0" mat-button (click)="this.found = []; this.searchList.reset();">
       <span class="material-icons">
         clear
       </span>
       Eliminar búsqueda
     </button>
+
   </div>
+
   <div class="listas">
-    <div class="listas" *ngFor="let list of playlists(); let i = index" class="box">
+    <div *ngFor="let list of playlists(); let i = index" class="box">
       <div [routerLink]="['/music/lists', this.cloudService.encrypt(list.ID.toString())]">
         <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
         <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">

@@ -1,10 +1,11 @@
 .main{
-    margin-top: 20px;
-    margin-left: 20px;
+    margin-top: 1rem;
+    margin-left: 1rem;
 }
 
 h1 {
     font-size: xx-large;
+    margin-top: 1rem;
 }
 
 .last_song {
@@ -59,8 +60,10 @@ button {
     border-radius: 4px;
     border: none;
     border-color: #448AFF;
-    color: #ffffff; 
-    //padding-top: 10px;
+    color: #ffffff;
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
 }
 
 button:hover{
@@ -71,10 +74,6 @@ p{
     float: right;
 }
 
-.material-icons{
-    float:left;
-}
-
 .listas {
-    padding: 0.5rem;
+    margin-left: 1rem;
 }
