@@ -29,19 +29,19 @@ export class PlaylistsComponent implements OnInit {
   }
 
   async onSubmit(title) {
-    if(title.titulo.length === 0) {
+    if(title.titulo.trim().length === 0) {
       this.alertService.showAlert(2, "", "Introduce un nombre para la lista");
       return;
     }
     this.checkoutForm.reset();
-    const msg = await this.cloudService.createList(title.titulo);
+    const msg = await this.cloudService.createList(title.titulo.trim());
     if(msg === "No favoritos") {
       this.alertService.showAlert(0, "", "No se permite crear una lista con el nombre introducido");
     } else if(msg === "Error") {
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
       this.audioService.lists = await this.cloudService.getPlaylists(this.cloudService.user);
-      this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo);
+      this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo.trim());
     }
   }
 
@@ -77,7 +77,6 @@ export class PlaylistsComponent implements OnInit {
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
       this.audioService.lists.splice(i, 1);
-      //this.audioService.lists = await this.cloudService.getPlaylists();
       this.alertService.showAlert(1, "", "La lista " + name + " se ha eliminado");
     }
   }

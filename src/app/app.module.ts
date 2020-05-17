@@ -40,6 +40,7 @@ import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component'
 import { BuscarAmigosComponent } from './pages/buscar-amigos/buscar-amigos.component';
 import { InfoComponent } from './pages/info/info.component'
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 export function appInit(cloudService: CloudService): () => Promise<any> {
   return () => cloudService.initApp();
@@ -72,6 +73,7 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
     SolicitudesComponent,
     BuscarAmigosComponent,
     InfoComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,9 @@
     <span class="empty_spaces"></span>
     <div class="opciones" *ngIf="this.cloudService.user != undefined">
         <span><a routerLink='/notifications' aria-label="Notificaciones">Notificaciones</a></span>
+        <span class="badge" *ngIf="this.friendService.pend > 0">
+          {{ this.friendService.pend }}
+        </span>
     </div>
     <div class="opciones">
         <span><a routerLink='/help' aria-label="Ayuda">Ayuda</a></span>

@@ -7,6 +7,9 @@ export class FriendsService {
   friends;
   petitions;
   intervalId;
+  notifSongs;
+  notifLists;
+  pend = 0;
 
   constructor() { }
 

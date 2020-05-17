@@ -31,3 +31,11 @@
     cursor: pointer;
   }
 }
+
+.badge {
+  position: absolute;
+  padding: 1px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}

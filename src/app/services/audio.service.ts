@@ -346,6 +346,15 @@ export class AudioService {
     return -1;
   }
 
+  myList(list) {
+    for(let l of this.lists) {
+      if(l.ID === list.ID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   addToFav(song) {
     this.favoriteSongs.push(song);
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CloudService } from 'src/app/services/cloud.service';
 import { Router } from '@angular/router';
+import { FriendsService } from 'src/app/services/friends.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,7 +12,8 @@ export class ToolbarComponent implements OnInit {
 
   constructor(
     public cloudService: CloudService,
-    private router: Router
+    private router: Router,
+    public friendService: FriendsService
   ) { }
 
   ngOnInit(): void {
