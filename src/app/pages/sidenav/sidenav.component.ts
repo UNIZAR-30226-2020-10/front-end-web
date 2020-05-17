@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CloudService } from 'src/app/services/cloud.service';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { FriendsService } from 'src/app/services/friends.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -18,7 +19,8 @@ export class SidenavComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public cloudService: CloudService,
-    public alertService: AlertsService
+    public alertService: AlertsService,
+    public friendService: FriendsService
   ) {
     if(this.cloudService.user == undefined) {
       this.cloudService.change = 'nothing';

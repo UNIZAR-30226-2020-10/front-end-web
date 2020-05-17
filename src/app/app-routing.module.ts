@@ -33,7 +33,8 @@ const routes: Routes = [
   { path: 'conf', component: ConfigurationComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'artist/:id', component: ArtistComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'profile/:id', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
-  { path: 'friends', component: FriendsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'friends', component: FriendsComponent, data: {share: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'share', component: FriendsComponent, data: {share: true, requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: '', component: InfoComponent, data: {requiresLogin: false}, canActivate: [ AccessGuardService ] },
   { path: '**', component: InicialScreenComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
 ];

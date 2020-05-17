@@ -3,6 +3,8 @@ import { AudioService } from 'src/app/services/audio.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { AlertsService } from 'src/app/services/alerts.service';
+import { FriendsService } from 'src/app/services/friends.service';
 declare const search: any;
 
 @Component({
@@ -17,7 +19,9 @@ export class SongComponent implements OnDestroy, OnInit {
     public audioService: AudioService,
     public cloudService: CloudService,
     private route: Router,
-    private location: Location
+    private location: Location,
+    private alertService: AlertsService,
+    private friendService: FriendsService
   ) { }
 
   returnBack() {
@@ -54,6 +58,15 @@ export class SongComponent implements OnDestroy, OnInit {
     } else {
       this.route.navigate(['/album', this.audioService.currentFile.song.Album]);
     }
+  }
+
+  share() {
+    if(this.friendService.friends && this.friendService.friends.length === 0) {
+      this.alertService.showAlert(0, "", "No tienes ningún amigo");
+      return;
+    }
+    this.audioService.passSong = this.audioService.currentFile.song;
+    this.route.navigateByUrl('/share');
   }
 
   async favorite() {

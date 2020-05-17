@@ -9,6 +9,7 @@ import { AlertsService } from 'src/app/services/alerts.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
+import { FriendsService } from 'src/app/services/friends.service';
 
 @Component({
   selector: 'app-list',
@@ -46,7 +47,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private location: Location,
     public alertService: AlertsService,
     public router: Router,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private friendService: FriendsService
   ) {
     this.categories = [];
     for(let cat of this.audioService.categories) {
@@ -154,6 +156,15 @@ export class ListComponent implements OnInit, OnDestroy {
     }
     this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
     this.alertService.showAlert(1, "", song.Nombre + " ha sido eliminada de la " + pr);
+  }
+
+  share(elem) {
+    if(this.friendService.friends && this.friendService.friends.length === 0) {
+      this.alertService.showAlert(0, "", "No tienes ningún amigo");
+      return;
+    }
+    this.audioService.passSong = elem;
+    this.router.navigateByUrl('/share');
   }
 
   newAdd() {

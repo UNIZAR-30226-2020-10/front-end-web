@@ -27,6 +27,9 @@
       <button class="reproducir" (click)="loadList(0, '')">
         <mat-icon>play_arrow</mat-icon> <strong>Reproducir lista</strong>
       </button>
+      <button class="compartir" (click)="share(this.list)">
+        <mat-icon color="primary">share</mat-icon> <strong>Compartir lista</strong>
+      </button>
     </div>
     <h1 class="stitle" mat-header *ngIf="this.search || this.queue">{{ list.Nombre }}</h1>
   </div>
@@ -79,7 +82,7 @@
             <button mat-button (click)="addToPlaylist(element)">
               <mat-icon color="primary">playlist_add</mat-icon>
             </button>
-            <button mat-button>
+            <button mat-button (click)="share(element)">
               <mat-icon color="primary">share</mat-icon>
             </button>
           </div>
@@ -199,7 +202,7 @@
             <button mat-button (click)="addToPlaylist(element)">
               <mat-icon color="primary">playlist_add</mat-icon>
             </button>
-            <button mat-button>
+            <button mat-button (click)="share(element)">
               <mat-icon color="primary">share</mat-icon>
             </button>
             <button mat-button (click)="removeFromList(element, i, list.ID)">
@@ -242,6 +245,7 @@
     <h3 mat-subheader>Listas de reproducción</h3>
     <button mat-button (click)="backToList()">
       <mat-icon color="primary">cancel</mat-icon>
+      <strong>Cancelar</strong>
     </button>
     <table mat-table matSort [dataSource]="this.playlists" class="mat-elevation-z8">
 

@@ -20,7 +20,7 @@
         font-size: 70px;
       }
     }
-    .reproducir {
+    .compartir, .reproducir {
       height: 41px;
       background-color: #448AFF;
       border-radius: 4px;
@@ -29,7 +29,7 @@
       color: #ffffff;
       display: flex;
       align-items: center;
-      margin-left: 45px;
+      float: left;
       margin-top: 30px;
       .material-icons {
         color: #fff;
@@ -39,7 +39,14 @@
         margin-top: 10px;
       }
     }
-    .reproducir:hover {
+    .compartir {
+      float: left;
+      margin-left: 5px;
+    }
+    .reproducir {
+      margin-left: 45px;
+    }
+    .reproducir:hover, .compartir:hover {
       cursor: pointer;
     }
   }
