@@ -394,6 +394,24 @@ export class ListComponent implements OnInit, OnDestroy {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
+  async deleteList() {
+    const msg = await this.cloudService.deleteList(this.list.ID);
+    if(msg === "Error") {
+      this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
+    } else {
+      this.audioService.lists = await this.cloudService.getPlaylists(this.cloudService.user);
+      this.alertService.showAlert(1, "", "La lista " + this.list.Nombre + " se ha eliminado");
+      this.router.navigateByUrl('/music');
+    }
+  }
+
+  async addList() {
+    await this.cloudService.addList(this.list.ID);
+    this.audioService.lists = await this.cloudService.getPlaylists(this.cloudService.user);
+    this.list.ID = this.audioService.lists[this.audioService.lists.length - 1].ID;
+    this.alertService.showAlert(1, "", "Se ha añadido la lista " + this.list.Nombre + " a tus playlists");
+  }
+
   ngOnInit() { }
 
   ngOnDestroy() {

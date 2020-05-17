@@ -20,7 +20,7 @@
         font-size: 70px;
       }
     }
-    .compartir, .reproducir {
+    .compartir, .reproducir, .borrar, .anadir {
       height: 41px;
       background-color: #448AFF;
       border-radius: 4px;
@@ -39,14 +39,16 @@
         margin-top: 10px;
       }
     }
+    .borrar, .anadir, .compartir {
+      margin-left: 5px;
+    }
     .compartir {
       float: left;
-      margin-left: 5px;
     }
     .reproducir {
       margin-left: 45px;
     }
-    .reproducir:hover, .compartir:hover {
+    .reproducir:hover, .compartir:hover, .borrar:hover, .anadir:hover {
       cursor: pointer;
     }
   }

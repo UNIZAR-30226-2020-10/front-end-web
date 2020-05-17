@@ -27,13 +27,19 @@
       <button class="reproducir" (click)="loadList(0, '')">
         <mat-icon>play_arrow</mat-icon> <strong>Reproducir lista</strong>
       </button>
-      <button class="compartir" (click)="share(this.list)">
+      <button class="compartir" *ngIf="this.audioService.myList(this.list)" (click)="share(this.list)">
         <mat-icon color="primary">share</mat-icon> <strong>Compartir lista</strong>
+      </button>
+      <button class="borrar" *ngIf="this.list.Nombre!='Favoritos' && this.audioService.myList(this.list)" (click)="deleteList()">
+        <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar lista</strong>
+      </button>
+      <button class="anadir" *ngIf="!this.audioService.myList(this.list)" (click)="addList()">
+        <mat-icon color="primary">post_add</mat-icon> <strong>Añadir lista</strong>
       </button>
     </div>
     <h1 class="stitle" mat-header *ngIf="this.search || this.queue">{{ list.Nombre }}</h1>
   </div>
-  <div class="listDrag" *ngIf="!this.add && this.list && (this.search || this.filter || this.category)">
+  <div class="listDrag" *ngIf="!this.add && this.list && (this.search || this.filter || this.category || !this.audioService.myList(this.list))">
 
     <h4 *ngIf="this.search && this.list.Canciones.length > 0"> Canciones </h4>
 
@@ -155,7 +161,7 @@
     </table>
 
   </div>
-  <div class="listDrag" *ngIf="!this.add && this.list && !this.search && !this.filter && !this.category">
+  <div class="listDrag" *ngIf="!this.add && this.list && !this.search && !this.filter && !this.category && this.audioService.myList(this.list)">
 
     <table mat-table matSort [dataSource]="this.audioService.dataSource" class="mat-elevation-z8" *ngIf="this.list.Canciones.length > 0" cdkDropList (matSortChange)="sortData($event)" (cdkDropListDropped)="drop($event)">
 

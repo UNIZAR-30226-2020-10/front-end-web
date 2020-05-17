@@ -16,6 +16,8 @@ import { FriendsService } from './friends.service';
 export class CloudService {
   subscription: Subscription;
   private pause: Boolean = false;
+  aux;
+  aux2;
 
   constructor(
     private http: HttpClient,
@@ -50,16 +52,40 @@ export class CloudService {
     this.audioService.idsPodcasts(await this.listPodcast());
     this.friendService.friends = await this.friends();
     this.friendService.petitions = await this.petitionsReceive();
+    this.aux = await this.sharedSongs();
+    this.aux2 = await this.sharedLists();
+    console.log(this.aux2);
+    var newArray = this.aux.filter(function (el) {
+      return el.Notificacion == true;
+    });
+    this.friendService.pend = newArray.length;
+    newArray = this.aux2.filter(function (el) {
+      return el.Notificacion == true;
+    });
+    this.friendService.pend += newArray.length;
+    this.friendService.notifLists = Array.from(this.aux2.reverse());
+    this.friendService.notifSongs = Array.from(this.aux.reverse());
     const source = interval(15000);
     this.subscription = source.subscribe(() => this.actualize());
   }
 
   async actualize() {
-    console.log("FSASAFSA");
     if(this.user) {
       this.loader.necessary = false;
+      this.aux = await this.sharedSongs();
+      this.aux2 = await this.sharedLists();
       const aux = await this.petitionsReceive();
       this.loader.necessary = true;
+      var newArray = this.aux.filter(function (el) {
+        return el.Notificacion == true;
+      });
+      this.friendService.pend = newArray.length;
+      newArray = this.aux2.filter(function (el) {
+        return el.Notificacion == true;
+      });
+      this.friendService.pend += newArray.length;
+      this.friendService.notifLists = Array.from(this.aux2.reverse());
+      this.friendService.notifSongs = Array.from(this.aux.reverse());
       this.friendService.actualizePetitions(aux);
       if((!this.audioService.checkState().playing && !this.pause) ||
           this.audioService.checkState().playing) {
@@ -101,8 +127,6 @@ export class CloudService {
     this.subscription.unsubscribe();
     if(!this.pause && this.audioService.currentFile.song) {
       await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
-    } else {
-      await this.setLast(null, null);
     }
     this.user = undefined;
     this.userInfo = undefined;
