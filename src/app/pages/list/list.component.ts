@@ -236,31 +236,21 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   onSearch(title) {
-    var chosen;
-    if(this.audioService.favoriteID != this.list.ID) {
-      chosen = new Array(this.list.Canciones.length);
-      chosen = Array.from(this.list.Canciones);
-    } else {
-      chosen = new Array(this.audioService.favoriteSongs.length);
-      chosen = Array.from(this.audioService.favoriteSongs);
-    }
-    //this.filter = [];
-    for(let song of chosen) {
+    console.log("BUSQUEDA");
+    var chosen = [];
+    for(let song of this.list.Canciones) {
       if(song.Nombre.toLowerCase().includes(title.titulo.toLowerCase())) {
-        //this.filter.push(song);
+        chosen.push(song);
       } else {
         for(let artist of song.Artistas) {
           if(artist.toLowerCase().includes(title.titulo.toLowerCase())) {
-            //this.filter.push(song);
+            chosen.push(song);
             break;
           }
         }
       }
     }
-    /*if(this.filter.length === 0) {
-      delete this.filter;
-      this.alertService.showAlert(2, "", "No se ha encontrado ninguna canción");
-    }*/
+    this.audioService.dataSource = new MatTableDataSource(chosen);
   }
 
   clean() {

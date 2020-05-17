@@ -19,6 +19,9 @@
           {{ artist }}
         </h4>
       </div>
+      <button class="borrar" (click)="deleteSong(song, i)">
+        <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
+      </button>
     </li>
   </ul>
 </div>
@@ -40,6 +43,9 @@
         <img [src]="song.Listas.Imagen">
         <h4><strong>{{ song.Listas.Nombre }}</strong></h4>
       </div>
+      <button class="borrar" (click)="deleteList(song, i)">
+        <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
+      </button>
     </li>
   </ul>
 </div>

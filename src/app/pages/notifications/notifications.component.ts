@@ -16,7 +16,29 @@ export class NotificationsComponent implements OnInit {
     public audioService: AudioService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    var newArray = this.friendService.notifLists.filter(function (el) {
+      return el.Notificacion == true;
+    });
+    newArray.forEach(async element => {
+      await this.cloudService.unnotifyList(element.ID);
+    });
+    newArray = this.friendService.notifSongs.filter(function (el) {
+      return el.Notificacion == true;
+    });
+    newArray.forEach(async element => {
+      await this.cloudService.unnotifySong(element.ID);
+    });
+  }
+
+  async deleteSong(song, i) {
+    await this.cloudService.unshareSong(song.ID);
+    this.friendService.notifSongs.splice(i, 1);
+  }
+
+  async deleteList(song, i) {
+    await this.cloudService.unshareList(song.ID);
+    this.friendService.notifLists.splice(i, 1);
   }
 
 }

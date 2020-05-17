@@ -54,7 +54,6 @@ export class CloudService {
     this.friendService.petitions = await this.petitionsReceive();
     this.aux = await this.sharedSongs();
     this.aux2 = await this.sharedLists();
-    console.log(this.aux2);
     var newArray = this.aux.filter(function (el) {
       return el.Notificacion == true;
     });
@@ -197,6 +196,8 @@ export class CloudService {
   private listFriend: string = "add_list";
   private unlist: string = "unnotify_list";
   private unsong: string = "unnotify_song";
+  private noShareSong: string = "unshare_song";
+  private noShareList: string = "unshare_list";
 
   async getPlaylists(user) {
     console.log(this.url+this.askPlaylists);
@@ -609,6 +610,22 @@ export class CloudService {
     console.log(this.url+this.listSongShare);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.listSongShare, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async unshareList(id) {
+    console.log(this.url+this.noShareList);
+    var params = {'lista': id};
+    return await this.http.post(this.url+this.noShareList, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async unshareSong(id) {
+    console.log(this.url+this.noShareSong);
+    var params = {'cancion': id};
+    return await this.http.post(this.url+this.noShareSong, params).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }

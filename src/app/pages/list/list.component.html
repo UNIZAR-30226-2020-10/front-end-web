@@ -3,21 +3,13 @@
     <button *ngIf="!this.category" (click)="byCategory(undefined)">
       Filtrar por categoría
     </button>
-    <form class = "input-1">
+    <!--<form class = "input-1">
       <div *ngFor="let cat of this.categories">
         <input type="checkbox" [(ngModel)]="cat.checked" name="{{ cat.name }}" id="{{ cat.name }}" value="{{ cat.name }}">
         <label for="{{ cat.name }}">{{ cat.name }}</label><br>
       </div>
       <button type="submit" class="button" (click)="byCategory(undefined)">Filtrar</button>
-    </form>
-    <form [formGroup]="searchList" (ngSubmit)="onSearch(searchList.value)" class = "input-2">
-      <label for="titulo">
-        Buscar canciones
-      </label>
-      <input type="text" placeholder="Buscar canciones..." formControlName="titulo">
-
-      <button class="button" type="submit">Buscar</button>
-    </form>
+    </form>-->
   </div>
   <div class="logo" *ngIf="!this.add && this.list">
     <img class="listArt" *ngIf="this.list.Imagen === 'default' && !this.search && !this.queue" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
@@ -39,11 +31,19 @@
     </div>
     <h1 class="stitle" mat-header *ngIf="this.search || this.queue">{{ list.Nombre }}</h1>
   </div>
+  <form [formGroup]="searchList" *ngIf="!this.search" class = "input-2" [ngClass]="{'searchCola' : this.queue}">
+    <div class="form-group">
+      <span>Buscar canciones</span>
+      <input class="form-field" type="text" placeholder="Buscar canciones..." (ngModelChange)="onSearch(searchList.value)" formControlName="titulo">
+
+      <!--<button class="searchButton" type="submit">Buscar</button>-->
+    </div>
+  </form>
   <div class="listDrag" *ngIf="!this.add && this.list && (this.search || this.filter || this.category || !this.audioService.myList(this.list))">
 
     <h4 *ngIf="this.search && this.list.Canciones.length > 0"> Canciones </h4>
 
-    <table mat-table [dataSource]="this.audioService.dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8" *ngIf="!this.search || this.list.Canciones.length > 0">
+    <table mat-table [dataSource]="this.audioService.dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8" *ngIf="!this.search || this.list.Canciones.length > 0" [ngClass]="{'tableSearch' : this.search}">
 
       <ng-container matColumnDef="Imagen">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -101,7 +101,7 @@
 
     <h4 *ngIf="this.search && this.list.Artistas.length > 0"> Artistas </h4>
 
-    <table mat-table matSort [dataSource]="dataArtist" class="mat-elevation-z8" (matSortChange)="sortArtist($event)" *ngIf="this.search && this.list.Artistas.length > 0">
+    <table mat-table matSort [dataSource]="dataArtist" class="mat-elevation-z8" (matSortChange)="sortArtist($event)" *ngIf="this.search && this.list.Artistas.length > 0" [ngClass]="{'tableSearch' : this.search}">
 
       <ng-container matColumnDef="Imagen">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -126,7 +126,7 @@
 
     <h4 *ngIf="this.search && this.list.Albums.length > 0"> Álbums </h4>
 
-    <table mat-table matSort [dataSource]="dataAlbum" class="mat-elevation-z8" (matSortChange)="sortAlbum($event)" *ngIf="this.search && this.list.Albums.length > 0">
+    <table mat-table matSort [dataSource]="dataAlbum" class="mat-elevation-z8" (matSortChange)="sortAlbum($event)" *ngIf="this.search && this.list.Albums.length > 0" [ngClass]="{'tableSearch' : this.search}">
 
       <ng-container matColumnDef="Imagen">
         <th mat-header-cell *matHeaderCellDef></th>
