@@ -36,6 +36,7 @@ export class ListComponent implements OnInit, OnDestroy {
   hover = "";
   dataArtist;
   dataAlbum;
+  showCat: Boolean = false;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -295,25 +296,14 @@ export class ListComponent implements OnInit, OnDestroy {
     });
   }*/
 
-  async byCategory(arr) {
-    var aux;
-    if(arr && arr.length > 0) {
-      aux = new Array(arr.length);
-      aux = Array.from(arr);
-    } else if(this.list.ID === this.audioService.favoriteID) {
-      aux = new Array(this.audioService.favoriteSongs.length);
-      aux = Array.from(this.audioService.favoriteSongs);
-    } else {
-      aux = new Array(this.list.Canciones.length);
-      aux = Array.from(this.list.Canciones);
-    }
+  async byCategory() {
+    var aux = [];
     const filt = this.categories.filter(opt => opt.checked).map(opt => opt.name);
     if(!filt || filt.length === 0) {
-      this.filter = aux;
+      this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
       return;
     }
-    //this.filter = [];
-    for(let song of aux) {
+    for(let song of this.list.Canciones) {
       var added = false;
       for(let cat of filt) {
         for(let songCat of song.Categorias) {
@@ -323,11 +313,12 @@ export class ListComponent implements OnInit, OnDestroy {
           }
         }
         if(added) {
-          //this.filter.push(song);
+          aux.push(song);
           break;
         }
       }
     }
+    this.audioService.dataSource = new MatTableDataSource(aux);
   }
 
   sortAlbum(sort: Sort) {

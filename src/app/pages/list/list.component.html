@@ -1,16 +1,4 @@
 <div class="content">
-  <div class="filtro" *ngIf="!this.add">
-    <button *ngIf="!this.category" (click)="byCategory(undefined)">
-      Filtrar por categoría
-    </button>
-    <!--<form class = "input-1">
-      <div *ngFor="let cat of this.categories">
-        <input type="checkbox" [(ngModel)]="cat.checked" name="{{ cat.name }}" id="{{ cat.name }}" value="{{ cat.name }}">
-        <label for="{{ cat.name }}">{{ cat.name }}</label><br>
-      </div>
-      <button type="submit" class="button" (click)="byCategory(undefined)">Filtrar</button>
-    </form>-->
-  </div>
   <div class="logo" *ngIf="!this.add && this.list">
     <img class="listArt" *ngIf="this.list.Imagen === 'default' && !this.search && !this.queue" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="listart">
     <img class="listArt" *ngIf="this.list.Imagen != 'default' && !this.search && !this.queue" [src]="this.list.Imagen" alt="listart">
@@ -35,11 +23,16 @@
     <div class="form-group">
       <span>Buscar canciones</span>
       <input class="form-field" type="text" placeholder="Buscar canciones..." (ngModelChange)="onSearch(searchList.value)" formControlName="titulo">
-
-      <!--<button class="searchButton" type="submit">Buscar</button>-->
     </div>
   </form>
-  <div class="listDrag" *ngIf="!this.add && this.list && (this.search || this.filter || this.category || !this.audioService.myList(this.list))">
+  <form class = "input-1" *ngIf="this.showCat" (mouseleave)="this.showCat = false">
+    <div *ngFor="let cat of this.categories">
+      <input type="checkbox" [(ngModel)]="cat.checked" name="{{ cat.name }}" id="{{ cat.name }}" value="{{ cat.name }}">
+      <label for="{{ cat.name }}">{{ cat.name }}</label><br>
+    </div>
+    <button type="submit" class="button" (click)="byCategory()">Filtrar</button>
+  </form>
+  <div class="listDrag" *ngIf="!this.add && this.list && !this.queue && (this.search || this.filter || this.category || !this.audioService.myList(this.list))">
 
     <h4 *ngIf="this.search && this.list.Canciones.length > 0"> Canciones </h4>
 
@@ -70,7 +63,7 @@
       </ng-container>
 
       <ng-container matColumnDef="Categoría">
-        <th mat-header-cell *matHeaderCellDef> Categorías </th>
+        <th mat-header-cell *matHeaderCellDef (click)="this.showCat = !this.showCat" style="cursor: pointer;"> Categorías </th>
         <td mat-cell *matCellDef="let element">
           <div *ngFor="let cat of element.Categorias" class="oneline">
             <span *ngIf="element.Categorias[0] != cat">, </span>
@@ -161,7 +154,7 @@
     </table>
 
   </div>
-  <div class="listDrag" *ngIf="!this.add && this.list && !this.search && !this.filter && !this.category && this.audioService.myList(this.list)">
+  <div class="listDrag" *ngIf="!this.add && this.list && !this.search && !this.filter && !this.category && (this.audioService.myList(this.list) || this.queue)">
 
     <table mat-table matSort [dataSource]="this.audioService.dataSource" class="mat-elevation-z8" *ngIf="this.list.Canciones.length > 0" cdkDropList (matSortChange)="sortData($event)" (cdkDropListDropped)="drop($event)">
 
@@ -190,7 +183,7 @@
       </ng-container>
 
       <ng-container matColumnDef="Categoría">
-        <th mat-header-cell *matHeaderCellDef> Categorías </th>
+        <th mat-header-cell *matHeaderCellDef (click)="this.showCat = !this.showCat" style="cursor: pointer;"> Categorías </th>
         <td mat-cell *matCellDef="let element" class="cat">
           <div *ngFor="let cat of element.Categorias" class="oneline">
             <span *ngIf="element.Categorias[0] != cat">, </span>
