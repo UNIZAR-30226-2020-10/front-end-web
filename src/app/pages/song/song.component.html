@@ -74,6 +74,9 @@
     <mat-slider class="vol-slider" min="0.00" [max]="1.00" step="0.01" [value]="this.audioService.checkVol()" (input)="changeVolume($event)"></mat-slider>
   </div>
   <button mat-button class="queue" routerLink='/queue'>
+    <span class="material-icons">
+      list
+    </span>
     Cola de reproducción
   </button>
 </div>
