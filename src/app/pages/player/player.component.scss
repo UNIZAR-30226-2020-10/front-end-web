@@ -6,7 +6,7 @@
   width: 100% !important;
   .volume-slider {
     .show {
-      background-color: #3f51b5;
+      background-color: #673AB7;
       position: absolute;
       display: block;
       border-radius: 25px;
@@ -22,7 +22,10 @@
     }
   }
   .reprofooter {
-    background-color: #3f51b5;
+    background-color: #673AB7;
+    mat-toolbar {
+      background-color: #D1C4E9;
+    }
     .albumArt {
       position: absolute !important;
       margin-top: 9px;

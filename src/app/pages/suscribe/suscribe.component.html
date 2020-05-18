@@ -1,21 +1,29 @@
-<div *ngIf="this.audioService.subscribeArtists && this.audioService.subscribeArtists.length > 0">
-  <h2>Artistas suscritos</h2>
-
-  <div class="listas">
-    <div class="lista" *ngFor="let artist of this.audioService.subscribeArtists" [routerLink]="['/artist', artist.Nombre]">
-      <img [src]="artist.Imagen">
-      <h3>{{ artist.Nombre }}</h3>
+<div class="body">
+  <div *ngIf="this.audioService.subscribeArtists && this.audioService.subscribeArtists.length > 0">
+    <h2>
+      Artistas suscritos
+    </h2>
+    
+    <div class="listas">
+      <div class="lista" *ngFor="let artist of this.audioService.subscribeArtists" [routerLink]="['/artist', artist.Nombre]">
+        <img [src]="artist.Imagen">
+        <h3>
+          {{ artist.Nombre }}
+        </h3>
+      </div>
     </div>
+    
+    <hr width="95%" color="#dddddd">
   </div>
-
-  <hr width="95%" color="#dddddd">
-</div>
-
-<h2>Artistas recomendados</h2>
-
-<div class="listas">
-  <div class="lista" *ngFor="let artist of this.recommended" [routerLink]="['/artist', artist.Nombre]">
-    <img [src]="artist.Imagen">
-    <h3>{{ artist.Nombre }}</h3>
+  
+  <h2>Artistas recomendados</h2>
+  
+  <div class="listas">
+    <div class="lista" *ngFor="let artist of this.recommended" [routerLink]="['/artist', artist.Nombre]">
+      <img [src]="artist.Imagen">
+      <h3>
+        {{ artist.Nombre }}
+      </h3>
+    </div>
   </div>
 </div>

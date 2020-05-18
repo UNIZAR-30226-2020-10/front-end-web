@@ -15,7 +15,7 @@ export class InicialScreenComponent implements OnInit {
     public cloudService: CloudService,
     public audioService: AudioService
   ) {
-
+    
   }
 
   addToQueue() {

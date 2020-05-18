@@ -10,6 +10,8 @@ import { AudioService } from './services/audio.service';
 export class AppComponent {
   title = 'TuneIT';
 
-  constructor() { }
+  constructor() {
+    //document.body.style.background = 'rgba(0, 0, 0, .6)';
+  }
 
 }
