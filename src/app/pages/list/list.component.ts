@@ -145,7 +145,7 @@ export class ListComponent implements OnInit, OnDestroy {
           this.audioService.songFav = false;
         }
       } else {
-        this.list.Canciones = this.list.Canciones.splice(index, 1);
+        this.list.Canciones.splice(index, 1);
       }
       pr = "lista " + this.list.Nombre;
     } else {

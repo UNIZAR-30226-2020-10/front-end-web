@@ -156,6 +156,7 @@ export class CloudService {
   private url = "https://psoftware.herokuapp.com/";
   private askPlaylists: string = "list_lists";
   private askList: string = "list_lists_data";
+  private askArtists: string = "list_artists";
   private addToList: string = "add_to_list";
   private deleteFromList: string = "delete_from_list";
   private search: string = "search";
@@ -626,6 +627,13 @@ export class CloudService {
     console.log(this.url+this.noShareSong);
     var params = {'cancion': id};
     return await this.http.post(this.url+this.noShareSong, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async listArtists() {
+    console.log(this.url+this.askArtists);
+    return await this.http.get(this.url+this.askArtists).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }

@@ -64,6 +64,8 @@ export class FriendsComponent implements OnInit {
     this.clear();
   }
 
-  ngOnInit() { }
+  async ngOnInit() {
+    this.friendService.friends = await this.cloudService.friends();
+  }
 
 }

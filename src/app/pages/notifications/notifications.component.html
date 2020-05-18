@@ -39,7 +39,7 @@
           </a>
           te ha compartido la siguiente lista:</h3>
       </div>
-      <div class="song" [routerLink]="['/lists', this.cloudService.encrypt(song.Listas.ID.toString())]">
+      <div class="song" [routerLink]="['/music/lists', this.cloudService.encrypt(song.Listas.ID.toString())]">
         <img [src]="song.Listas.Imagen">
         <h4><strong>{{ song.Listas.Nombre }}</strong></h4>
       </div>

@@ -44,16 +44,6 @@
     </div>
 
     <hr width="95%" color="#dddddd">
-    <h2>Artistas suscritos</h2>
-
-    <div class="listas">
-      <div class="lista" *ngFor="let artist of this.audioService.subscribeArtists" [routerLink]="['/artist', artist.Nombre]">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg">
-        <h3>{{ artist.Nombre }}</h3>
-      </div>
-    </div>
-
-    <hr width="95%" color="#dddddd">
     <h2>Listas de reproduccion de categorías</h2>
 
     <div class="listas">

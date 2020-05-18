@@ -16,6 +16,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { FriendsComponent } from './pages/friends/friends.component';
 import { InfoComponent } from './pages/info/info.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { SuscribeComponent } from './pages/suscribe/suscribe.component';
 
 const routes: Routes = [
   { path: 'album/:id', component: AlbumComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'podcasts/:id', component: PodcastsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'conf', component: ConfigurationComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'notifications', component: NotificationsComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'artist', component: SuscribeComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'artist/:id', component: ArtistComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'profile/:id', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'friends', component: FriendsComponent, data: {share: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },

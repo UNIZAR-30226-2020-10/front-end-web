@@ -19,7 +19,7 @@
     </div>
     <h1 class="stitle" mat-header *ngIf="this.search || this.queue">{{ list.Nombre }}</h1>
   </div>
-  <form [formGroup]="searchList" *ngIf="!this.search" class = "input-2" [ngClass]="{'searchCola' : this.queue}">
+  <form [formGroup]="searchList" *ngIf="!this.search && !this.add && this.list.Canciones.length > 0" class = "input-2" [ngClass]="{'searchCola' : this.queue}">
     <div class="form-group">
       <span>Buscar canciones</span>
       <input class="form-field" type="text" placeholder="Buscar canciones..." (ngModelChange)="onSearch(searchList.value)" formControlName="titulo">

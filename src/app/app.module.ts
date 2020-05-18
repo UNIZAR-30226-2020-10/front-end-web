@@ -41,6 +41,7 @@ import { BuscarAmigosComponent } from './pages/buscar-amigos/buscar-amigos.compo
 import { InfoComponent } from './pages/info/info.component'
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { SuscribeComponent } from './pages/suscribe/suscribe.component';
 
 export function appInit(cloudService: CloudService): () => Promise<any> {
   return () => cloudService.initApp();
@@ -74,6 +75,7 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
     BuscarAmigosComponent,
     InfoComponent,
     NotificationsComponent,
+    SuscribeComponent,
   ],
   imports: [
     BrowserModule,
