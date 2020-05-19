@@ -32,7 +32,7 @@ export class CloudService {
   async initApp() {
     const token = this.getToken();
     if(token.email) {
-      const msg = await this.signIn(token.email, token.password, false);
+      const msg = await this.signIn(token.email, token.password, token.session);
       if(msg === "Success") {
         await this.init();
       } else {
@@ -64,7 +64,9 @@ export class CloudService {
     this.friendService.pend += newArray.length;
     this.friendService.notifLists = Array.from(this.aux2.reverse());
     this.friendService.notifSongs = Array.from(this.aux.reverse());
-    const source = interval(15000);
+    delete this.aux;
+    delete this.aux2;
+    const source = interval(5000);
     this.subscription = source.subscribe(() => this.actualize());
   }
 
@@ -106,9 +108,13 @@ export class CloudService {
   private session: Boolean = false;
 
   setToken(name, token) {
-    const dateNow = new Date();
-    dateNow.setDate(dateNow.getDate() + 15);
-    this.cookies.set(name, this.encrypt(JSON.stringify(token)), dateNow);
+    if(this.session) {
+      const dateNow = new Date();
+      dateNow.setDate(dateNow.getDate() + 15);
+      this.cookies.set(name, this.encrypt(JSON.stringify(token)), dateNow);
+    } else {
+      this.cookies.set(name, this.encrypt(JSON.stringify(token)));
+    }
   }
 
   getToken() {
@@ -127,6 +133,7 @@ export class CloudService {
     if(!this.pause && this.audioService.currentFile.song) {
       await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
     }
+    this.session = undefined;
     this.user = undefined;
     this.userInfo = undefined;
     this.audioService.maxIndex = 0;
@@ -280,7 +287,6 @@ export class CloudService {
   }
 
   async signIn(email, pass, session) {
-    console.log("session: " + session);
     console.log(this.url+this.sign);
     var params = {'email': email, 'password': pass};
     var msg = "";
@@ -290,11 +296,10 @@ export class CloudService {
     console.log(msg);
     if(msg === "Success" && !this.user) {
       this.session = session;
-      const source = interval(5000);
-      this.subscription = source.subscribe(() => this.actualize());
-      if(session) {
-        this.setToken("TuneIT", params);
-      }
+      params['session'] = session;
+      //if(session) {
+      this.setToken("TuneIT", params);
+      //}
       this.user = email;
       this.change = 'change-right';
     }
@@ -341,11 +346,11 @@ export class CloudService {
     await this.http.post(this.url+this.modifyUser, params).toPromise().catch(
       error => { msg = error.error.text }
     );
-    if(msg === "Success" && this.session && newpass.length != 0) {
+    if(msg === "Success" && newpass.length != 0) {
       if(this.cookies.check("TuneIT")) {
         this.cookies.delete("TuneIT");
       }
-      const token = {'email': this.user, 'password': newpass};
+      const token = {'email': this.user, 'password': newpass, 'session': this.session};
       this.setToken("TuneIT", token);
     }
      return msg;

@@ -37,11 +37,9 @@
     </div>
     <div class="listas">
       <div class="lista" *ngFor="let song of this.songs; let i=index" (click)="this.audioService.loadList([song], 0, 'l')">
-        <div *ngIf="i<5">
-          <img class="albumArt" [src]="song.Imagen">
-          <h4 mat-line>{{ song.Nombre }}</h4>
-          <h5 mat-line>{{ song.Artistas }}</h5>
-        </div>
+        <img class="albumArt" [src]="song.Imagen">
+        <h4 mat-line>{{ song.Nombre }}</h4>
+        <h5 mat-line>{{ song.Artistas }}</h5>
       </div>
     </div>
 
