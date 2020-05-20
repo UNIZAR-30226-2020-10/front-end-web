@@ -10,7 +10,9 @@ import { AlertsService } from 'src/app/services/alerts.service';
 })
 export class RegisterComponent implements OnInit {
 
-  lista: string[]=["España","Alemania","Francia", "Inglaterra"];
+  lista: string[]=["Argentina", "Chile", "Colombia", "Costa Rica", "Cuba",
+                   "Ecuador", "España", "Estados Unidos", "Honduras", "México",
+                   "Panamá", "Paraguay", "Uruguay", "Venezuela"];
   seleccionado: string;
 
   constructor(
