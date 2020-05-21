@@ -32,10 +32,10 @@ img {
 }
 
 .delete {
-  background-color: #448AFF;
+  background-color: #673AB7;
   border-radius: 4px;
   border: none;
-  border-color: #448AFF;
+  border-color: #673AB7;
   display: flex;
   align-items: center;
   color: #ffffff;
@@ -54,7 +54,7 @@ img {
 
 .searchTerm {
   width: 100%;
-  border: 3px solid #448AFF;
+  border: 3px solid #673AB7;
   border-right: none;
   padding: 5px;
   height: 20px;
@@ -70,8 +70,8 @@ img {
 .searchButton {
   width: 40px;
   height: 36px;
-  border: 1px solid #448AFF;
-  background: #448AFF;
+  border: 1px solid #673AB7;
+  background: #673AB7;
   text-align: center;
   color: #fff;
   border-radius: 0 5px 5px 0;
@@ -103,10 +103,10 @@ img {
 }
 
 .eliminarBusqueda {
-  background-color: #448AFF;
+  background-color: #673AB7;
   border-radius: 4px;
   border: none;
-  border-color: #448AFF;
+  border-color: #673AB7;
   color: #ffffff;
   margin-left: 1rem;
   //display: flex;
@@ -115,6 +115,5 @@ img {
 
 .eliminarBusqueda:hover{
   cursor: pointer;
-  background-color: #69a1ff;
 }
 

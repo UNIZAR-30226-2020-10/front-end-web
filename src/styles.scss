@@ -2,7 +2,12 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 html { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow-x: auto;}
+body { 
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  overflow-x: auto;
+  background-color: #f5f5f5;
+}
 .mat-accent .mat-slider-thumb, .mat-slider.mat-slider-horizontal .mat-slider-track-fill, .mat-slider.mat-slider-vertical .mat-slider-track-fill {
-  background-color: #ff5100;
+  background-color: #512DA8;
 }

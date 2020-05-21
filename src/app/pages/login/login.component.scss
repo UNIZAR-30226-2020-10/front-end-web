@@ -34,10 +34,12 @@ form {
   flex-direction:  column;
   align-items:  flex-start; 
   padding-bottom:  20px; 
-  width:  300px; 
+  //width:  300px;
+  width:  20vw;
   h4 {
     margin-bottom:  20px;
     color:  rgba(#000, .5);
+    font-size:  3vh; 
     span {
       color:  rgba(#000, 1);
       font-weight:  700; 
@@ -46,12 +48,12 @@ form {
   p {
     line-height:  155%; 
     margin-bottom:  5px; 
-    font-size:  14px; 
+    font-size:  1.5vh; 
     color:  #000; 
     opacity:  .65;
     font-weight:  400; 
-    max-width:  200px; 
-    margin-bottom:  40px; 
+    //max-width:  200px; 
+    margin-bottom:  40px;
   }
 }
 a.discrete {
@@ -60,7 +62,8 @@ a.discrete {
     border-bottom:  solid 1px rgba(#000, .0);
     padding-bottom:  4px;  
     margin-left:  auto; 
-    font-weight:  300; 
+    font-weight:  300;
+    font-size:  1.5vh;
     transition:  all .3s ease; 
     margin-top:  40px; 
     &:hover {
@@ -74,11 +77,11 @@ button {
   min-width:  100px;
   border-radius:  24px; 
   text-align:  center; 
-  padding:  15px 40px;
+  padding:  1.5vh 1.5vw;
   margin-top:  5px; 
   background-color:  saturate(#673AB7, 30%); 
   color:  #fff; 
-  font-size:  14px;
+  font-size:  1.5vh;
   margin-left:  auto; 
   font-weight:  500; 
   box-shadow:  0px 2px 6px -1px rgba(0,0,0,.13); 
@@ -100,12 +103,13 @@ input {
   border:  none; 
   border-bottom:  solid 1px rgba(0,0,0,.1); 
   background:  #fff; 
-  width:  280px; 
+  width:  280px;
   box-sizing:  border-box; 
   transition:  all .3s linear; 
   color:  #000; 
   font-weight:  400;
   -webkit-appearance:  none; 
+  font-size: 1.5vh;
   &:focus {
     border-bottom:  solid 1px $primary; 
     outline: 0; 
@@ -115,14 +119,15 @@ input {
 .floating-label {
   position:  relative; 
   margin-bottom:  10px;
-  width:  100%; 
+  width:  100%;
+  font-size: 1.5vh;
   label {
     position:  absolute; 
     top: calc(50% - 7px);
     left:  0; 
     opacity:  0; 
     transition:  all .3s ease; 
-    padding-left:  44px; 
+    padding-left:  44px;
   }
   input {
     width:  calc(100% - 44px); 
@@ -181,14 +186,15 @@ $displacement:  3px;
   display:  flex; 
   flex-direction:  row; 
   width:  auto;
-  height:  auto; 
+  height:  55vh; 
   margin:  auto auto; 
   background:  #ffe6e6; 
   border-radius:  4px; 
   box-shadow:  0px 2px 6px -1px rgba(0,0,0,.12);
 }
 .left {
-  width:  220px; 
+  //width:  220px; 
+  width:  10vw; 
   height:  auto; 
   min-height:  100%; 
   position:  relative; 
@@ -197,9 +203,10 @@ $displacement:  3px;
   border-top-left-radius:  4px; 
   border-bottom-left-radius:  4px; 
   svg {
-    height:  40px; 
+    //height:  40px;
+    height: 2vh; 
     width:  auto; 
-    margin:  20px; 
+    margin:  2vh; 
   }
 }
 
