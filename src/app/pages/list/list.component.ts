@@ -36,7 +36,9 @@ export class ListComponent implements OnInit, OnDestroy {
   hover = "";
   dataArtist;
   dataAlbum;
-  showCat: Boolean = false;
+  showCat: String = "fade";
+  timer;
+  drag: Boolean = false;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -212,6 +214,8 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   async drop(event: CdkDragDrop<string[]>) {
+    this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
+    this.drag = false;
     if(this.queue) {
       moveItemInArray(this.audioService.audioList, event.previousIndex, event.currentIndex);
       if(this.audioService.currentFile.index == event.previousIndex) {
@@ -233,7 +237,6 @@ export class ListComponent implements OnInit, OnDestroy {
       await this.cloudService.move(this.list.ID, event.previousIndex, event.currentIndex);
       this.loader.necessary = true;
     }
-    this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
   }
 
   onSearch(title) {
@@ -254,47 +257,24 @@ export class ListComponent implements OnInit, OnDestroy {
     this.audioService.dataSource = new MatTableDataSource(chosen);
   }
 
-  clean() {
-    this.searchList.reset();
-    this.categories = [];
-    for(let cat of this.audioService.categories) {
-      this.categories.push({name: cat.Nombre, checked: false });
-    }
-    this.categories.push({name: 'Podcast', checked: false });
-    delete this.filter;
+  clear() {
+    clearTimeout(this.timer);
   }
 
-  /*isFilter() {
-    if(this.filter) {
-      return this.filter;
-    }
-    return this.isFavorite();
+  fadeCat() {
+    this.showCat += " fadeCat";
   }
 
-  isFavorite() {
-    if(this.list.ID === this.audioService.favoriteID) {
-      return this.audioService.favoriteSongs;
-    }
-    return this.list.Canciones;
-  }
-
-  private orderByKey(key) {
-    var aux;
-    if(this.filter && this.filter.length > 0) {
-      aux = new Array(this.filter.length);
-      aux = Array.from(this.filter);
-    } else if(this.list.ID === this.audioService.favoriteID) {
-      aux = new Array(this.audioService.favoriteSongs.length);
-      aux = Array.from(this.audioService.favoriteSongs);
+  show() {
+    if(this.queue) {
+      this.showCat = "show showQueue"
+    } else if(!this.search) {
+      this.showCat = "show showList";
     } else {
-      aux = new Array(this.list.Canciones.length);
-      aux = Array.from(this.list.Canciones);
+      this.showCat = "show";
     }
-    return aux.sort(function(a, b) {
-      var x = a[key]; var y = b[key];
-      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
-  }*/
+    this.timer = setTimeout(() => { this.fadeCat() }, 3000);
+  }
 
   async byCategory() {
     var aux = [];
@@ -318,7 +298,18 @@ export class ListComponent implements OnInit, OnDestroy {
         }
       }
     }
-    this.audioService.dataSource = new MatTableDataSource(aux);
+    if(aux.length === 0) {
+      this.alertService.showAlert(3, "", "No se han encontrado canciones del género introducido");
+      this.showCat += " fadeCat";
+      this.categories = [];
+      for(let cat of this.audioService.categories) {
+        this.categories.push({name: cat.Nombre, checked: false });
+      }
+      this.categories.push({name: 'Podcast', checked: false });
+      this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
+    } else {
+      this.audioService.dataSource = new MatTableDataSource(aux);
+    }
   }
 
   sortAlbum(sort: Sort) {

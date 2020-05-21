@@ -1,0 +1,14 @@
+<div class="main">
+  <h1>Ayuda</h1>
+  <br />
+  <div *ngFor="let question of this.questions; let i = index" (click)="show(i)">
+    <div class="quest">
+      <mat-icon *ngIf="question.hide === 'hide' || question.hide === 'show hide'; else less">expand_more</mat-icon>
+      <ng-template #less>
+        <mat-icon>expand_less</mat-icon>
+      </ng-template>
+      <h2>{{ question.q }}</h2>
+    </div>
+    <h3 [ngClass]="[question.hide]">{{ question.a }}</h3>
+  </div>
+</div>

@@ -9,13 +9,13 @@ import { AudioService } from 'src/app/services/audio.service';
 })
 export class InicialScreenComponent implements OnInit {
   songs;
-  showAdd: Number = 8;
+  showAdd: Number = 5;
 
   constructor(
     public cloudService: CloudService,
     public audioService: AudioService
   ) {
-    
+
   }
 
   addToQueue() {

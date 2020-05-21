@@ -17,6 +17,7 @@ import { FriendsComponent } from './pages/friends/friends.component';
 import { InfoComponent } from './pages/info/info.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { SuscribeComponent } from './pages/suscribe/suscribe.component';
+import { HelpComponent } from './pages/help/help.component';
 
 const routes: Routes = [
   { path: 'album/:id', component: AlbumComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'profile/:id', component: PerfilComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'friends', component: FriendsComponent, data: {share: false, requiresLogin: true}, canActivate: [ AccessGuardService ] },
   { path: 'share', component: FriendsComponent, data: {share: true, requiresLogin: true}, canActivate: [ AccessGuardService ] },
+  { path: 'help', component: HelpComponent, data: {help: true, requiresLogin: false}, canActivate: [ AccessGuardService ] },
   { path: '', component: InfoComponent, data: {requiresLogin: false}, canActivate: [ AccessGuardService ] },
   { path: '**', component: InicialScreenComponent, data: {requiresLogin: true}, canActivate: [ AccessGuardService ] },
 ];

@@ -60,9 +60,6 @@
   }
   .router {
     margin-left: 300px;
-    margin-right: 2%;
-    left: 30px;
-    margin-bottom: 75px;
   }
 }
 
@@ -72,17 +69,15 @@
       left: -110%;
     }
   }
-  .router {
-    margin-right: 2%;
-    left: 30px;
-    margin-bottom: 75px;
-  }
 }
 
 .router {
   z-index: 1;
   position: relative;
   top: 64px;
+  margin-right: 40px;
+  left: 30px;
+  margin-bottom: 75px;
 }
 
 .search {

@@ -42,6 +42,7 @@ import { InfoComponent } from './pages/info/info.component'
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { SuscribeComponent } from './pages/suscribe/suscribe.component';
+import { HelpComponent } from './pages/help/help.component';
 
 export function appInit(cloudService: CloudService): () => Promise<any> {
   return () => cloudService.initApp();
@@ -76,6 +77,7 @@ export function appInit(cloudService: CloudService): () => Promise<any> {
     InfoComponent,
     NotificationsComponent,
     SuscribeComponent,
+    HelpComponent,
   ],
   imports: [
     BrowserModule,
