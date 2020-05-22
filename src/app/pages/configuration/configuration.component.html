@@ -23,7 +23,7 @@
       </div>
       <h3 style="padding-top: 1rem;">Modificar país</h3>
       <select name="miselect" formControlName="country">
-        <option [ngValue]="item" *ngFor="let item of lista">
+        <option [ngValue]="item" *ngFor="let item of this.cloudService.lista">
           {{item}}
         </option>
       </select>

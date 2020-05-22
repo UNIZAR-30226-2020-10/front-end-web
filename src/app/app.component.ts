@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { CloudService } from './services/cloud.service';
-import { AudioService } from './services/audio.service';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +8,6 @@ import { AudioService } from './services/audio.service';
 export class AppComponent {
   title = 'TuneIT';
 
-  constructor() {
-    //document.body.style.background = 'rgba(0, 0, 0, .6)';
-  }
+  constructor() { }
 
 }

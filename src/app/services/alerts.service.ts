@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AlertsService {
   // type == 0            -> ERROR
@@ -14,25 +13,26 @@ export class AlertsService {
   strong: String = "";
   timer;
 
-  constructor() { }
-
   showAlert(type, strong, body) {
     clearTimeout(this.timer);
-    if(type === 1) {
+    if (type === 1) {
       this.alert = "alert success";
-    } else if(type === 2) {
+    } else if (type === 2) {
       this.alert = "alert warning";
-    } else if(type === 3) {
-      this.alert = "alert info"
+    } else if (type === 3) {
+      this.alert = "alert info";
     } else {
       this.alert = "alert";
     }
     this.body = body;
     this.strong = strong;
-    this.timer = setTimeout(() => { this.close() }, 2400);
+    this.timer = setTimeout(() => {
+      this.close();
+    }, 2400);
   }
 
   close() {
     this.alert = this.alert + " fade";
   }
+
 }

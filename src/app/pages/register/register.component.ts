@@ -10,9 +10,6 @@ import { AlertsService } from 'src/app/services/alerts.service';
 })
 export class RegisterComponent implements OnInit {
 
-  lista: string[]=["Argentina", "Chile", "Colombia", "Costa Rica", "Cuba",
-                   "Ecuador", "España", "Estados Unidos", "Honduras", "México",
-                   "Panamá", "Paraguay", "Uruguay", "Venezuela"];
   seleccionado: string;
 
   constructor(
@@ -27,7 +24,6 @@ export class RegisterComponent implements OnInit {
     const repass = (<HTMLInputElement> document.getElementById("repassword")).value;
     const date = (<HTMLInputElement> document.getElementById("date")).value;
     const name = (<HTMLInputElement> document.getElementById("text")).value;
-    const country = (<HTMLSelectElement> document.getElementById("country")).value;
     if(!email.includes('@') || email.length > 50) {
       this.alertService.showAlert(2, "", "Introduce un email válido");
     } else if(name.length < 3 || name.length > 50) {
@@ -37,12 +33,12 @@ export class RegisterComponent implements OnInit {
     } else if(pass.length < 7 || ! this.reg(pass)) {
       this.alertService.showAlert(2, "", "La contraseña debe contener como mínimo 7 carácteres no especiales y 1 número");
     } else if(pass === repass) {
-      if(country.length === 0) {
+      if(!this.seleccionado || this.seleccionado.length === 0) {
         this.alertService.showAlert(0, "", "Introduce tu país de residencia");
         return;
       }
       const newpass = this.cloudService.encrypt(pass);
-      let msg = await this.cloudService.register(email, newpass, name, country, date);
+      let msg = await this.cloudService.register(email, newpass, name, this.seleccionado, date);
       console.log(msg);
       if(msg === "Clave duplicada") {
         this.alertService.showAlert(0, "", "Usuario ya registrado");

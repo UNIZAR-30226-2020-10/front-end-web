@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 })
 export class ConfigurationComponent implements OnInit {
   checkoutForm;
-  lista: string[]=["España","Alemania","Francia", "Inglaterra"];
   delete: Boolean;
 
   constructor(

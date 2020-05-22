@@ -88,7 +88,7 @@
                 <div class="field" style="border-bottom: none; margin-top: -1rem;">
                     <select required name="miselect" [(ngModel)]="seleccionado">
                         <option value="undefined" disabled selected hidden>País de nacimiento</option>
-                        <option [value]="item" *ngFor="let item of lista">{{item}}</option>
+                        <option [value]="item" *ngFor="let item of this.cloudService.lista">{{item}}</option>
                     </select>
                 </div>
                 <div class="icon">

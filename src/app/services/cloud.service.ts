@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { List, Playlists, Song } from '../list';
 import { CookieService } from "ngx-cookie-service";
 import { Router } from '@angular/router';
@@ -19,6 +19,10 @@ export class CloudService {
   aux;
   aux2;
 
+  lista: string[]=["Argentina", "Chile", "Colombia", "Costa Rica", "Cuba",
+                   "Ecuador", "España", "Estados Unidos", "Honduras", "México",
+                   "Panamá", "Paraguay", "Puerto Rico", "Uruguay", "Venezuela"];
+
   constructor(
     private http: HttpClient,
     public cookies: CookieService,
@@ -28,6 +32,10 @@ export class CloudService {
     private loader: LoaderService,
     private friendService: FriendsService
   ) { }
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Authorization': 'Basic YjMwS1pmVWk3K05aRWVsL0hCQnhwdz09OjNyREd6eno0NEMzb3dvQXdWRTZWZ1E9PQ==' })
+  };
 
   async initApp() {
     const token = this.getToken();
@@ -286,11 +294,18 @@ export class CloudService {
     );
   }
 
+  async peti() {
+    //var json = {'Authorization': 'Basic elon:karen'};
+    await this.http.get(this.url, this.httpOptions).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
   async signIn(email, pass, session) {
     console.log(this.url+this.sign);
     var params = {'email': email, 'password': pass};
     var msg = "";
-    await this.http.post(this.url+this.sign, params).toPromise().catch(
+    await this.http.post(this.url+this.sign, params, this.httpOptions).toPromise().catch(
       error => { msg = error.error.text; }
     );
     console.log(msg);
