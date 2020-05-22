@@ -1,51 +1,63 @@
-<h1>Canciones compartidas</h1>
+<div class="main">
+  <h1>
+    Notificaciones
+  </h1>
 
-<div *ngIf="this.friendService.notifSongs && this.friendService.notifSongs.length > 0">
-  <ul *ngFor="let song of this.friendService.notifSongs; let i = index">
-    <li>
-      <div class="texto">
-        <h3>Tu amigo
-          <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
-            <img [src]="song.Emisor[0].Imagen">
-            {{ song.Emisor[0].Nombre }}
-          </a>
-          te ha recomendado la siguiente canción:</h3>
-      </div>
-      <div class="song" (click)="this.audioService.loadList([song.Cancion], 0, 'n')">
-        <img [src]="song.Cancion.Imagen">
-        <h4><strong>{{ song.Cancion.Nombre }}</strong></h4>
-        <h4 *ngFor="let artist of song.Cancion.Artistas" class="artists">
-          <span *ngIf="song.Cancion.Artistas[0] != artist">, </span>
-          {{ artist }}
-        </h4>
-      </div>
-      <button class="borrar" (click)="deleteSong(song, i)">
-        <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
-      </button>
-    </li>
-  </ul>
-</div>
+  <h2 *ngIf="(!this.friendService.notifSongs || this.friendService.notifSongs.length === 0) && (!this.friendService.notifLists || this.friendService.notifLists.length === 0) && (!this.friendService.petitions || this.friendService.petitions.length === 0)">
+    No tienes ninguna notificación pendiente
+  </h2>
 
-<h1>Listas compartidas</h1>
+  <app-solicitudes></app-solicitudes>
 
-<div *ngIf="this.friendService.notifLists && this.friendService.notifLists.length > 0">
-  <ul *ngFor="let song of this.friendService.notifLists; let i = index">
-    <li>
-      <div class="texto">
-        <h3>Tu amigo
-          <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
-            <img [src]="song.Emisor[0].Imagen">
-            {{ song.Emisor[0].Nombre }}
-          </a>
-          te ha compartido la siguiente lista:</h3>
-      </div>
-      <div class="song" [routerLink]="['/music/lists', this.cloudService.encrypt(song.Listas.ID.toString())]">
-        <img [src]="song.Listas.Imagen">
-        <h4><strong>{{ song.Listas.Nombre }}</strong></h4>
-      </div>
-      <button class="borrar" (click)="deleteList(song, i)">
-        <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
-      </button>
-    </li>
-  </ul>
+  <div *ngIf="this.friendService.notifSongs && this.friendService.notifSongs.length > 0">
+    <h1>Canciones compartidas</h1>
+
+    <ul *ngFor="let song of this.friendService.notifSongs; let i = index">
+      <li>
+        <div class="texto">
+          <h3>Tu amigo
+            <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
+              <img [src]="song.Emisor[0].Imagen">
+              {{ song.Emisor[0].Nombre }}
+            </a>
+            te ha recomendado la siguiente canción:</h3>
+        </div>
+        <div class="song" (click)="this.audioService.loadList([song.Cancion], 0, 'n')">
+          <img [src]="song.Cancion.Imagen">
+          <h4><strong>{{ song.Cancion.Nombre }}</strong></h4>
+          <h4 *ngFor="let artist of song.Cancion.Artistas" class="artists">
+            <span *ngIf="song.Cancion.Artistas[0] != artist">, </span>
+            {{ artist }}
+          </h4>
+        </div>
+        <button class="borrar" (click)="deleteSong(song, i)">
+          <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="this.friendService.notifLists && this.friendService.notifLists.length > 0">
+    <h1>Listas compartidas</h1>
+
+    <ul *ngFor="let song of this.friendService.notifLists; let i = index">
+      <li>
+        <div class="texto">
+          <h3>Tu amigo
+            <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
+              <img [src]="song.Emisor[0].Imagen">
+              {{ song.Emisor[0].Nombre }}
+            </a>
+            te ha compartido la siguiente lista:</h3>
+        </div>
+        <div class="song" [routerLink]="['/music/lists', this.cloudService.encrypt(song.Listas.ID.toString())]">
+          <img [src]="song.Listas.Imagen">
+          <h4><strong>{{ song.Listas.Nombre }}</strong></h4>
+        </div>
+        <button class="borrar" (click)="deleteList(song, i)">
+          <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
+        </button>
+      </li>
+    </ul>
+  </div>
 </div>

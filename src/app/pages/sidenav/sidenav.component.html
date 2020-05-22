@@ -37,9 +37,6 @@
       <a mat-list-item routerLink='/friends' [routerLinkActive]="['is-active']">
         <mat-icon mat-list-icon>people</mat-icon>
         Amigos
-        <span class="badge" *ngIf="this.friendService.petitions && this.friendService.petitions.length > 0">
-          {{ this.friendService.petitions.length }}
-        </span>
       </a>
     </mat-nav-list>
   </mat-sidenav>

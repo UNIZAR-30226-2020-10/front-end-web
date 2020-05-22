@@ -93,6 +93,9 @@ export class CloudService {
         return el.Notificacion == true;
       });
       this.friendService.pend += newArray.length;
+      if(this.friendService.petitions) {
+        this.friendService.pend += this.friendService.petitions.length;
+      }
       this.friendService.notifLists = Array.from(this.aux2.reverse());
       this.friendService.notifSongs = Array.from(this.aux.reverse());
       this.friendService.actualizePetitions(aux);

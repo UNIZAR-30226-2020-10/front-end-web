@@ -1,6 +1,6 @@
-<h2>Solicitudes de amistad</h2>
-
 <div *ngIf="this.friendService.petitions && this.friendService.petitions.length > 0">
+  <h2>Solicitudes de amistad</h2>
+
   <ul *ngFor="let friend of this.friendService.petitions; let i = index">
     <li>
       <img [src]="friend.Emisor[0].Imagen">

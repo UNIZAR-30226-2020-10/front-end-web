@@ -14,7 +14,6 @@ import { AudioService } from 'src/app/services/audio.service';
 })
 export class FriendsComponent implements OnInit {
   search: Boolean = false;
-  petitions: Boolean = false;
   share: Boolean;
 
   constructor(
@@ -35,8 +34,7 @@ export class FriendsComponent implements OnInit {
   }
 
   isActual(i) {
-    if((this.search && i === 2) || (this.petitions && i === 1) ||
-      (!this.search && !this.petitions && i === 0)) {
+    if((this.search && i === 2) || (!this.search && i === 0)) {
       return "selected";
     }
     return "notification";

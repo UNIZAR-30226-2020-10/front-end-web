@@ -1,16 +1,8 @@
-<button class="kk" *ngIf="!this.share" [ngClass]="[isActual(0)]" (click)="this.petitions = false; this.search = false">
+<button class="kk" *ngIf="!this.share" [ngClass]="[isActual(0)]" (click)="this.search = false">
   Amigos
 </button>
 
-<button class="kk" *ngIf="!this.share" [ngClass]="[isActual(1)]" (click)="this.search = false; this.petitions = true">
-  Solicitudes de amistad
-  <!--- BADGE HAY QUE MOSTRARLO CUANDO HAYA NOTIFICACIONES
-  <span class="badge" *ngIf="this.friendService.petitions && this.friendService.petitions.length > 0">
-    {{ this.friendService.petitions.length }}
-  </span> -->
-</button>
-
-<button class="kk" *ngIf="!this.share" [ngClass]="[isActual(2)]" (click)="this.petitions = false; this.search = true">
+<button class="kk" *ngIf="!this.share" [ngClass]="[isActual(2)]" (click)="this.search = true">
   Buscar amigos
 </button>
 
@@ -19,9 +11,8 @@
 </button>
 
 <app-buscar-amigos *ngIf="this.search"></app-buscar-amigos>
-<app-solicitudes *ngIf="this.petitions"></app-solicitudes>
 
-<div *ngIf="!this.search && !this.petitions && !this.share">
+<div *ngIf="!this.search && !this.share">
   <h2>Amigos</h2>
 
   <div *ngIf="this.friendService.friends && this.friendService.friends.length > 0">
@@ -42,7 +33,7 @@
   <div *ngIf="!this.friendService.friends || this.friendService.friends.length === 0">
     <p>No tienes ningún amigo todavía</p>
     <p>Utiliza el buscador y empieza a añadir amigos</p>
-    <a (click)="this.petitions = false; this.search = true">Buscar amigos</a>
+    <a (click)="this.search = true">Buscar amigos</a>
   </div>
 </div>
 
