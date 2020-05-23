@@ -9,6 +9,7 @@ import * as CryptoJS from 'crypto-js';
 import { interval, Subscription } from 'rxjs';
 import { LoaderService } from './loader.service';
 import { FriendsService } from './friends.service';
+import { PodcastService } from './podcast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,8 @@ export class CloudService {
     private alertService: AlertsService,
     private audioService: AudioService,
     private loader: LoaderService,
-    private friendService: FriendsService
+    private friendService: FriendsService,
+    private podcastService: PodcastService
   ) { }
 
   httpOptions = {
@@ -56,7 +58,16 @@ export class CloudService {
     this.audioService.favoriteID = this.audioService.lists[0].ID;
     this.audioService.categories = await this.allCategories();
     this.audioService.subscribeArtists = await this.suscriptions();
-    this.audioService.loadList(await this.getLast(), 0, 'g');
+    /*this.aux = await this.getLast();
+    if(this.aux.Cancion && this.aux.Cancion != null) {
+      if(this.aux.Lista === null) {
+        this.audioService.loadList(this.aux.Cancion, 0, 'g');
+      } else {
+        this.aux2 = await this.getList(this.aux.Lista);
+        this.audioService.loadList(this.aux2, this.aux.Cancion, this.aux.Lista);
+        this.audioService.seekTo(this.aux.Segundo);
+      }
+    }*/
     this.audioService.idsPodcasts(await this.listPodcast());
     this.friendService.friends = await this.friends();
     this.friendService.petitions = await this.petitionsReceive();
@@ -72,9 +83,23 @@ export class CloudService {
     this.friendService.pend += newArray.length;
     this.friendService.notifLists = Array.from(this.aux2.reverse());
     this.friendService.notifSongs = Array.from(this.aux.reverse());
+    this.aux = await this.sharedPodcasts();
+    newArray = this.aux.filter(function (el) {
+      return el.Notificacion == true;
+    });
+    if(this.friendService.petitions) {
+      this.friendService.pend += this.friendService.petitions.length;
+    }
+    this.friendService.pend += newArray.length;
+    this.audioService.notifPodcast = Array.from(this.aux.reverse());
+    for(let i = 0; i < this.audioService.notifPodcast.length; ++i) {
+      this.podcastService.getEpisodes(this.audioService.notifPodcast[i].Podcast).subscribe(podcasts =>
+        this.audioService.notifPodcast[i].Podcast = podcasts
+      );
+    }
     delete this.aux;
     delete this.aux2;
-    const source = interval(5000);
+    const source = interval(10000);
     this.subscription = source.subscribe(() => this.actualize());
   }
 
@@ -93,18 +118,40 @@ export class CloudService {
         return el.Notificacion == true;
       });
       this.friendService.pend += newArray.length;
-      if(this.friendService.petitions) {
-        this.friendService.pend += this.friendService.petitions.length;
-      }
       this.friendService.notifLists = Array.from(this.aux2.reverse());
       this.friendService.notifSongs = Array.from(this.aux.reverse());
       this.friendService.actualizePetitions(aux);
+      this.aux = await this.sharedPodcasts();
+      if(this.aux && this.aux.length > 0) {
+        newArray = this.aux.filter(function (el) {
+          return el.Notificacion == true;
+        });
+        this.friendService.pend += newArray.length;
+        for(let pod of this.aux) {
+          var find = false;
+          for(let i = 0; i < this.audioService.notifPodcast; ++i) {
+            if(this.audioService.notifPodcast[i].Podcast.id === pod) {
+              find = true;
+              break;
+            }
+          }
+          if(!find) {
+            this.podcastService.getEpisodes(pod).subscribe(podcasts => {
+              pod.Podcast = podcasts;
+              this.audioService.notifPodcast.unshift(pod);
+            });
+          }
+        }
+      }
+      if(this.friendService.petitions) {
+        this.friendService.pend += this.friendService.petitions.length;
+      }
       if((!this.audioService.checkState().playing && !this.pause) ||
           this.audioService.checkState().playing) {
         this.pause = !this.audioService.checkState().playing;
         this.loader.necessary = false;
         if(this.audioService.currentFile.song && !this.audioService.currentFile.song.title) {
-          await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
+          await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime), this.audioService.listID);
         }
         this.loader.necessary = true;
       }
@@ -142,7 +189,7 @@ export class CloudService {
     }
     this.subscription.unsubscribe();
     if(!this.pause && this.audioService.currentFile.song) {
-      await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime));
+      await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime), this.audioService.listID);
     }
     this.session = undefined;
     this.user = undefined;
@@ -210,13 +257,17 @@ export class CloudService {
   private gLastSong: string = "get_last_song";
   private listListShare: string = "list_listas_compartidas_conmigo";
   private listSongShare: string = "list_canciones_compartidas_conmigo";
+  private listPodcastShare: string = "list_podcast_compartidos";
   private songShare: string = "share_song";
   private listShare: string = "share_list";
+  private podcastShare: string = "share_podcast";
   private listFriend: string = "add_list";
   private unlist: string = "unnotify_list";
   private unsong: string = "unnotify_song";
+  private unpodcast: string = "unnotify_podcast";
   private noShareSong: string = "unshare_song";
   private noShareList: string = "unshare_list";
+  private noSharePodcast: string = "unshare_podcast";
 
   async getPlaylists(user) {
     console.log(this.url+this.askPlaylists);
@@ -554,9 +605,9 @@ export class CloudService {
     return msg;
   }
 
-  async setLast(id, seg) {
+  async setLast(id, seg, list) {
     console.log(this.url+this.sLastSong);
-    var params = {'email': this.user, 'cancion': id, 'segundo': seg};
+    var params = {'email': this.user, 'cancion': id, 'segundo': seg, 'lista': list};
     var msg = "";
     await this.http.post(this.url+this.sLastSong, params).toPromise().catch(
       error => { msg = error.error.text }
@@ -577,6 +628,16 @@ export class CloudService {
     var params = {'email': this.user, 'lista': id};
     var msg = "";
     await this.http.post(this.url+this.listFriend, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async unnotifyPodcast(id) {
+    console.log(this.url+this.unpodcast);
+    var params = {'elemento': id};
+    var msg = "";
+    await this.http.post(this.url+this.unpodcast, params).toPromise().catch(
       error => { msg = error.error.text }
     );
     return msg;
@@ -622,6 +683,24 @@ export class CloudService {
     return msg;
   }
 
+  async sharePodcast(id, email) {
+    console.log(this.url+this.podcastShare);
+    var params = {'lista': id, 'emisor': this.user, 'receptor': email};
+    var msg = "";
+    await this.http.post(this.url+this.podcastShare, params).toPromise().catch(
+      error => { msg = error.error.text }
+    );
+    return msg;
+  }
+
+  async sharedPodcasts() {
+    console.log(this.url+this.listPodcastShare);
+    var params = {'email': this.user};
+    return await this.http.post(this.url+this.listPodcastShare, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
   async sharedLists() {
     console.log(this.url+this.listListShare);
     var params = {'email': this.user};
@@ -634,6 +713,14 @@ export class CloudService {
     console.log(this.url+this.listSongShare);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.listSongShare, params).toPromise().catch(
+      error => { console.log(error.error.text) }
+    );
+  }
+
+  async unsharePodcast(id) {
+    console.log(this.url+this.noSharePodcast);
+    var params = {'podcast': id};
+    return await this.http.post(this.url+this.noSharePodcast, params).toPromise().catch(
       error => { console.log(error.error.text) }
     );
   }

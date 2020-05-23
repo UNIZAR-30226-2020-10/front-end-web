@@ -17,11 +17,11 @@ export class PodcastService {
   private podcastPost_url_2 = 'https://listen-api.listennotes.com/api/v2/podcasts';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'X-ListenAPI-Key': 'fb46ce2b5ca54885969d1445995238e1' })
+    headers: new HttpHeaders({ 'X-ListenAPI-Key': 'fa5d6d0b3b254e818d7308351facdef0' })
   };
 
   httpOptions2 = {
-    headers: new HttpHeaders({ 'X-ListenAPI-Key': 'fb46ce2b5ca54885969d1445995238e1', 'Content-Type': 'application/x-www-form-urlencoded' })
+    headers: new HttpHeaders({ 'X-ListenAPI-Key': 'fa5d6d0b3b254e818d7308351facdef0', 'Content-Type': 'application/x-www-form-urlencoded' })
   };
 
   constructor(private messageService: MessageService, private http: HttpClient) { }

@@ -2,10 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Podcast } from 'src/app/podcast';
 import { PodcastService } from 'src/app/services/podcast.service';
 import { AudioService } from 'src/app/services/audio.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SavePodcastService } from 'src/app/services/save-podcast.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { FriendsService } from 'src/app/services/friends.service';
 
 @Component({
   selector: 'app-podcasts',
@@ -29,10 +30,12 @@ export class PodcastsComponent implements OnInit {
   constructor(
     private savePodcast: SavePodcastService,
     private route: ActivatedRoute,
+    private router: Router,
     private podcastService: PodcastService,
     public audioService: AudioService,
     public cloudService: CloudService,
-    private alertService: AlertsService
+    private alertService: AlertsService,
+    private friendService: FriendsService
   ) { }
 
   async ngOnInit() {
@@ -73,6 +76,26 @@ export class PodcastsComponent implements OnInit {
       await this.cloudService.addPodcast(this.pod.id, this.title);
     }
     this.audioService.idsPodcasts(await this.cloudService.listPodcast());
+  }
+
+  share() {
+    if(this.friendService.friends && this.friendService.friends.length === 0) {
+      this.alertService.showAlert(0, "", "No tienes ningún amigo");
+      return;
+    }
+    var song = {
+      URL: '',
+      Nombre: '',
+      Artistas: '',
+      Imagen: '',
+      ID: '',
+      Album: undefined,
+      title: this.title,
+      Categorias: ["Podcast"],
+      PID: this.pod.id
+    };
+    this.audioService.passSong = song;
+    this.router.navigateByUrl('/share');
   }
 
   addToPlayList(): void {

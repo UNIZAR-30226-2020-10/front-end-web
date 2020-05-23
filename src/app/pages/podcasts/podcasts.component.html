@@ -17,6 +17,13 @@
             <p *ngIf="this.saved">Eliminar de favoritos</p>
           </button>
 
+          <button class="add_episodes" (click)="share()">
+            <span class="material-icons">
+            share
+            </span>
+            <p>Compartir podcast</p>
+          </button>
+
           <!-- PASAMOS LISTA DE PODCASTS A LA COLA DE REPRODUCCIÓN -->
           <button class="add_episodes" (click)="addToPlayList()">
             <span class="material-icons" *ngIf="!this.added">

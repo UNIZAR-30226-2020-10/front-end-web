@@ -30,7 +30,6 @@ export class ListComponent implements OnInit, OnDestroy {
   song;
   add: Boolean;
   category: Boolean;
-  checkoutForm;
   searchList;
   categories;
   hover = "";
@@ -58,9 +57,6 @@ export class ListComponent implements OnInit, OnDestroy {
       this.categories.push({name: cat.Nombre, checked: false });
     }
     this.categories.push({name: 'Podcast', checked: false });
-    this.checkoutForm = this.formBuilder.group({
-      titulo: ''
-    });
     this.searchList = this.formBuilder.group({
       titulo: ''
     });
@@ -97,7 +93,6 @@ export class ListComponent implements OnInit, OnDestroy {
                      "Nombre": data.Nombre, "ID":'', "Desc": data.Nombre, "Imagen": data.Imagen};
       } else {
         const id = parseInt(this.cloudService.decrypt(params.get('id')));
-        console.log(id);
         this.list = await this.cloudService.getList(id);
         if(id === this.audioService.favoriteID) {
           this.audioService.showFavorite = true;
@@ -108,7 +103,6 @@ export class ListComponent implements OnInit, OnDestroy {
         }
       }
       this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
-      console.log(this.audioService.dataSource);
     });
   }
 
@@ -161,6 +155,12 @@ export class ListComponent implements OnInit, OnDestroy {
     this.alertService.showAlert(1, "", song.Nombre + " ha sido eliminada de la " + pr);
   }
 
+  random() {
+    this.audioService.random();
+    this.list.Canciones = this.audioService.audioList;
+    this.audioService.dataSource = new MatTableDataSource(this.list.Canciones);
+  }
+
   share(elem) {
     if(this.friendService.friends && this.friendService.friends.length === 0) {
       this.alertService.showAlert(0, "", "No tienes ningún amigo");
@@ -194,22 +194,9 @@ export class ListComponent implements OnInit, OnDestroy {
 
   loadList(index, song) {
     if(this.search && song != "all") {
-      this.audioService.loadList([song], 0, undefined);
+      this.audioService.loadList([song], 0, null);
     } else {
       this.audioService.loadList(this.audioService.dataSource.filteredData, index, this.list.ID);
-    }
-  }
-
-  async onSubmit(title) {
-    this.checkoutForm.reset();
-    const msg = await this.cloudService.createList(title.name);
-    if(msg === "No favoritos") {
-      this.alertService.showAlert(0, "", "No se permite crear una lista con el nombre introducido");
-    } else if(msg === "Error") {
-      this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
-    } else {
-      this.audioService.lists = await this.cloudService.getPlaylists(this.cloudService.user);
-      this.alertService.showAlert(1, "", "Se ha creado la lista " + title.titulo);
     }
   }
 

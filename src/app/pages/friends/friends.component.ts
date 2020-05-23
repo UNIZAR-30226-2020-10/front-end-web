@@ -47,7 +47,9 @@ export class FriendsComponent implements OnInit {
 
   async shared(friend) {
     var msg;
-    if(this.audioService.passSong.Categorias) {
+    if(this.audioService.passSong.title) {
+      msg = await this.cloudService.sharePodcast(this.audioService.passSong.PID, friend.Email);
+    } else if(this.audioService.passSong.Categorias) {
       msg = await this.cloudService.shareSong(this.audioService.passSong.ID, friend.Email);
     } else {
       msg = await this.cloudService.shareList(this.audioService.passSong.ID, friend.Email);

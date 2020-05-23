@@ -50,10 +50,6 @@ export class PodcastDetailComponent implements OnInit {
       this.alertService.showAlert(2, "", "Ya se han añadido los episodios");
       return;
     }
-    console.log(this.result[0]);
-    console.log(this.result[1]);
-    console.log(this.result[2]);
-    console.log(this.result[3]);
     this.added = true;
     var song = {
       URL: this.result[0].audio,
@@ -66,7 +62,6 @@ export class PodcastDetailComponent implements OnInit {
       Categorias: ["Podcast"],
       PID: this.result[3]
     };
-    console.log(song);
 
     // Comprobar que no haya algo ya reproduciendose
     if (this.audioService.maxIndex > 0){

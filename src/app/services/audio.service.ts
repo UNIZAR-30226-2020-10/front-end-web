@@ -15,6 +15,9 @@ export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
   private start: Boolean = false;
+  notifPodcast;
+  listID = null;
+  oldAudioList: Array<any> = [];
   showFavorite: Boolean = false;
   categories;
   subscribeArtists;
@@ -238,18 +241,30 @@ export class AudioService {
   }
 
   loadList(files, index, load) {
+    this.oldAudioList = [];
     if(load === 'g') {
-      console.log(files.Cancion);
-      console.log("TIempo peti: " + files.Segundo);
-      if(files.Cancion != null) {
-        this.audioList = Array.from(files.Cancion);
-        this.maxIndex = 1;
+      if((files.Cancion && files.Cancion != null) || files.Canciones) {
+        if(files.Canciones) {
+          this.listID = files.ID;
+          this.audioList = Array.from(files.Canciones);
+        } else {
+          this.audioList = Array.from(files.Cancion);
+        }
+        this.maxIndex = this.audioList.length;
+        var i = 0;
+        if(index.ID) {
+          while(this.audioList[i].ID != index.ID) {
+            ++i;
+          }
+        } else {
+          i = index;
+        }
         this.start = true;
-        this.openFile(this.audioList[0], 0);
+        this.openFile(this.audioList[i], i);
         this.seekTo(files.Segundo);
       }
-      return;
     } else if(load != 'c') {
+      this.listID = load;
       this.loop = false;
       this.audioList = Array.from(files);
       this.maxIndex = this.audioList.length;
@@ -275,30 +290,43 @@ export class AudioService {
   }
 
   random() {
-    var currentIndex = this.maxIndex, aux, randomIndex;
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      aux = this.audioList[currentIndex];
-      this.audioList[currentIndex] = this.audioList[randomIndex];
-      this.audioList[randomIndex] = aux;
-    }
-    for (let index = 0; index < this.maxIndex; index++) {
-      if(this.audioList[index].URL === this.currentFile.song.URL) {
-        aux = this.audioList[index];
-        this.audioList[index] = this.audioList[0];
-        this.audioList[0] = aux;
-        break;
+    if(this.oldAudioList.length === 0) {
+      this.oldAudioList = Array.from(this.audioList);
+      var currentIndex = this.maxIndex, aux, randomIndex;
+      while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        aux = this.audioList[currentIndex];
+        this.audioList[currentIndex] = this.audioList[randomIndex];
+        this.audioList[randomIndex] = aux;
       }
+      for (let index = 0; index < this.maxIndex; index++) {
+        if(this.audioList[index].URL === this.currentFile.song.URL) {
+          aux = this.audioList[index];
+          this.audioList[index] = this.audioList[0];
+          this.audioList[0] = aux;
+          break;
+        }
+      }
+      this.loadSongNoStop(this.audioList[0], 0);
+    } else {
+      this.audioList = Array.from(this.oldAudioList);
+      this.oldAudioList = [];
+      var i = 0;
+      while(this.audioList[i].ID != this.currentFile.song.ID) {
+        ++i;
+      }
+      this.loadSongNoStop(this.audioList[i], i);
     }
-    this.loadSongNoStop(this.audioList[0], 0);
   }
 
   addToQueue(song) {
+    this.oldAudioList = [];
     this.audioList[this.maxIndex++] = song;
   }
 
   deleteFromQueue(index) {
+    this.oldAudioList = [];
     var actual = false;
     console.log(this.currentFile.index);
     console.log(index);

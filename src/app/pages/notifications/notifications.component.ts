@@ -29,6 +29,12 @@ export class NotificationsComponent implements OnInit {
     newArray.forEach(async element => {
       await this.cloudService.unnotifySong(element.ID);
     });
+    /*newArray = this.audioService.notifPodcast.filter(function (el) {
+      return el.Notificacion == true;
+    });
+    newArray.forEach(async element => {
+      await this.cloudService.unnotifyPodcast(element.ID);
+    });*/
   }
 
   async deleteSong(song, i) {
@@ -39,6 +45,11 @@ export class NotificationsComponent implements OnInit {
   async deleteList(song, i) {
     await this.cloudService.unshareList(song.ID);
     this.friendService.notifLists.splice(i, 1);
+  }
+
+  async deletePodcast(song, i) {
+    await this.cloudService.unsharePodcast(song.ID);
+    this.audioService.notifPodcast.splice(i, 1);
   }
 
 }

@@ -60,4 +60,29 @@
       </li>
     </ul>
   </div>
+
+  <div *ngIf="this.audioService.notifPodcast && this.audioService.notifPodcast.length > 0">
+    <h1>Podcasts compartidas</h1>
+
+    <ul *ngFor="let song of this.audioService.notifPodcast; let i = index">
+      <li>
+        <div class="texto">
+          <h3>Tu amigo
+            <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
+              <img [src]="song.Emisor[0].Imagen">
+              {{ song.Emisor[0].Nombre }}
+            </a>
+            te ha compartido la siguiente lista:</h3>
+        </div>
+        <div class="song" [routerLink]="['/podcasts', song.Podcast.title]">
+          <img [src]="song.Podcast.image">
+          <h4><strong>{{ song.Podcast.title }}</strong></h4>
+          <h4>{{ song.Podcast.podcast[0].publisher }}</h4>
+        </div>
+        <button class="borrar" (click)="deletePodcast(song, i)">
+          <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
+        </button>
+      </li>
+    </ul>
+  </div>
 </div>
