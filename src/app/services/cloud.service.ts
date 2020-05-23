@@ -58,16 +58,16 @@ export class CloudService {
     this.audioService.favoriteID = this.audioService.lists[0].ID;
     this.audioService.categories = await this.allCategories();
     this.audioService.subscribeArtists = await this.suscriptions();
-    /*this.aux = await this.getLast();
+    this.aux = await this.getLast();
     if(this.aux.Cancion && this.aux.Cancion != null) {
       if(this.aux.Lista === null) {
-        this.audioService.loadList(this.aux.Cancion, 0, 'g');
+        this.audioService.loadList(this.aux, 0, 'g');
       } else {
         this.aux2 = await this.getList(this.aux.Lista);
-        this.audioService.loadList(this.aux2, this.aux.Cancion, this.aux.Lista);
+        this.audioService.loadList(this.aux2, this.aux.Cancion[0], 'g');
         this.audioService.seekTo(this.aux.Segundo);
       }
-    }*/
+    }
     this.audioService.idsPodcasts(await this.listPodcast());
     this.friendService.friends = await this.friends();
     this.friendService.petitions = await this.petitionsReceive();
@@ -121,7 +121,9 @@ export class CloudService {
       this.friendService.notifLists = Array.from(this.aux2.reverse());
       this.friendService.notifSongs = Array.from(this.aux.reverse());
       this.friendService.actualizePetitions(aux);
+      this.loader.necessary = false;
       this.aux = await this.sharedPodcasts();
+      this.loader.necessary = true;
       if(this.aux && this.aux.length > 0) {
         newArray = this.aux.filter(function (el) {
           return el.Notificacion == true;
@@ -136,10 +138,12 @@ export class CloudService {
             }
           }
           if(!find) {
+            this.loader.necessary = false;
             this.podcastService.getEpisodes(pod).subscribe(podcasts => {
               pod.Podcast = podcasts;
               this.audioService.notifPodcast.unshift(pod);
             });
+            this.loader.necessary = true;
           }
         }
       }

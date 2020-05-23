@@ -351,6 +351,6 @@ table, .cdk-drag-preview {
 }
 
 .queue {
-  float: none;
-  margin-left: 0;
+  float: none !important;
+  margin-left: 0 !important;
 }

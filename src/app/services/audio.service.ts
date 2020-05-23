@@ -244,30 +244,33 @@ export class AudioService {
     this.oldAudioList = [];
     if(load === 'g') {
       if((files.Cancion && files.Cancion != null) || files.Canciones) {
+        var i = 0;
         if(files.Canciones) {
           this.listID = files.ID;
           this.audioList = Array.from(files.Canciones);
-        } else {
-          this.audioList = Array.from(files.Cancion);
-        }
-        this.maxIndex = this.audioList.length;
-        var i = 0;
-        if(index.ID) {
+          this.maxIndex = this.audioList.length;
           while(this.audioList[i].ID != index.ID) {
             ++i;
           }
         } else {
-          i = index;
+          this.audioList = Array.from(files.Cancion);
+          this.maxIndex = 1;
+          this.listID = null;
         }
         this.start = true;
         this.openFile(this.audioList[i], i);
-        this.seekTo(files.Segundo);
+        if(!files.Canciones) {
+          this.seekTo(files.Segundo);
+        }
       }
+      return;
     } else if(load != 'c') {
       this.listID = load;
       this.loop = false;
       this.audioList = Array.from(files);
       this.maxIndex = this.audioList.length;
+    } else {
+      this.listID = null;
     }
     this.openFile(this.audioList[index], index);
   }
@@ -322,11 +325,13 @@ export class AudioService {
 
   addToQueue(song) {
     this.oldAudioList = [];
+    this.listID = null;
     this.audioList[this.maxIndex++] = song;
   }
 
   deleteFromQueue(index) {
     this.oldAudioList = [];
+    this.listID = null;
     var actual = false;
     console.log(this.currentFile.index);
     console.log(index);
