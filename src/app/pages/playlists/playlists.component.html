@@ -49,10 +49,12 @@
 
   <div class="listas">
     <div *ngFor="let list of playlists(); let i = index" class="box">
-      <div [routerLink]="['/music/lists', this.cloudService.encrypt(list.ID.toString())]">
-        <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart">
-        <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart">
-        <h3 [ngClass]="[favorite(list.Nombre)]">
+      <div>
+        <img class="albumArt" *ngIf="list.Imagen === 'default'" src="https://images-na.ssl-images-amazon.com/images/I/71HAjhp38kL._SL1200_.jpg" alt="albumart" 
+          [routerLink]="['/music/lists', this.cloudService.encrypt(list.ID.toString())]">
+        <img class="albumArt" *ngIf="list.Imagen != 'default'" [src]="list.Imagen" alt="albumart" 
+          [routerLink]="['/music/lists', this.cloudService.encrypt(list.ID.toString())]">
+        <h3 [ngClass]="[favorite(list.Nombre)]" [routerLink]="['/music/lists', this.cloudService.encrypt(list.ID.toString())]">
           {{ list.Nombre }}
         </h3>
         <button class="borrar" *ngIf="list.Nombre!='Favoritos'" mat-button (click)="deleteList(list.ID, list.Nombre, i)">
