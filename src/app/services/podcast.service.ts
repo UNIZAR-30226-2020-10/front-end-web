@@ -36,8 +36,15 @@ export class PodcastService {
     return this.http.get<Podcast>(`${this.episode_url_1}${title}`, this.httpOptions);
   }
 
-  getPodcastsPost(title): Observable<Podcast> {
-    const ids = 'ids='+title
-    return this.http.post<any>(`${this.podcastPost_url_2}`, ids, this.httpOptions2);
+  // Bucle con @getPodcasts
+  getPodcastsPost(title): Observable<Podcast[]> {
+    var splitted = title.split(",");
+    var pods:any = []
+    for (let pod of splitted) {
+      pods.push(this.getPodcasts(pod));
+    }
+    return pods;
+    //const ids = 'ids='+title
+    //return this.http.post<any>(`${this.podcastPost_url_2}`, ids, this.httpOptions2);
   }
 }

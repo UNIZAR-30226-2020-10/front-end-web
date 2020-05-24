@@ -353,7 +353,9 @@ export class AudioService {
 
   songFavorite(fav) {
     if(fav.title && this.favoritePodcasts) {
-      for(let song of this.favoritePodcasts.podcasts) {
+      //for(let song of this.favoritePodcasts.podcasts) {
+      for(let song of this.favoritePodcasts) {
+        console.log(song.title);
         if(song.title === fav.title) {
           return true;
         }
