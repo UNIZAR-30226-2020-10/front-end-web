@@ -1,12 +1,11 @@
 <mat-toolbar class="toolbar">
     <img (click)="goTo()" src="assets/images/logoGris.png">
     <img class="logo" (click)="goTo()" src="assets/images/LogoAppName.png">
-    <!-- <span><a style="cursor: pointer;" (click)="goTo()">TuneIt</a></span> -->
     <span class="empty_spaces"></span>
     <div class="opciones" *ngIf="this.cloudService.user != undefined">
         <span><a routerLink='/notifications' aria-label="Notificaciones">Notificaciones</a></span>
-        <span class="badge" *ngIf="this.friendService.pend > 0">
-          {{ this.friendService.pend }}
+        <span class="badge" *ngIf="this.value > 0">
+          {{ this.value }}
         </span>
     </div>
     <div class="opciones">

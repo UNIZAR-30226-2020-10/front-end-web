@@ -9,12 +9,17 @@ import { FriendsService } from 'src/app/services/friends.service';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
+  value;
 
   constructor(
     public cloudService: CloudService,
     private router: Router,
     public friendService: FriendsService
-  ) { }
+  ) {
+    this.friendService.pend.subscribe(value => {
+      this.value = value;
+    })
+  }
 
   ngOnInit(): void {
   }

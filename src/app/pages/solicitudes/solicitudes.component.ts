@@ -21,11 +21,13 @@ export class SolicitudesComponent implements OnInit {
     this.friendService.friends.push(friend.Emisor[0]);
     this.friendService.petitions.splice(i, 1);
     this.alertService.showAlert(1, "", "Ahora eres amigo de " + friend.Emisor[0].Nombre);
+    this.friendService.set(this.friendService.petitions.length);
   }
 
   async denegate(friend, i) {
     await this.cloudService.accept(friend.ID, "Rechazo");
     this.friendService.petitions.splice(i, 1);
+    this.friendService.set(this.friendService.petitions.length);
   }
 
   ngOnInit(): void { }

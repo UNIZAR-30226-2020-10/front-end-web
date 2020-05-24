@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,17 @@ export class FriendsService {
   intervalId;
   notifSongs;
   notifLists;
-  pend = 0;
+  pend = new Subject<number>();
 
   constructor() { }
+
+  get() {
+    return this.pend;
+  }
+
+  set(n) {
+    this.pend.next(n);
+  }
 
   addedFriend(user) {
     for(let friend of this.friends) {

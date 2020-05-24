@@ -9,6 +9,7 @@ export class SavePodcastService {
   private podcast;
   private last_state;
   private title_string
+  idComp;
 
   constructor() { }
 

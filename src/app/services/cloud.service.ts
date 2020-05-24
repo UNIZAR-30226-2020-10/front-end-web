@@ -17,6 +17,7 @@ import { PodcastService } from './podcast.service';
 export class CloudService {
   subscription: Subscription;
   private pause: Boolean = false;
+  notif = false;
   imagesProfile;
   aux;
   aux2;
@@ -77,11 +78,11 @@ export class CloudService {
     var newArray = this.aux.filter(function (el) {
       return el.Notificacion == true;
     });
-    this.friendService.pend = newArray.length;
+    var pend = newArray.length;
     newArray = this.aux2.filter(function (el) {
       return el.Notificacion == true;
     });
-    this.friendService.pend += newArray.length;
+    pend += newArray.length;
     this.friendService.notifLists = Array.from(this.aux2.reverse());
     this.friendService.notifSongs = Array.from(this.aux.reverse());
     this.aux = await this.sharedPodcasts();
@@ -89,15 +90,16 @@ export class CloudService {
       return el.Notificacion == true;
     });
     if(this.friendService.petitions) {
-      this.friendService.pend += this.friendService.petitions.length;
+      pend += this.friendService.petitions.length;
     }
-    this.friendService.pend += newArray.length;
+    pend += newArray.length;
     this.audioService.notifPodcast = Array.from(this.aux.reverse());
     for(let i = 0; i < this.audioService.notifPodcast.length; ++i) {
       this.podcastService.getEpisodes(this.audioService.notifPodcast[i].Podcast).subscribe(podcasts =>
         this.audioService.notifPodcast[i].Podcast = podcasts
       );
     }
+    this.friendService.set(pend);
     this.imagesProfile = await this.images();
     delete this.aux;
     delete this.aux2;
@@ -135,15 +137,15 @@ export class CloudService {
         pend += newArray.length;
         for(let pod of this.aux) {
           var find = false;
-          for(let i = 0; i < this.audioService.notifPodcast; ++i) {
-            if(this.audioService.notifPodcast[i].Podcast.id === pod) {
+          for(let i = 0; i < this.audioService.notifPodcast.length; ++i) {
+            if(this.audioService.notifPodcast[i].Podcast.id === pod.Podcast) {
               find = true;
               break;
             }
           }
           if(!find) {
             this.loader.necessary = false;
-            this.podcastService.getEpisodes(pod).subscribe(podcasts => {
+            this.podcastService.getEpisodes(pod.Podcast).subscribe(podcasts => {
               pod.Podcast = podcasts;
               this.audioService.notifPodcast.unshift(pod);
             });
@@ -154,9 +156,6 @@ export class CloudService {
       if(this.friendService.petitions) {
         pend += this.friendService.petitions.length;
       }
-      if(pend != this.friendService.pend) {
-        this.friendService.pend = pend;
-      }
       if((!this.audioService.checkState().playing && !this.pause) ||
           this.audioService.checkState().playing) {
         this.pause = !this.audioService.checkState().playing;
@@ -165,6 +164,35 @@ export class CloudService {
           await this.setLast(this.audioService.currentFile.song.ID, Math.floor(this.audioService.checkState().currentTime), this.audioService.listID);
         }
         this.loader.necessary = true;
+      }
+      if(this.notif) {
+        console.log("NOITIF");
+        this.loader.necessary = false;
+        newArray = this.friendService.notifLists.filter(function (el) {
+          return el.Notificacion == true;
+        });
+        newArray.forEach(async element => {
+          await this.unnotifyList(element.ID);
+        });
+        pend -= newArray.length;
+        newArray = this.friendService.notifSongs.filter(function (el) {
+          return el.Notificacion == true;
+        });
+        newArray.forEach(async element => {
+          await this.unnotifySong(element.ID);
+        });
+        pend -= newArray.length;
+        newArray = this.audioService.notifPodcast.filter(function (el) {
+          return el.Notificacion == true;
+        });
+        newArray.forEach(async element => {
+          await this.unnotifyPodcast(element.ID);
+        });
+        this.loader.necessary = true;
+        pend -= newArray.length;
+      }
+      if(pend != this.friendService.get()) {
+        this.friendService.set(pend);
       }
     }
 
