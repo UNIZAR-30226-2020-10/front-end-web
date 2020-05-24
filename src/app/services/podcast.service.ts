@@ -39,12 +39,13 @@ export class PodcastService {
   }
 
   // Bucle con @getPodcasts2
-  getPodcastsPost(title) {
+  getPodcastsPost(title): Observable<any>  {
     var splitted = title.split(",");
     var pods:any = []
     for (let pod of splitted) {
+      console.log(pod);
       console.log("COMO LO MUEVE ESA MUCHACHOTA");
-      this.http.get<any>(`https://listen-api.listennotes.com/api/v2/podcasts/${pod}`, this.httpOptions).subscribe(data => this.p = data);
+      this.getEpisodes(pod).subscribe(data => this.p = data);
       console.log(this.p);
       pods.push(this.p);
     }

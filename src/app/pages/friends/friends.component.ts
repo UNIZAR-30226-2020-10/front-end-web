@@ -55,11 +55,11 @@ export class FriendsComponent implements OnInit {
       msg = await this.cloudService.shareList(this.audioService.passSong.ID, friend.Email);
     }
     if(msg === "Elemento ya compartido con ese usuario") {
-      this.alertService.showAlert(0, "", "Canción/lista ya compartida con " + friend.Nombre);
+      this.alertService.showAlert(0, "", "Canción/lista/podcast ya compartida con " + friend.Nombre);
     } else if(msg === "Error") {
       this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
     } else {
-      this.alertService.showAlert(1, "", "Canción/lista compartida con " + friend.Nombre);
+      this.alertService.showAlert(1, "", "Canción/lista/podcast compartida con " + friend.Nombre);
     }
     this.clear();
   }

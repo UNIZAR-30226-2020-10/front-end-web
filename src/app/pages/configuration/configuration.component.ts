@@ -1,10 +1,6 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
-  HostBinding,
-  HostListener,
 } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { CloudService } from "src/app/services/cloud.service";
@@ -21,6 +17,7 @@ export class ConfigurationComponent implements OnInit {
   delete: Boolean;
   files: any = [];
   imgURL;
+  selected = 50;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,107 +34,12 @@ export class ConfigurationComponent implements OnInit {
     });
   }
 
-  @Output() onFileDropped = new EventEmitter<any>();
-
-  @HostBinding("style.background-color") private background = "#f5fcff";
-  @HostBinding("style.opacity") private opacity = "1";
-
-  //Dragover listener
-  @HostListener("dragover", ["$event"]) onDragOver(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.background = "#9ecbec";
-    this.opacity = "0.8";
-  }
-
-  //Dragleave listener
-  @HostListener("dragleave", ["$event"]) public onDragLeave(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.background = "#f5fcff";
-    this.opacity = "1";
-  }
-
-  //Drop listener
-  @HostListener("drop", ["$event"]) public ondrop(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.background = "#f5fcff";
-    this.opacity = "1";
-    let files = evt.dataTransfer.files;
-    if (files.length > 0) {
-      this.onFileDropped.emit(files);
+  changeSelect(i) {
+    if(this.selected === i + 1) {
+      this.selected = 50;
+    } else {
+      this.selected = i + 1;
     }
-  }
-
-  deleteAttachment(index) {
-    this.files.splice(index, 1);
-  }
-
-  changeFile(event) {
-    for (let index = 0; index < event.length; index++) {
-      const element = event[index];
-      this.files.push(element);
-    }
-    var mimeType = event[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-      return;
-    }
-    var reader = new FileReader();
-    reader.readAsDataURL(event[0]);
-    reader.onload = (_event) => {
-      this.imgURL = reader.result;
-    }
-  }
-
-  getSignedRequest(file) {
-    if (!file) {
-      return alert("no file");
-    }
-    var xhr = new XMLHttpRequest();
-    xhr.open(
-      "GET",
-      "https://psoftware.herokuapp.com/sign_s3?file_name=" +
-        this.files[0].name +
-        "&file_type=" +
-        this.files[0].type
-    );
-    console.log("LETS GET STARTED");
-    console.log(xhr);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var response = JSON.parse(xhr.responseText);
-          function uploadFile(file, s3Data, url) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", s3Data.url);
-
-            var postData = new FormData();
-            for (let key in s3Data.fields) {
-              postData.append(key, s3Data.fields[key]);
-            }
-            postData.append("file", file);
-
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState === 4) {
-                if (xhr.status === 200 || xhr.status === 204) {
-                  (document.getElementById(
-                    "preview"
-                  ) as HTMLImageElement).src = url;
-                } else {
-                  alert("Could not upload file.");
-                }
-              }
-            };
-            xhr.send(postData);
-          }
-          uploadFile(file, response.data, response.url);
-        } else {
-          alert("Could not get signed URL.");
-        }
-      }
-    };
-    xhr.send();
   }
 
   async onSubmit(title) {
@@ -183,7 +85,8 @@ export class ConfigurationComponent implements OnInit {
         if (
           title.name.length === 0 &&
           title.newpass.length === 0 &&
-          title.country.length === 0
+          title.country.length === 0 &&
+          this.selected === 50
         ) {
           this.alertService.showAlert(
             2,
@@ -199,7 +102,8 @@ export class ConfigurationComponent implements OnInit {
             encrepass,
             encnewpass,
             title.name,
-            title.country
+            title.country,
+            this.selected
           );
           if (msg === "Success") {
             this.cloudService.userInfo = await this.cloudService.infoUser(

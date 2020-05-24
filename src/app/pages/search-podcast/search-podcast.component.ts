@@ -79,7 +79,7 @@ export class SearchPodcastComponent implements OnInit {
 
   isFavorite() {
     if(!this.title_string) {
-      return this.audioService.favoritePodcasts.podcasts;
+      return this.audioService.favoritePodcasts;
     } else {
       return this.podcasts.results;
     }

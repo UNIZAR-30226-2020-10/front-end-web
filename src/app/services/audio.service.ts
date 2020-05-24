@@ -424,7 +424,11 @@ export class AudioService {
       }
     }
     if(aux.length > 0) {
-      this.podcastService.getPodcastsPost(aux).subscribe(favPodcasts => this.favoritePodcasts = favPodcasts);
+      this.favoritePodcasts = [];
+      var splitted = aux.split(",");
+      for(let s of splitted) {
+        this.podcastService.getEpisodes(s).subscribe(podcast => this.favoritePodcasts.push(podcast));
+      }
     } else {
       this.favoritePodcasts = undefined;
     }

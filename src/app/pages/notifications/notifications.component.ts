@@ -14,7 +14,9 @@ export class NotificationsComponent implements OnInit {
     public friendService: FriendsService,
     public cloudService: CloudService,
     public audioService: AudioService
-  ) { }
+  ) {
+    console.log(this.audioService.notifPodcast);
+  }
 
   ngOnInit() {
     var newArray = this.friendService.notifLists.filter(function (el) {
@@ -29,12 +31,13 @@ export class NotificationsComponent implements OnInit {
     newArray.forEach(async element => {
       await this.cloudService.unnotifySong(element.ID);
     });
-    /*newArray = this.audioService.notifPodcast.filter(function (el) {
+    newArray = this.audioService.notifPodcast.filter(function (el) {
       return el.Notificacion == true;
     });
     newArray.forEach(async element => {
       await this.cloudService.unnotifyPodcast(element.ID);
-    });*/
+    });
+    this.friendService.pend = this.friendService.petitions.length;
   }
 
   async deleteSong(song, i) {

@@ -32,15 +32,11 @@ export class LoginComponent implements OnInit {
     } else {
       const newpass = this.cloudService.encrypt(pass);
       let msg = await this.cloudService.signIn(email, newpass, session);
-      console.log(msg);
       if(msg === "Contraseña incorrecta") {
-        console.log("INCORRECT");
         this.alertService.showAlert(0, "", "Contraseña incorrecta");
       } else if(msg === "No user") {
-        console.log("USER");
         this.alertService.showAlert(0, "", "No existe el usuario introducido");
       } else if(msg === "Error") {
-        console.log("ERROR");
         this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
       } else if(msg === "Sin confirmar") {
         this.alertService.showAlert(0, "", "Revisa tu correo y confirma el correo de confirmación");

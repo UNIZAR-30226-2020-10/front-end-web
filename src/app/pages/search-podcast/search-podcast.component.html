@@ -10,7 +10,7 @@
       </div>
     </form>
 
-  <div *ngIf="(title_string && title_string.length > 0) || (this.audioService.favoritePodcasts && this.audioService.favoritePodcasts.podcasts)" class="uff">
+  <div *ngIf="(title_string && title_string.length > 0) || (this.audioService.favoritePodcasts && this.audioService.favoritePodcasts.length > 0)" class="uff">
     <div class="buscado">
       <div *ngIf="title_string; else elseBlock">
         <strong>Podcast buscado: </strong>
