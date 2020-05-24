@@ -16,6 +16,8 @@ export class PodcastService {
   private episode_url_1 = 'https://listen-api.listennotes.com/api/v2/podcasts/';
   private podcastPost_url_2 = 'https://listen-api.listennotes.com/api/v2/podcasts';
 
+  p;
+
   httpOptions = {
     headers: new HttpHeaders({ 'X-ListenAPI-Key': 'fa5d6d0b3b254e818d7308351facdef0' })
   };
@@ -36,13 +38,17 @@ export class PodcastService {
     return this.http.get<Podcast>(`${this.episode_url_1}${title}`, this.httpOptions);
   }
 
-  // Bucle con @getPodcasts
-  getPodcastsPost(title): Observable<Podcast[]> {
+  // Bucle con @getPodcasts2
+  getPodcastsPost(title) {
     var splitted = title.split(",");
     var pods:any = []
     for (let pod of splitted) {
-      pods.push(this.getPodcasts(pod));
+      console.log("COMO LO MUEVE ESA MUCHACHOTA");
+      this.http.get<any>(`https://listen-api.listennotes.com/api/v2/podcasts/${pod}`, this.httpOptions).subscribe(data => this.p = data);
+      console.log(this.p);
+      pods.push(this.p);
     }
+    console.log("SE PRENDIO LA WEA");
     return pods;
     //const ids = 'ids='+title
     //return this.http.post<any>(`${this.podcastPost_url_2}`, ids, this.httpOptions2);
