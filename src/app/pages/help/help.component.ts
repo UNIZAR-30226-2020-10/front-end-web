@@ -40,7 +40,7 @@ export class HelpComponent implements OnInit {
       hide: "hide",
     },
     {
-      q: "¿En dónde puedo usar TuneIT?",
+      q: "¿Dónde puedo usar TuneIT?",
       a:
         "TuneIT se encuentra presente en versión web, accesible para todos los dispositivos con conexión a Internet, y en versión Android para mayor comodidad para usuarios móviles.",
       hide: "hide",

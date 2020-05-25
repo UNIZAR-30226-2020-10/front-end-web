@@ -12,7 +12,7 @@
       <button [ngClass]="{'reproducir': this.list.Canciones.length === 0, 'borrar': this.list.Canciones.length > 0 }" *ngIf="this.list.Nombre!='Favoritos' && this.audioService.myList(this.list)" (click)="deleteList()">
         <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar lista</strong>
       </button>
-      <button class="anadir" *ngIf="!this.audioService.myList(this.list)" (click)="addList()">
+      <button class="anadir" *ngIf="!this.audioService.myList(this.list) && !this.category" (click)="addList()">
         <mat-icon color="primary">post_add</mat-icon> <strong>Añadir lista</strong>
       </button>
     </div>
@@ -242,7 +242,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="tableAdd"></tr>
-      <tr mat-row *matRowDef="let row; columns: tableAdd; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover}" (dblclick)="addToList(row.ID, row.Nombre)" style="cursor: pointer"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableAdd; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover}" (click)="addToList(row.ID, row.Nombre)" style="cursor: pointer"></tr>
 
     </table>
 

@@ -34,9 +34,19 @@ export class BuscarAmigosComponent implements OnInit {
   }
 
   async onSubmit(title) {
-    this.users = await this.cloudService.searchUsers(title.titulo);
-    if(this.users.length === 0) {
-      this.alertService.showAlert(3, "", "No se ha encontrado ningún usuario");
+    if(title.titulo.length < 1) {
+      this.alertService.showAlert(2, "", "Introduce un nombre para buscar");
+    } else {
+      this.users = await this.cloudService.searchUsers(title.titulo);
+      for(let i = 0; i < this.users.length; ++i) {
+        if(this.users[i].Email === this.cloudService.user || this.friendService.addedFriend(this.users[i])) {
+          this.users.splice(i, 1);
+          --i;
+        }
+      }
+      if(this.users.length === 0) {
+        this.alertService.showAlert(3, "", "No se ha encontrado ningún usuario");
+      }
     }
   }
 

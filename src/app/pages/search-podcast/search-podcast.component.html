@@ -34,15 +34,12 @@
               <h2>{{result.title_original || result.title}}</h2>
               <div style="display: flex; align-items: center;">
                 <h4><strong>Publicado por: </strong>{{result.publisher_original || result.publisher}}</h4>
-                <!-- NO estoy muy seguro de que 2 elseBlock funcionen -->
-                <ng-template #elseBlock>
-                  <button class="delete">
-                    <span class="material-icons">
-                      delete
-                    </span>
-                    Eliminar
-                  </button>
-                </ng-template>
+                <button class="delete" *ngIf="!this.title_string">
+                  <span class="material-icons">
+                    delete
+                  </span>
+                  Eliminar
+                </button>
               </div>
             </div>
           </div>
