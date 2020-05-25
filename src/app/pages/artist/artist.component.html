@@ -14,7 +14,7 @@
 </button>
 <hr width="95%" color="#dddddd">
 <h2 class="albumes">Albumes</h2>
-<div class="albums">
+<div class="albums" style="margin-bottom: 10rem;">
     <ul *ngFor="let album of this.info.Albumes">
         <li [routerLink]="['/album', album.Nombre]">
             <img class="album_image" [src]="album.Imagen">

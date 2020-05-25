@@ -1,6 +1,6 @@
 <div class="main">
   <h1>
-    Notificaciones
+    <strong>Notificaciones</strong>
   </h1>
 
   <h2 *ngIf="(!this.friendService.notifSongs || this.friendService.notifSongs.length === 0) && (!this.friendService.notifLists || this.friendService.notifLists.length === 0) && (!this.friendService.petitions || this.friendService.petitions.length === 0) && (!this.audioService.notifPodcast || this.audioService.notifPodcast.length === 0)">
@@ -15,23 +15,26 @@
     <ul *ngFor="let song of this.friendService.notifSongs; let i = index">
       <li>
         <div class="texto">
-          <h3>Tu amigo
+          <img [src]="song.Emisor[0].Imagen" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
+          <h3>
             <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
-              <img [src]="song.Emisor[0].Imagen">
-              {{ song.Emisor[0].Nombre }}
+              ¡{{ song.Emisor[0].Nombre }}
             </a>
-            te ha recomendado la siguiente canción:</h3>
+            te ha recomendado una <strong>canción</strong>!</h3>
         </div>
         <div class="song" (click)="this.audioService.loadList([song.Cancion], 0, 'n')">
           <img [src]="song.Cancion.Imagen">
-          <h4><strong>{{ song.Cancion.Nombre }}</strong></h4>
-          <h4 *ngFor="let artist of song.Cancion.Artistas" class="artists">
-            <span *ngIf="song.Cancion.Artistas[0] != artist">, </span>
-            {{ artist }}
-          </h4>
+          <div style="margin-left: 1rem;">
+            <h4><strong>{{ song.Cancion.Nombre }}</strong></h4>
+            <p *ngFor="let artist of song.Cancion.Artistas" class="artists">
+              <span *ngIf="song.Cancion.Artistas[0] != artist">, </span>
+              {{ artist }}
+            </p>
+          </div>
         </div>
         <button class="borrar" (click)="deleteSong(song, i)">
-          <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
+          <mat-icon mat-list-icon>visibility_off</mat-icon>
+          Ignorar
         </button>
       </li>
     </ul>
@@ -43,19 +46,19 @@
     <ul *ngFor="let song of this.friendService.notifLists; let i = index">
       <li>
         <div class="texto">
-          <h3>Tu amigo
+          <img [src]="song.Emisor[0].Imagen">
+          <h3>
             <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
-              <img [src]="song.Emisor[0].Imagen">
-              {{ song.Emisor[0].Nombre }}
+              ¡{{ song.Emisor[0].Nombre }}
             </a>
-            te ha compartido la siguiente lista:</h3>
+            ha compartido contigo esta <strong>lista</strong>!</h3>
         </div>
         <div class="song" [routerLink]="['/music/lists', this.cloudService.encrypt(song.Listas.ID.toString())]">
           <img [src]="song.Listas.Imagen">
           <h4><strong>{{ song.Listas.Nombre }}</strong></h4>
         </div>
         <button class="borrar" (click)="deleteList(song, i)">
-          <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
+          <mat-icon mat-list-icon>visibility_off</mat-icon> Ignorar
         </button>
       </li>
     </ul>
@@ -67,20 +70,22 @@
     <ul *ngFor="let song of this.audioService.notifPodcast; let i = index">
       <li>
         <div class="texto">
-          <h3>Tu amigo
+          <img [src]="song.Emisor[0].Imagen">
+          <h3>
             <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
-              <img [src]="song.Emisor[0].Imagen">
-              {{ song.Emisor[0].Nombre }}
+              ¡{{ song.Emisor[0].Nombre }}
             </a>
-            te ha compartido la siguiente lista:</h3>
+            quiere que escuches este <strong>podcast</strong>!</h3>
         </div>
         <div class="song" (click)="goPodcast(song.Podcast)">
           <img [src]="song.Podcast.image">
-          <h4><strong>{{ song.Podcast.title }}</strong></h4>
-          <h4>{{ song.Podcast.publisher }}</h4>
+          <div style="margin-left:1rem">
+            <h4><strong>{{ song.Podcast.title }}</strong></h4>
+            <p>{{ song.Podcast.publisher }}</p>
+          </div>
         </div>
         <button class="borrar" (click)="deletePodcast(song, i)">
-          <mat-icon mat-list-icon>delete</mat-icon> <strong>Borrar notificación</strong>
+          <mat-icon mat-list-icon>visibility_off</mat-icon> Ignorar
         </button>
       </li>
     </ul>

@@ -15,7 +15,7 @@
 <div *ngIf="!this.search && !this.share">
   <h2>Amigos</h2>
 
-  <div *ngIf="this.friendService.friends && this.friendService.friends.length > 0">
+  <div *ngIf="this.friendService.friends && this.friendService.friends.length > 0" style="margin-bottom: 10rem;">
     <ul *ngFor="let friend of this.friendService.friends; let i = index">
       <li>
         <img [src]="friend.Imagen" [routerLink]="['/profile', this.cloudService.encrypt(friend.Email)]">
@@ -37,7 +37,7 @@
   </div>
 </div>
 
-<div *ngIf="this.friendService.friends && this.friendService.friends.length > 0 && this.share">
+<div *ngIf="this.friendService.friends && this.friendService.friends.length > 0 && this.share" style="margin-bottom: 10rem;">
   <ul *ngFor="let friend of this.friendService.friends; let i = index">
     <li>
       <img [src]="friend.Imagen" (click)="shared(friend)">

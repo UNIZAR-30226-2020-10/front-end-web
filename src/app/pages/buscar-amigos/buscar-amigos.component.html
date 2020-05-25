@@ -11,7 +11,7 @@
     </form>
 </div>
 
-<div *ngIf="this.users != undefined && this.users.length > 0">
+<div *ngIf="this.users != undefined && this.users.length > 0" style="margin-bottom: 10rem;">
   <ul *ngFor="let user of this.users">
     <li>
       <img [src]="user.Imagen">

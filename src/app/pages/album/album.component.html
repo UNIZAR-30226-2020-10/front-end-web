@@ -3,7 +3,7 @@
     <h1>{{ this.name }}</h1>
     <h3>{{ this.songs.Artistas }}</h3>
 </div>
-<div class="canciones">
+<div class="canciones" style="margin-bottom: 10rem;">
     <ul *ngFor="let song of this.songs.Canciones; let i = index">
         <li (click)="this.audioService.loadList(this.songs.Canciones, i, 'a');">
             <h4 mat-line>{{ song.Nombre }}</h4>
