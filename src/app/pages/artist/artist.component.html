@@ -2,16 +2,18 @@
     <img class="artist_image" [src]="this.info.Imagen">
     <h2 class="nombre">{{ this.info.Nombre }}</h2>
 </div>
-<button (click)="subscribe()" class="sub">
-    <span class="material-icons" *ngIf="!this.subscribed">
-        whatshot
-    </span>
-    <span class="material-icons" *ngIf="this.subscribed">
-        clear
-    </span>
-  <span *ngIf="this.subscribed">Desuscribirse</span>
-  <span *ngIf="!this.subscribed">Suscribirse</span>
-</button>
+<div class="butSub">
+  <button (click)="subscribe()" class="sub">
+      <span class="material-icons" *ngIf="!this.subscribed">
+          whatshot
+      </span>
+      <span class="material-icons" *ngIf="this.subscribed">
+          clear
+      </span>
+    <span *ngIf="this.subscribed">Desuscribirse</span>
+    <span *ngIf="!this.subscribed">Suscribirse</span>
+  </button>
+</div>
 <hr width="95%" color="#dddddd">
 <h2 class="albumes">Albumes</h2>
 <div class="albums" style="margin-bottom: 10rem;">
@@ -20,16 +22,6 @@
             <img class="album_image" [src]="album.Imagen">
             <div class="album_details">
                 <h3>{{ album.Nombre }}</h3>
-                <button (click)="toggleIcon()" style="padding: 0.5rem">
-                    <span class="material-icons" *ngIf="!this.saved">
-                        bookmark_border
-                        </span>
-                    <span class="material-icons" *ngIf="this.saved">
-                        bookmark
-                    </span>
-                    <span *ngIf="!this.saved">Guardar</span>
-                    <span *ngIf="this.saved">Guardado</span>
-                </button>
             </div>
         </li>
       </ul>

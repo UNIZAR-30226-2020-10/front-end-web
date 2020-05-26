@@ -138,11 +138,21 @@
   color: white;
 }
 
-.badge {
-  position: absolute;
-  right: 50px;
-  padding: 5px 10px;
-  border-radius: 50%;
-  background: red;
-  color: white;
+.container .mat-list-base {
+  margin-bottom: 64px;
+}
+
+@media only screen and (max-width: 620px) {
+  .container {
+    width: 100%;
+    .sidenav {
+      width: 100%;
+    }
+  }
+  .router {
+    position: relative;
+  }
+  .change {
+    display: none;
+  }
 }

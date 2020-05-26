@@ -142,15 +142,18 @@ table, .cdk-drag-preview {
     height: 43px;
   }
   .elemName {
-    margin-left: 5.5%;
+    margin-left: 86px;
   }
   .elemArt {
-    margin-left: 35.4%;
+    padding-left: 86px;
+    margin-left: 30%;
   }
   .cat {
-    margin-left: 65.4%;
+    padding-left: 86px;
+    margin-left: 60%;
   }
   .options {
+    opacity: 0;
     position: absolute;
     margin-top: -50px;
     right: 0;
@@ -179,10 +182,10 @@ table, .cdk-drag-preview {
 }
 
 .input-2 {
-  display: inline-flex;
+  display: table;
   margin-top: 300px;
   align-items: center;
-  margin-left: -650px;
+  margin-left: 20px;
 }
 
 .form-field {

@@ -21,12 +21,14 @@
       <mat-icon>shuffle</mat-icon> <strong>Reprodución aleatoria</strong>
     </button>
   </div>
-  <form [formGroup]="searchList" *ngIf="!this.search && !this.add && this.list.Canciones.length > 0" class = "input-2" [ngClass]="{'searchCola' : this.queue}">
+  <br/>
+  <form [formGroup]="searchList" *ngIf="!this.search && !this.add && this.list && this.list.Canciones && this.list.Canciones.length > 0" class = "input-2" [ngClass]="{'searchCola' : this.queue}">
     <div class="form-group">
       <span>Buscar canciones</span>
       <input class="form-field" type="text" placeholder="Buscar canciones..." (ngModelChange)="onSearch(searchList.value)" formControlName="titulo">
     </div>
   </form>
+  <br/>
   <form [ngClass]="[this.showCat]" (mouseleave)="fadeCat()" (mouseenter)="clear()">
     <div *ngFor="let cat of this.categories">
       <input type="checkbox" [(ngModel)]="cat.checked" name="{{ cat.name }}" id="{{ cat.name }}" value="{{ cat.name }}" (ngModelChange)="byCategory()">
@@ -115,7 +117,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="searchArtist"></tr>
-      <tr mat-row *matRowDef="let row; columns: searchArtist; let i = index" (mouseover)="this.hover = row.Nombre" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.Nombre == hover}" (dblclick)="this.router.navigate(['/artist', row.Nombre])" style="cursor: pointer"></tr>
+      <tr mat-row *matRowDef="let row; columns: searchArtist; let i = index" (mouseover)="this.hover = row.Nombre" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.Nombre == hover}" (click)="this.router.navigate(['/artist', row.Nombre])" style="cursor: pointer"></tr>
     </table>
 
     <h4 *ngIf="this.search && this.list.Albums.length > 0"> Álbums </h4>
@@ -131,12 +133,12 @@
 
       <ng-container matColumnDef="Nombre">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="Nombre"> Nombre </th>
-        <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+        <td mat-cell *matCellDef="let element" style="width: 30%;"> {{element.Nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Artista">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="Artistas"> Artistas </th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell *matCellDef="let element" style="width: 30%;">
           <div *ngFor="let artist of element.Artistas" class="oneline">
             <span *ngIf="element.Artistas[0] != artist">, </span>
             <span [routerLink]="['/artist', artist]" style="cursor: pointer;">{{ artist }}</span>
@@ -151,11 +153,11 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="searchAlbum"></tr>
-      <tr mat-row *matRowDef="let row; columns: searchAlbum; let i = index" (mouseover)="this.hover = row.Nombre" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.Nombre == hover}" (dblclick)="this.router.navigate(['/album', row.Nombre])" style="cursor: pointer"></tr>
+      <tr mat-row *matRowDef="let row; columns: searchAlbum; let i = index" (mouseover)="this.hover = row.Nombre" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.Nombre == hover}" (click)="this.router.navigate(['/album', row.Nombre])" style="cursor: pointer"></tr>
     </table>
 
   </div>
-  <div class="listDrag" *ngIf="!this.add && this.list && !this.search && !this.filter && !this.category && (this.audioService.myList(this.list) || this.queue)">
+  <div class="listDrag" *ngIf="!this.add && this.list && this.list.Canciones && !this.search && !this.filter && !this.category && (this.audioService.myList(this.list) || this.queue)">
 
     <table mat-table matSort [dataSource]="this.audioService.dataSource" class="mat-elevation-z8" *ngIf="this.audioService.dataSource.filteredData.length > 0" cdkDropList (matSortChange)="sortData($event)" (cdkDropListDropped)="drop($event)">
 
@@ -208,15 +210,15 @@
             <button mat-button (click)="removeFromList(element, i, list.ID)">
               <mat-icon color="primary">delete</mat-icon>
             </button>
-            <button mat-button cdkDragHandle (mousedown)="this.drag = true" (mouseup)="this.drag = false">
-              <mat-icon color="primary">drag_handle</mat-icon>
+            <button mat-button (mousedown)="this.drag = true" (mouseup)="this.drag = false">
+              <mat-icon cdkDragHandle color="primary">drag_handle</mat-icon>
             </button>
           </div>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
-      <tr mat-row cdkDrag *matRowDef="let row; columns: tableColumns; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover && !this.drag, 'actual' : this.queue && row.ID === this.audioService.currentFile.song.ID && this.audioService.equals(this.audioService.dataSource.filteredData)}" (dblclick)="loadList(i, row.Nombre)" style="cursor: pointer"></tr>
+      <tr mat-row cdkDrag *matRowDef="let row; columns: tableColumns; let i = index" (mouseover)="this.hover = row.ID" (mouseleave)="this.hover = ''" [ngClass]="{'highlight' : row.ID == hover && !this.drag, 'actual' : this.queue && row.ID === this.audioService.currentFile.song.ID && this.audioService.equals(this.audioService.dataSource.filteredData)}" (dblclick)="loadList(i, row.Nombre)" (mousedown)="this.drag = true" (mouseup)="this.drag = false" style="cursor: pointer"></tr>
     </table>
 
   </div>

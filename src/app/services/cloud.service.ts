@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { List, Playlists, Song } from '../list';
+import { List, Playlists } from '../list';
 import { CookieService } from "ngx-cookie-service";
 import { Router } from '@angular/router';
 import { AlertsService } from './alerts.service';
@@ -37,7 +37,7 @@ export class CloudService {
     private podcastService: PodcastService
   ) { }
 
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({ 'Authorization': 'Basic YjMwS1pmVWk3K05aRWVsL0hCQnhwdz09OjNyREd6eno0NEMzb3dvQXdWRTZWZ1E9PQ==' })
   };
 
@@ -61,10 +61,13 @@ export class CloudService {
     this.audioService.categories = await this.allCategories();
     this.audioService.subscribeArtists = await this.suscriptions();
     this.aux = await this.getLast();
+    console.log(this.aux);
     if(this.aux.Cancion && this.aux.Cancion != null) {
       if(this.aux.Lista === null) {
+        console.log("CANCION");
         this.audioService.loadList(this.aux, 0, 'g');
       } else {
+        console.log("LISTA");
         this.aux2 = await this.getList(this.aux.Lista);
         this.audioService.loadList(this.aux2, this.aux.Cancion[0], 'g');
         this.audioService.seekTo(this.aux.Segundo);
@@ -166,7 +169,6 @@ export class CloudService {
         this.loader.necessary = true;
       }
       if(this.notif) {
-        console.log("NOITIF");
         this.loader.necessary = false;
         newArray = this.friendService.notifLists.filter(function (el) {
           return el.Notificacion == true;
@@ -310,98 +312,85 @@ export class CloudService {
   private profile: string = "list_image";
 
   async getPlaylists(user) {
-    console.log(this.url+this.askPlaylists);
     var params = {'email': user};
     return await this.http.get<Playlists>(this.url+this.askPlaylists, {params: params, headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async getSongs() {
-    console.log(this.url+this.songs);
     return await this.http.get(this.url+this.songs, {headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async getList(id) {
-    console.log(this.url+this.askList);
     var params = {'lista': id};
     return await this.http.get<List>(this.url+this.askList, {params: params, headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async addSong(song, list) {
-    console.log(this.url+this.addToList);
     var msg;
     var params = {'lista': list, 'cancion': song};
     await this.http.post(this.url+this.addToList, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text); msg = error.error.text; }
+      error => { msg = error.error.text; }
     );
     return msg;
   }
 
   async deleteSong(song, list) {
-    console.log(this.url+this.deleteFromList);
     var params = {'lista': list, 'cancion': song};
     var msg = "";
     await this.http.post(this.url+this.deleteFromList, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text); msg = error.error.text; }
+      error => { msg = error.error.text; }
     );
     return msg;
   }
 
   async createList(title) {
-    console.log(this.url+this.newList);
     var params = {'lista': title, 'desc': "Lista añadida", 'email': this.user};
     var msg = "";
     await this.http.post(this.url+this.newList, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text); msg = error.error.text; }
+      error => { msg = error.error.text; }
     );
     return msg;
   }
 
   async deleteList(id) {
-    console.log(this.url+this.eraseList);
     var params = {'lista': id};
     var msg = "";
     await this.http.post(this.url+this.eraseList, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text); msg = error.error.text; }
+      error => { msg = error.error.text; }
     );
     return msg;
   }
 
   async searchSong(title) {
-    console.log(this.url+this.search);
     var params = {'nombre': title};
     return await this.http.get(this.url+this.search, {params: params, headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async move(id, bf, af) {
-    console.log(this.url+this.moveSong);
     var params = {'lista': id, 'before': bf, 'after': af};
     await this.http.post(this.url+this.moveSong, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async signIn(email, pass, session) {
-    console.log(this.url+this.sign);
     var params = {'email': email, 'password': pass};
     var msg = "";
     await this.http.post(this.url+this.sign, params, this.httpOptions).toPromise().catch(
       error => { msg = error.error.text; }
     );
-    console.log(msg);
     if(msg === "Success" && !this.user) {
       this.session = session;
       params['session'] = session;
-      //if(session) {
       this.setToken("TuneIT", params);
-      //}
       this.user = email;
       this.change = 'change-right';
     }
@@ -409,7 +398,6 @@ export class CloudService {
   }
 
   async register(email, pass, name, country, date) {
-    console.log(this.url+this.registerUser);
     var params = {'email': email, 'password': pass, 'pais': country, 'fecha': date, 'nombre': name};
     var msg = "";
     await this.http.post(this.url+this.registerUser, params, this.httpOptions).toPromise().catch(
@@ -419,7 +407,6 @@ export class CloudService {
   }
 
   async deleteUser(pass) {
-    console.log(this.url+this.eraseUser);
     var params = {'email': this.user, 'password': pass};
     var msg = "";
     await this.http.post(this.url+this.eraseUser, params, this.httpOptions).toPromise().catch(
@@ -433,7 +420,6 @@ export class CloudService {
   }
 
   async modify(pass, newpass, name, country, img) {
-    console.log(this.url+this.modifyUser);
     var params = {'email': this.user, 'password': pass};
     if(newpass.length != 0) {
       params['new_password'] = newpass;
@@ -462,39 +448,34 @@ export class CloudService {
   }
 
   async searchUsers(name) {
-    console.log(this.url+this.listUsers);
     var params = {'nombre': name};
     return await this.http.post(this.url+this.listUsers, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async infoUser(user) {
-    console.log(this.url+this.info);
     var params = {'email': user};
     return await this.http.post(this.url+this.info, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async infoArtist(id) {
-    console.log(this.url+this.listArtist);
     var params = {'artista': id};
     return await this.http.get(this.url+this.listArtist, {params: params, headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async infoAlbum(id) {
-    console.log(this.url+this.listAlbum);
     var params = {'album': id};
     return await this.http.get(this.url+this.listAlbum, {params: params, headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async isPodcastFavorite(id) {
-    console.log(this.url+this.isFavoritePodcast);
     var params = {'email': this.user, 'podcast': id};
     var msg = "";
     await this.http.post(this.url+this.isFavoritePodcast, params, this.httpOptions).toPromise().catch(
@@ -507,68 +488,58 @@ export class CloudService {
   }
 
   async deletePodcast(id) {
-    console.log(this.url+this.notFavoritePodcast);
     var params = {'email': this.user, 'podcast': id};
     var msg = "";
     await this.http.post(this.url+this.notFavoritePodcast, params, this.httpOptions).toPromise().catch(
       error => { msg = error.error.text }
     );
-    console.log(msg);
     return msg;
   }
 
   async addPodcast(id, name) {
-    console.log(this.url+this.favoritePodcast);
     var params = {'email': this.user, 'podcast': id, 'nombre': name};
     var msg = "";
     await this.http.post(this.url+this.favoritePodcast, params, this.httpOptions).toPromise().catch(
       error => { msg = error.error.text }
     );
-    console.log(msg);
     return msg;
   }
 
   async listPodcast() {
-    console.log(this.url+this.podcastList);
     var params = {'email': this.user};
     return await this.http.get(this.url+this.podcastList, {params: params, headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async listCategory(cat, list) {
-    console.log(this.url+this.filterCategory);
     var params = {'lista': list, 'categorias': cat};
     return await this.http.get(this.url+this.filterCategory, {params: params, headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async categories(cat) {
-    console.log(this.url+this.categoryList);
     var params = {'categorias': cat};
     return await this.http.get(this.url+this.categoryList, {params: params, headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async allCategories() {
-    console.log(this.url+this.displayCategories);
     return await this.http.get(this.url+this.displayCategories, {headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async suscriptions() {
-    console.log(this.url+this.listSuscriptions);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.listSuscriptions, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async subscribe(artist) {
-    console.log(this.url+this.subscribeArtist);
     var params = {'email': this.user, 'artista': artist};
     var msg = "";
     await this.http.post(this.url+this.subscribeArtist, params, this.httpOptions).toPromise().catch(
@@ -578,7 +549,6 @@ export class CloudService {
   }
 
   async unsubscribe(artist) {
-    console.log(this.url+this.unsubscribeArtist);
     var params = {'email': this.user, 'artista': artist};
     var msg = "";
     await this.http.post(this.url+this.unsubscribeArtist, params, this.httpOptions).toPromise().catch(
@@ -588,31 +558,27 @@ export class CloudService {
   }
 
   async friends() {
-    console.log(this.url+this.allFriends);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.allFriends, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async petitionsSend() {
-    console.log(this.url+this.allPetitionSend);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.allPetitionSend, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async petitionsReceive() {
-    console.log(this.url+this.allPetitionReceive);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.allPetitionReceive, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async newFriend(friend) {
-    console.log(this.url+this.friend);
     var params = {'emisor': this.user, 'receptor': friend};
     var msg = "";
     await this.http.post(this.url+this.friend, params, this.httpOptions).toPromise().catch(
@@ -622,7 +588,6 @@ export class CloudService {
   }
 
   async deleteFriend(friend) {
-    console.log(this.url+this.noFriend);
     var params = {'email': this.user, 'amigo': friend};
     var msg = "";
     await this.http.post(this.url+this.noFriend, params, this.httpOptions).toPromise().catch(
@@ -632,7 +597,6 @@ export class CloudService {
   }
 
   async accept(id, res) {
-    console.log(this.url+this.acceptFriend);
     var params = {'peticion': id, 'respuesta': res};
     var msg = "";
     await this.http.post(this.url+this.acceptFriend, params, this.httpOptions).toPromise().catch(
@@ -642,7 +606,6 @@ export class CloudService {
   }
 
   async setLast(id, seg, list) {
-    console.log(this.url+this.sLastSong);
     var params = {'email': this.user, 'cancion': id, 'segundo': seg, 'lista': list};
     var msg = "";
     await this.http.post(this.url+this.sLastSong, params, this.httpOptions).toPromise().catch(
@@ -652,15 +615,13 @@ export class CloudService {
   }
 
   async getLast() {
-    console.log(this.url+this.gLastSong);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.gLastSong, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async addList(id) {
-    console.log(this.url+this.listFriend);
     var params = {'email': this.user, 'lista': id};
     var msg = "";
     await this.http.post(this.url+this.listFriend, params, this.httpOptions).toPromise().catch(
@@ -670,7 +631,6 @@ export class CloudService {
   }
 
   async unnotifyPodcast(id) {
-    console.log(this.url+this.unpodcast);
     var params = {'elemento': id};
     var msg = "";
     await this.http.post(this.url+this.unpodcast, params, this.httpOptions).toPromise().catch(
@@ -680,7 +640,6 @@ export class CloudService {
   }
 
   async unnotifySong(id) {
-    console.log(this.url+this.unsong);
     var params = {'elemento': id};
     var msg = "";
     await this.http.post(this.url+this.unsong, params, this.httpOptions).toPromise().catch(
@@ -690,7 +649,6 @@ export class CloudService {
   }
 
   async unnotifyList(id) {
-    console.log(this.url+this.unlist);
     var params = {'elemento': id};
     var msg = "";
     await this.http.post(this.url+this.unlist, params, this.httpOptions).toPromise().catch(
@@ -700,7 +658,6 @@ export class CloudService {
   }
 
   async shareList(id, email) {
-    console.log(this.url+this.listShare);
     var params = {'lista': id, 'emisor': this.user, 'receptor': email};
     var msg = "";
     await this.http.post(this.url+this.listShare, params, this.httpOptions).toPromise().catch(
@@ -710,7 +667,6 @@ export class CloudService {
   }
 
   async shareSong(id, email) {
-    console.log(this.url+this.songShare);
     var params = {'cancion': id, 'emisor': this.user, 'receptor': email};
     var msg = "";
     await this.http.post(this.url+this.songShare, params, this.httpOptions).toPromise().catch(
@@ -720,7 +676,6 @@ export class CloudService {
   }
 
   async sharePodcast(id, email) {
-    console.log(this.url+this.podcastShare);
     var params = {'podcast': id, 'emisor': this.user, 'receptor': email};
     var msg = "";
     await this.http.post(this.url+this.podcastShare, params, this.httpOptions).toPromise().catch(
@@ -730,64 +685,56 @@ export class CloudService {
   }
 
   async sharedPodcasts() {
-    console.log(this.url+this.listPodcastShare);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.listPodcastShare, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async sharedLists() {
-    console.log(this.url+this.listListShare);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.listListShare, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async sharedSongs() {
-    console.log(this.url+this.listSongShare);
     var params = {'email': this.user};
     return await this.http.post(this.url+this.listSongShare, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async unsharePodcast(id) {
-    console.log(this.url+this.noSharePodcast);
     var params = {'podcast': id};
     return await this.http.post(this.url+this.noSharePodcast, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async unshareList(id) {
-    console.log(this.url+this.noShareList);
     var params = {'lista': id};
     return await this.http.post(this.url+this.noShareList, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async unshareSong(id) {
-    console.log(this.url+this.noShareSong);
     var params = {'cancion': id};
     return await this.http.post(this.url+this.noShareSong, params, this.httpOptions).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async listArtists() {
-    console.log(this.url+this.askArtists);
     return await this.http.get(this.url+this.askArtists, {headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 
   async images() {
-    console.log(this.url+this.profile);
     return await this.http.get(this.url+this.profile, {headers: this.httpOptions.headers}).toPromise().catch(
-      error => { console.log(error.error.text) }
+      error => { }
     );
   }
 

@@ -28,8 +28,14 @@ export class BuscarAmigosComponent implements OnInit {
     if(this.friendService.addedFriend(user)) {
       this.alertService.showAlert(0, "", user.Nombre + " ya es tu amigo");
     } else {
-      await this.cloudService.newFriend(user.Email);
-      this.alertService.showAlert(1, "", "Enviada petición de amistad a " + user.Nombre);
+      const msg = await this.cloudService.newFriend(user.Email);
+      if(msg === "Success") {
+        this.alertService.showAlert(1, "", "Enviada petición de amistad a " + user.Nombre);
+      } else if(msg === "Ya hay una solicitud pendiente") {
+        this.alertService.showAlert(2, "", user.Nombre + " ya tiene una solicitud");
+      } else {
+        this.alertService.showAlert(0, "ERROR", "Vuelve a intentarlo más tarde");
+      }
     }
   }
 

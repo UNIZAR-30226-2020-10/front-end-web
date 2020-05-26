@@ -14,7 +14,6 @@ export class PodcastService {
   private podcast_url_2 = '&type=podcast&only_in=title&language=Spanish'
 
   private episode_url_1 = 'https://listen-api.listennotes.com/api/v2/podcasts/';
-  private podcastPost_url_2 = 'https://listen-api.listennotes.com/api/v2/podcasts';
 
   p;
 
@@ -43,15 +42,9 @@ export class PodcastService {
     var splitted = title.split(",");
     var pods:any = []
     for (let pod of splitted) {
-      console.log(pod);
-      console.log("COMO LO MUEVE ESA MUCHACHOTA");
       this.getEpisodes(pod).subscribe(data => this.p = data);
-      console.log(this.p);
       pods.push(this.p);
     }
-    console.log("SE PRENDIO LA WEA");
     return pods;
-    //const ids = 'ids='+title
-    //return this.http.post<any>(`${this.podcastPost_url_2}`, ids, this.httpOptions2);
   }
 }

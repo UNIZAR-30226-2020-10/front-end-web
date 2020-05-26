@@ -333,8 +333,6 @@ export class AudioService {
     this.oldAudioList = [];
     this.listID = null;
     var actual = false;
-    console.log(this.currentFile.index);
-    console.log(index);
     if(this.currentFile.index == index) {
       actual = true;
     }
@@ -353,9 +351,7 @@ export class AudioService {
 
   songFavorite(fav) {
     if(fav.title && this.favoritePodcasts) {
-      //for(let song of this.favoritePodcasts.podcasts) {
       for(let song of this.favoritePodcasts) {
-        console.log(song.title);
         if(song.title === fav.title) {
           return true;
         }

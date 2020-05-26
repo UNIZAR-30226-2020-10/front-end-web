@@ -15,18 +15,20 @@
 <div *ngIf="!this.search && !this.share">
   <h2>Amigos</h2>
 
-  <div *ngIf="this.friendService.friends && this.friendService.friends.length > 0" style="margin-bottom: 10rem;">
-    <ul *ngFor="let friend of this.friendService.friends; let i = index">
-      <li>
-        <img [src]="friend.Imagen" [routerLink]="['/profile', this.cloudService.encrypt(friend.Email)]">
-        <div class="texto">
-          <h3>{{ friend.Nombre }}</h3>
-          <button class="boton">
-            <span class="material-icons" (click)="deleteFriend(friend, i)">
-              delete
-            </span>
-          </button>
+  <div *ngIf="this.friendService.friends && this.friendService.friends.length > 0" class="box">
+    <ul>
+      <li *ngFor="let friend of this.friendService.friends; let i = index">
+        <div [routerLink]="['/profile', this.cloudService.encrypt(friend.Email)]">
+          <img [src]="friend.Imagen">
+          <div class="texto">
+            <h3>{{ friend.Nombre }}</h3>
+          </div>
         </div>
+        <button class="boton">
+          <span class="material-icons" (click)="deleteFriend(friend, i)">
+            delete
+          </span>
+        </button>
       </li>
     </ul>
   </div>
@@ -38,9 +40,9 @@
 </div>
 
 <div *ngIf="this.friendService.friends && this.friendService.friends.length > 0 && this.share" style="margin-bottom: 10rem;">
-  <ul *ngFor="let friend of this.friendService.friends; let i = index">
-    <li>
-      <img [src]="friend.Imagen" (click)="shared(friend)">
+  <ul>
+    <li *ngFor="let friend of this.friendService.friends; let i = index" (click)="shared(friend)" style="cursor: pointer;">
+      <img [src]="friend.Imagen">
       <div class="texto">
         <h3>{{ friend.Nombre }}</h3>
       </div>

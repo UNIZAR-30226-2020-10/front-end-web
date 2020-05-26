@@ -12,7 +12,6 @@ export class ArtistComponent implements OnInit {
   private pos;
   info;
   subscribed: Boolean;
-  saved: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,9 +40,5 @@ export class ArtistComponent implements OnInit {
     }
     this.subscribed = !this.subscribed;
   }
-
-  toggleIcon() {
-    this.saved = !this.saved;
-   }
 
 }

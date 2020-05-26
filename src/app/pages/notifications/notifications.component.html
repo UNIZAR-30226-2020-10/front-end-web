@@ -70,7 +70,7 @@
     <ul *ngFor="let song of this.audioService.notifPodcast; let i = index">
       <li>
         <div class="texto">
-          <img [src]="song.Emisor[0].Imagen">
+          <img [src]="song.Emisor[0].Imagen" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
           <h3>
             <a href="" [routerLink]="['/profile', this.cloudService.encrypt(song.Emisor[0].Email)]">
               ¡{{ song.Emisor[0].Nombre }}
