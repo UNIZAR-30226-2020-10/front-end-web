@@ -37,14 +37,11 @@ export class PodcastService {
     return this.http.get<Podcast>(`${this.episode_url_1}${title}`, this.httpOptions);
   }
 
-  // Bucle con @getPodcasts2
-  getPodcastsPost(title): Observable<any>  {
-    var splitted = title.split(",");
-    var pods:any = []
-    for (let pod of splitted) {
-      this.getEpisodes(pod).subscribe(data => this.p = data);
-      pods.push(this.p);
-    }
-    return pods;
+  getBest(): Observable<Podcast> {
+    var f;
+    var nose;
+    f = this.http.get<Podcast>('https://listen-api.listennotes.com/api/v2/best_podcasts', this.httpOptions);
+    f.subscribe(data => nose = data);
+    return nose.podcasts;
   }
 }

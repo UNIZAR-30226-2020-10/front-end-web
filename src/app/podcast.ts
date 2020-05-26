@@ -8,4 +8,5 @@ export interface Podcast {
   title: string
   description: string;
   publisher_original;
+  podcasts;
 }

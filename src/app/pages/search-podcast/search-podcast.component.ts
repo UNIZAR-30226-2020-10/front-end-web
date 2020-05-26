@@ -25,6 +25,7 @@ export class SearchPodcastComponent implements OnInit {
   showFirst;
   publisher_original: string;
   icon: boolean;
+  nose: Array<Podcast>;
 
   constructor(
     private podcastService: PodcastService,
@@ -79,9 +80,19 @@ export class SearchPodcastComponent implements OnInit {
 
   isFavorite() {
     if(!this.title_string) {
-      return this.audioService.favoritePodcasts;
+      var fav = this.audioService.favoritePodcasts;
+      if (!fav){
+        //Mostrar podcasts mejor valorados
+        return undefined;
+      }
+      return fav;
     } else {
       return this.podcasts.results;
     }
+  }
+
+  recomended() {
+    var f = this.podcastService.getBest();
+    return f;
   }
 }

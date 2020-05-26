@@ -1,7 +1,7 @@
 <div class="body">
   <div *ngIf="this.audioService.subscribeArtists && this.audioService.subscribeArtists.length > 0">
     <h2>
-      Artistas suscritos
+      <strong>Artistas suscritos</strong>
     </h2>
     
     <div class="listas">
@@ -12,13 +12,15 @@
         </h3>
       </div>
     </div>
-    
-    <hr width="95%" color="#dddddd">
   </div>
   
-  <h2>Artistas recomendados</h2>
+  <hr width="95%" color="#dddddd" style="float: left">
+
+  <h2 style="float: left;">
+    <strong>Artistas recomendados</strong>
+  </h2>
   
-  <div class="listas">
+  <div class="listas" style="margin-bottom: 10rem;">
     <div class="lista" *ngFor="let artist of this.recommended" [routerLink]="['/artist', artist.Nombre]">
       <img [src]="artist.Imagen">
       <h3>

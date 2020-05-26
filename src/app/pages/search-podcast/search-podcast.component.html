@@ -10,7 +10,7 @@
       </div>
     </form>
 
-  <div *ngIf="(title_string && title_string.length > 0) || (this.audioService.favoritePodcasts && this.audioService.favoritePodcasts.length > 0)" class="uff">
+  <div *ngIf="(title_string && title_string.length > 0) || (this.audioService.favoritePodcasts && this.audioService.favoritePodcasts.length > 0); else otroBlock" class="uff">
     <div class="buscado">
       <div *ngIf="title_string; else elseBlock">
         <strong>Podcast buscado: </strong>
@@ -21,7 +21,9 @@
           </span>
         </button>
       </div>
-      <ng-template #elseBlock><strong>Podcasts favoritos</strong></ng-template>
+      <ng-template #elseBlock>
+        <strong>Podcasts favoritos</strong>
+      </ng-template>
     </div>
     <!-- LISTA DE PODCASTS -->
     <ul class="podcasts">
@@ -47,4 +49,8 @@
       </div>
     </ul>
   </div>
+  <ng-template #otroBlock>
+    <p style="color: #3d3d3d;">Parece que no tienes ningún podcast guardado</p>
+    <p style="color: #3d3d3d;">¡Empieza a buscar tus podcasts favoritos!</p>
+  </ng-template>
 </div>
