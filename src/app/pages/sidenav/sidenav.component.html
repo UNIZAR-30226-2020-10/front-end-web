@@ -1,4 +1,4 @@
-<mat-sidenav-container class="container" *ngIf="this.cloudService.change === 'change-right'">
+<mat-sidenav-container class="container" *ngIf="this.cloudService.user" [ngClass]="{'left' : this.cloudService.change === 'change-left', 'right': this.cloudService.change === 'change-right'}">
   <mat-sidenav opened mode="side" class="sidenav">
 
     <div class="imagen_perfil" routerLink='/profile'>
@@ -37,6 +37,21 @@
       <a mat-list-item routerLink='/friends' [routerLinkActive]="['is-active']">
         <mat-icon mat-list-icon>people</mat-icon>
         Amigos
+      </a>
+      <a mat-list-item class="small" routerLink='/notifications' [routerLinkActive]="['is-active']">
+        <mat-icon mat-list-icon>notifications</mat-icon>
+        Notificaciones
+        <span class="badge" *ngIf="this.value > 0">
+          {{ this.value }}
+        </span>
+      </a>
+      <a mat-list-item class="small" routerLink='/help' [routerLinkActive]="['is-active']">
+        <mat-icon mat-list-icon>help</mat-icon>
+        Ayuda
+      </a>
+      <a mat-list-item class="small" (click)="this.cloudService.closeSession()">
+        <mat-icon mat-list-icon>close</mat-icon>
+        Cerrar sesión
       </a>
     </mat-nav-list>
   </mat-sidenav>

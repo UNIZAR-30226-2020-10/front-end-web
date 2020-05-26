@@ -1,5 +1,5 @@
 .info {
-    margin-top: 30px; 
+    margin-top: 30px;
     margin-left: 75px;
     display: inline-block;
 }
@@ -20,11 +20,12 @@
     margin-top: 30px;
     margin-left: 40px;
     padding-left: 30px;
+    width: 60%;
 }
 
 li {
     list-style-type: none;
-    width: 600px;
+    min-width: 200px;
     border: 1px solid #EEEEEE;
 }
 

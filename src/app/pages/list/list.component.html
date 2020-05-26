@@ -2,7 +2,7 @@
   <div class="logo" *ngIf="!this.add && this.list">
     <img class="listArt" *ngIf="this.list.Imagen != 'default' && !this.search && !this.queue" [src]="this.list.Imagen" alt="listart">
     <div *ngIf="!this.search && !this.queue">
-      <h1 mat-header>{{ list.Nombre }}</h1>
+      <h1 mat-header style="width: max-content">{{ list.Nombre }}</h1>
       <button class="reproducir" *ngIf="this.list.Canciones.length > 0" (click)="loadList(0, '')">
         <mat-icon>play_arrow</mat-icon> <strong>Reproducir lista</strong>
       </button>

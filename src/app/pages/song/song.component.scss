@@ -12,6 +12,8 @@
   }
   .media-action-1 {
     margin-top: 20px;
+    width: 100%;
+    text-align: center;
     button {
       width: 10%;
       padding-right: 35px;
@@ -26,6 +28,8 @@
   }
   .media-action-2 {
     margin-top: 30px;
+    width: 100%;
+    text-align: center;
     button {
       width: 9%;
       padding-right: 25px;
@@ -36,8 +40,10 @@
     }
   }
   .media-action-3 {
-    margin-left: -330px;
     margin-top: 30px;
+    margin-left: -2%;
+    width: 100%;
+    text-align: center;
     button {
       margin-top: 6px;
     }
@@ -53,26 +59,23 @@
     }
   }
   .vol-slider {
-    position: absolute;
-    width: 20%;
+    width: 16%;
   }
   .queue {
-    //width: 50%;
-    margin-left: 45%;
     background-color: #673AB7;
     border-radius: 4px;
     margin-top: 1rem;
     color: #FFFFFF;
-    display: flex;
     align-items: center;
   }
 }
 
 .return {
   position: absolute;
+  margin-top: -20px;
   background-color: #673AB7;
   .back {
-    margin-top: 18px;
+    margin-top: 5px;
   }
   h3, mat-icon {
     color: #FFFFFF;
@@ -81,6 +84,7 @@
     float: right;
     margin-right: 4px;
     margin-left: 5px;
+    margin-bottom: 4px;
   }
   mat-icon {
     float: left;
@@ -91,4 +95,15 @@
 .artists, .cat {
   display: inline-block;
   cursor: pointer;
+}
+
+.colaButton {
+  width: 100%;
+  text-align: center;;
+}
+
+@media only screen and (max-width: 720px) {
+  .return {
+    margin-top: -50px;
+  }
 }

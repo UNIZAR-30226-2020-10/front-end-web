@@ -56,7 +56,7 @@ form {
 
 .form-field {
   display: block;
-  width: 100%;
+  width: 200px;
   padding: 8px 16px;
   line-height: 25px;
   font-size: 14px;
@@ -95,7 +95,7 @@ form {
   --group-background-focus: #678EFE;
   position: relative;
   display: flex;
-  width: 30%;
+  width: 385px !important;
   & > span,
   .form-field {
       white-space: nowrap;

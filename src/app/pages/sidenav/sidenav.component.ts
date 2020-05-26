@@ -13,6 +13,7 @@ import { FriendsService } from 'src/app/services/friends.service';
 })
 export class SidenavComponent implements OnInit {
   checkoutForm;
+  value;
 
   constructor(
     public audioService: AudioService,
@@ -27,6 +28,9 @@ export class SidenavComponent implements OnInit {
     } else {
       this.cloudService.change = 'change-right';
     }
+    this.friendService.pend.subscribe(value => {
+      this.value = value;
+    })
     this.checkoutForm = this.formBuilder.group({
       titulo: ''
     });

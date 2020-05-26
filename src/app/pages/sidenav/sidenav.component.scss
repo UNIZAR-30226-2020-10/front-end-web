@@ -142,15 +142,43 @@
   margin-bottom: 64px;
 }
 
-@media only screen and (max-width: 620px) {
+.left {
+  display: none !important;
+}
+
+.right {
+  display: block !important;
+}
+
+.small {
+  display: none !important;
+}
+
+@media only screen and (max-width: 720px) {
+  .small {
+    display: block !important;
+  }
+  .badge {
+    position: absolute;
+    right: 50px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }
   .container {
+    display: block !important;
     width: 100%;
+    position: initial !important;
+    margin-top: 64px;
+    z-index: 1;
     .sidenav {
       width: 100%;
+      position: initial !important;
     }
   }
   .router {
-    position: relative;
+    margin-left: 0 !important;
   }
   .change {
     display: none;

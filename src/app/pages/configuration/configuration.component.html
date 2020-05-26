@@ -3,10 +3,6 @@
   <hr width="95%" color="#dddddd">
   <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
     <div class="changes">
-    <div class="form-group">
-      <span>Contraseña actual</span>
-      <input class="form-field" formControlName="repass" type="password" placeholder="Contraseña actual" required appBlockCopyPaste>
-    </div>
     <h3 style="padding-top: 1rem;">Modificar contraseña</h3>
     <div class="form-group">
       <span>Nueva contraseña</span>
@@ -33,6 +29,11 @@
 
       <div class="images">
         <img *ngFor="let img of this.cloudService.imagesProfile; let i = index"[src]="img.Url" class="profile" (click)="changeSelect(i)" [ngClass]="{'highlight': this.selected === i + 1}">
+      </div>
+
+      <div class="form-group">
+        <span>Contraseña actual</span>
+        <input class="form-field" formControlName="repass" type="password" placeholder="Contraseña actual" required appBlockCopyPaste>
       </div>
 
       <button type="submit" (click)="submit()" class="submitButton">
