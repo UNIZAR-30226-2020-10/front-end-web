@@ -61,13 +61,10 @@ export class CloudService {
     this.audioService.categories = await this.allCategories();
     this.audioService.subscribeArtists = await this.suscriptions();
     this.aux = await this.getLast();
-    console.log(this.aux);
     if(this.aux.Cancion && this.aux.Cancion != null) {
       if(this.aux.Lista === null) {
-        console.log("CANCION");
         this.audioService.loadList(this.aux, 0, 'g');
       } else {
-        console.log("LISTA");
         this.aux2 = await this.getList(this.aux.Lista);
         this.audioService.loadList(this.aux2, this.aux.Cancion[0], 'g');
         this.audioService.seekTo(this.aux.Segundo);

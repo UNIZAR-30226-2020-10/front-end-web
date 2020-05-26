@@ -227,7 +227,6 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   onSearch(title) {
-    console.log("BUSQUEDA");
     var chosen = [];
     for(let song of this.list.Canciones) {
       if(song.Nombre.toLowerCase().includes(title.titulo.toLowerCase())) {

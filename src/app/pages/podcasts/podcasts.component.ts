@@ -44,8 +44,6 @@ export class PodcastsComponent implements OnInit {
     });
     this.pod = this.savePodcast.get();
     this.saved = await this.cloudService.isPodcastFavorite(this.pod.id);
-    console.log(this.pod.publisher_original)
-    console.log(this.saved);
     this.getPodcasts();
   }
 
@@ -69,7 +67,6 @@ export class PodcastsComponent implements OnInit {
   // To save a podcast
   async toggleIcon() {
     this.saved = !this.saved;
-    console.log(this.pod.id + " title: " + this.title);
     if(!this.saved) {
       await this.cloudService.deletePodcast(this.pod.id);
     } else {

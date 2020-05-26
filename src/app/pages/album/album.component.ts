@@ -23,7 +23,6 @@ export class AlbumComponent implements OnInit {
       this.name = params.get('id');
     });
     this.songs = await this.cloudService.infoAlbum(this.name);
-    console.log(this.songs);
   }
 
 }
