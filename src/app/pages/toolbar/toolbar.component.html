@@ -8,7 +8,7 @@
           {{ this.value }}
         </span>
     </div>
-    <div class="opciones">
+    <div class="opciones" [ngClass]="{'small': !this.cloudService.user}" >
         <span><a routerLink='/help' aria-label="Ayuda">Ayuda</a></span>
     </div>
     <div class="opciones" *ngIf="this.cloudService.user != undefined">
